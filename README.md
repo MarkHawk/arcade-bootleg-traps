@@ -1,4 +1,4 @@
-# Bootleg boards that gave away free games: hidden anti-piracy traps in 1979–80 arcade code
+# Bootleg boards that gave away free games: hidden anti-piracy traps in 1979–83 arcade code
 
 In the 1980s my friend Phil S was a member of Bexley Squash Club, and on Sunday afternoons we'd go there to play the arcade machines. On one of them, someone could get free games with a button trick. Forty-odd years later I went looking for it in the code.
 
@@ -27,8 +27,9 @@ money for whoever is operating it.
 | **Centipede** (Atari, 1980) | no genuine POKEY sound chip | extra credits at every game start | known |
 | **Track & Field** (Konami, 1983) | the "© KONAMI 1983" line, the code that draws it, or one data byte has been changed | crashes, freezes or keeps resetting, after 50, 1,500 or 4,000 games or a particular result | new (no earlier write-up found) |
 
-Every listing here is checked against the real ROMs by `scripts/verify.py` (Taito) and `atari/verify_atari.py`
-(Atari), and every trap is shown working in an emulator, with the genuine board alongside.
+Every Taito and Atari listing here is checked against the real ROMs by `scripts/verify.py` (Taito) and
+`atari/verify_atari.py` (Atari), and every free-credit trap is shown working in an emulator, with the genuine board
+alongside.
 
 ---
 
@@ -336,7 +337,7 @@ Details: [docs/easter-egg-travelled.md](docs/easter-egg-travelled.md).
 
 ## Was this policy?
 
-On the evidence so far, it was a tactic of 1979–80, when copied boards were everywhere:
+On the evidence so far, the free-credit traps were a tactic of 1979–80, when copied boards were everywhere:
 
 - **Taito:** the original 1978 Space Invaders has no trap, only an easter egg. Both 1979 games put the trap in the
   **add-on ROM at `$4000`** and tie it to an anti-copy check. Through the 1980s Taito moved to **hardware
@@ -366,7 +367,7 @@ On the evidence so far, it was a tactic of 1979–80, when copied boards were ev
 
 ## Try it yourself
 
-ROMs are not included; use your own MAME sets (the results here are from MAME 0.277 sets).
+ROMs are not included; use your own MAME sets (the results here are from MAME 0.277 sets, Konami's from 0.285).
 
 **Taito** (pure Python 3: a disassembler, a signature scanner and an 8080 emulator of the Space Invaders board):
 
