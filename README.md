@@ -397,6 +397,16 @@ python3 atari/slamscan.py ~/roms -o slamscan.md                      # the slam-
 
 Add `-nothrottle` to run faster than real time. On Windows PowerShell, set the variable first: `$env:TAMPER="none"`.
 
+**Konami** (MAME's Lua scripting and debugger; the Track & Field results are from MAME 0.285):
+
+```bash
+python3 konami/build_roms.py ~/roms          # one-byte edits of trackfldu, built from your own set into konami/roms/
+konami/demo.sh 2 ~/roms                      # "KONAMI" -> "KNNAMI", counter at 1,499: genuine passes, edited boot-loops
+konami/demo.sh 1 ~/roms                      # $C418 changed: genuine plays on, edited freezes in the high jump
+```
+
+Each run starts from an empty NVRAM and writes its log to `konami/out/`.
+
 To search a whole collection, any manufacturer, for the Taito trap code and its arming checks: `sigsearch.py`.
 Full instructions: [docs/USAGE.md](docs/USAGE.md). Sets worth collecting: [docs/ROMLIST.md](docs/ROMLIST.md).
 
