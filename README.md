@@ -25,6 +25,7 @@ money for whoever is operating it.
 | **Space Invaders Part II** (Taito, 1979) | one of two ground links on the board is missing | 2 credits for P1 Start + P2 Start + Fire + Left in attract mode | new |
 | **Asteroids Deluxe**, revisions 1 and 2 (Atari, 1980) | the copyright line has been altered | 2 credits at about 1 game over in 3, on the high-score table | new |
 | **Centipede** (Atari, 1980) | no genuine POKEY sound chip | extra credits at every game start | known |
+| **Track & Field** (Konami, 1983) | the "© KONAMI 1983" line, the code that draws it, or one data byte has been changed | crashes, freezes or keeps resetting, after 50, 1,500 or 4,000 games or a particular result | new (no earlier write-up found) |
 
 Every listing here is checked against the real ROMs by `scripts/verify.py` (Taito) and `atari/verify_atari.py`
 (Atari), and every trap is shown working in an emulator, with the genuine board alongside.
@@ -283,6 +284,26 @@ two more bootlegs left it alone.
 reads differ.*
 
 Details: [docs/centipede.md](docs/centipede.md).
+
+---
+
+## Konami, 1983
+
+### Track & Field: checks that stop an edited board
+
+Konami's protection works the other way round from the traps above. It catches pirates who **edit** the ROMs, not
+straight copies, and it stops the game instead of giving credits away. **Track & Field** (Hyper Olympic in Japan)
+has six checks on the "© KONAMI 1983" line, the code that draws it and one data byte. Three of them are held back
+by two hidden games-started counters that the game keeps for nothing else, so they only switch on after 50, 1,500
+or 4,000 games. The others wait for moments such as a 7.2 m long jump or the high jump mole bonus. If a checked byte
+has been changed, the game crashes, freezes or resets. In the emulator, changing one letter of "KONAMI" leaves the
+game working normally until the 1,500th game, after which the board resets about once a second, and still does
+after a power cycle, because the armed state is kept in battery-backed RAM. Two of the six checks are demonstrated
+this way; the rest are described from the code. None of the dumped bootlegs changes a checked byte, so none trips
+them. The game also hides Konami's ownership signature, a "©KONAMI 1983" message first published by cmonkey on
+UKVAC in 2016.
+
+Details: [docs/konami-track-and-field.md](docs/konami-track-and-field.md).
 
 ---
 
