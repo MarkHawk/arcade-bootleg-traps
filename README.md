@@ -163,7 +163,7 @@ On the evidence so far, the free-credit traps were a tactic of 1979–80, when c
   Space Cruiser, Space Seeker, Alpine Ski, Wild Western, Jungle King, Front Line, Elevator Action (no trap). The
   Elevator Action bootleg had to patch nine places to run without Taito's 68705 protection chip: by 1983 the
   protection lived in hardware.
-- **Atari:** Centipede (revisions 1, 2 and 4, the ones checked) and the first two revisions of Asteroids Deluxe pay out on copies; Asteroids
+- **Atari:** Centipede (the check is in every revision checked: 1, 2, 3 and 4, and the Japanese set) and the first two revisions of Asteroids Deluxe pay out on copies; Asteroids
   Deluxe revision 3 drops it. Atari's other tricks of the time were evidence and sabotage rather than payouts:
   Centipede's hidden Morse-code signature, used in court, and checksums such as Tempest's.
 - **Konami:** by 1983, Track & Field locked up edited boards instead of paying out on copies.
