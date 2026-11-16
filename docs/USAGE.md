@@ -250,11 +250,14 @@ mame centiped -autoboot_script atari/centipede_trap.lua               # the two 
 NOPOKEY=0 mame centiped -autoboot_script atari/centipede_trap.lua     # genuine board
 ```
 
-What the check reads on the bootlegs that kept it (nothing changed; use an empty NVRAM folder per set):
+What the check reads on the bootlegs that kept it (nothing changed; a fresh temporary folder per run, so each
+starts from an empty NVRAM):
 
 ```bash
-mame centipdb -nvram_directory /tmp/cprobe_nv -cfg_directory /tmp/cprobe_cfg -video none -sound none \
+st=$(mktemp -d)
+mame centipdb -nvram_directory "$st/nvram" -cfg_directory "$st/cfg" -video none -sound none \
      -nothrottle -seconds_to_run 1200 -autoboot_script atari/centipede_probe.lua    # also centipdb2, millpac, centiped
+rm -rf "$st"
 ```
 
 Add `-nothrottle` to run faster than real time, or `-video none -sound none -nothrottle -seconds_to_run 1000` to

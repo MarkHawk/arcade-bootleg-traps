@@ -89,11 +89,13 @@ each read at the check and every change to `$C8`; the ROMs are not changed):
 | `centipdb2` | 1 + 15 | `00` | 0 | 0 |
 | `millpac` | 1 + 13 | `00` | 0 | 0 |
 
-To repeat a run, from the repo root, with an empty NVRAM folder for each set:
+To repeat a run, from the repo root (each run gets a fresh temporary folder, so it starts from an empty NVRAM):
 
 ```bash
-mame centipdb -rompath ~/roms -nvram_directory /tmp/cprobe_nv -cfg_directory /tmp/cprobe_cfg \
+st=$(mktemp -d)
+mame centipdb -rompath ~/roms -nvram_directory "$st/nvram" -cfg_directory "$st/cfg" \
      -video none -sound none -nothrottle -seconds_to_run 1200 -autoboot_script atari/centipede_probe.lua
+rm -rf "$st"
 ```
 
 It prints the read handlers MAME has at `$1000`–`$10FF`, each pair of reads at the check, every credit change, and a

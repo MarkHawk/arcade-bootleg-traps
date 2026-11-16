@@ -1,11 +1,14 @@
 -- centipede_probe.lua: what Centipede's POKEY credit check reads, on any Centipede set, in MAME. Nothing is changed.
 --
---   mame centipdb -rompath ~/roms -nvram_directory /tmp/cprobe_nv -cfg_directory /tmp/cprobe_cfg \
+--   st=$(mktemp -d)
+--   mame centipdb -rompath ~/roms -nvram_directory "$st/nvram" -cfg_directory "$st/cfg" \
 --        -video none -sound none -nothrottle -seconds_to_run 1200 -autoboot_script atari/centipede_probe.lua
+--   rm -rf "$st"
 --
--- Run it from the repo root, with an empty -nvram_directory for a fresh start, on centiped (genuine, for
--- comparison), centipdb, centipdb2 or millpac (the bootlegs that kept the check). It also works on the other
--- clones, but on caterplr, magworm and magworma the check has been changed or removed, so there is little to see.
+-- Run it from the repo root, with a fresh temporary folder per run (so it starts from an empty NVRAM), on
+-- centiped (genuine, for comparison), centipdb, centipdb2 or millpac (the bootlegs that kept the check). It also
+-- works on the other clones, but on caterplr, magworm and magworma the check has been changed or removed, so
+-- there is little to see.
 --
 -- At power-up and at every game start, Centipede reads $100A (the POKEY's random number) twice and adds the
 -- difference (EOR) to the credit count at $C8: at $28A2/$28A5 in revision 4, $289F/$28A2 in these bootlegs. This
