@@ -113,6 +113,10 @@ Held Left therefore reaches the game about half the time. The message stays up: 
 to 1,035 and still there at frame 2,000, partly over the stage text. Sound was not recorded (MAME ran with sound off),
 and the code queues no sound command on failure.
 
+<img src="img/timepilot84-f2000.png" width="460" alt="Time Pilot '84 at frame 2,000: genuine on the left; the edited game on the right, upside down, with the message still across the top, partly over the stage text">
+
+*Frame 2,000 (left genuine, right edited): the message is still up, upside down at the top and partly over the stage text.*
+
 An earlier run, in attract mode (the coin had not registered, so the demo was playing; not kept), showed the same
 flipping and the message, so an edited board shows it from its first demo.
 
