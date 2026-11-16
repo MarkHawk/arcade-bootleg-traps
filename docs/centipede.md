@@ -75,8 +75,8 @@ In MAME 0.285, `centipdb`, `centipdb2` and `millpac` map only the AY chip in tha
 `$5000`). `$1002`–`$100F` is mapped as a do-nothing read, so both reads of `$100A` return `00`, the difference is 0,
 and nothing is added. On the genuine set both reads return `FF` (the POKEY's frozen random register).
 
-Run with a fresh NVRAM, a coin every 30 seconds and Start pressed every 10 seconds (a probe script that logs each
-read at the check and every change to `$C8`; the ROMs are not changed):
+Run with a fresh NVRAM, a coin every 30 seconds and Start pressed every 10 seconds (`atari/centipede_probe.lua`, which logs
+each read at the check and every change to `$C8`; the ROMs are not changed):
 
 | Set | Check runs (power-up + game starts) | Values read at the check | Reads that differed | Credits added by the check |
 |---|---|---|---|---|
@@ -84,6 +84,16 @@ read at the check and every change to `$C8`; the ROMs are not changed):
 | `centipdb` | 1 + 15 | `00` | 0 | 0 |
 | `centipdb2` | 1 + 15 | `00` | 0 | 0 |
 | `millpac` | 1 + 13 | `00` | 0 | 0 |
+
+To repeat a run, from the repo root, with an empty NVRAM folder for each set:
+
+```bash
+mame centipdb -rompath ~/roms -nvram_directory /tmp/cprobe_nv -cfg_directory /tmp/cprobe_cfg \
+     -video none -sound none -nothrottle -seconds_to_run 1200 -autoboot_script atari/centipede_probe.lua
+```
+
+It prints the read handlers MAME has at `$1000`–`$10FF`, each pair of reads at the check, every credit change, and a
+summary line at the end. Swap `centipdb` for `centipdb2`, `millpac` or `centiped`.
 
 So none of the three pays out in the emulator, because MAME returns 0 for an address with nothing behind it. That
 is emulation only. On a real board the read hits nothing, and what an unconnected read returns depends on the board:

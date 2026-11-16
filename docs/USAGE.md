@@ -250,6 +250,13 @@ mame centiped -autoboot_script atari/centipede_trap.lua               # the two 
 NOPOKEY=0 mame centiped -autoboot_script atari/centipede_trap.lua     # genuine board
 ```
 
+What the check reads on the bootlegs that kept it (nothing changed; use an empty NVRAM folder per set):
+
+```bash
+mame centipdb -nvram_directory /tmp/cprobe_nv -cfg_directory /tmp/cprobe_cfg -video none -sound none \
+     -nothrottle -seconds_to_run 1200 -autoboot_script atari/centipede_probe.lua    # also centipdb2, millpac, centiped
+```
+
 Add `-nothrottle` to run faster than real time, or `-video none -sound none -nothrottle -seconds_to_run 1000` to
 run headless. With `-debug -debugger none`, `astdelux_trap.lua` also logs when the copyright comparison and the
 payout code run. On Windows PowerShell, set variables first: `$env:TAMPER="none"`.
@@ -285,6 +292,7 @@ scripts/trapdemo.py    screenshots (and with --gif, GIFs) of the credit traps fi
 scripts/verify.py      check the README and docs against the real ROMs (about 2 minutes)
 atari/astdelux_trap.lua    MAME script: Asteroids Deluxe rev 1, genuine or copyright changed
 atari/centipede_trap.lua   MAME script: Centipede, genuine POKEY or reads that differ
+atari/centipede_probe.lua  MAME script: what Centipede's POKEY check reads on any set (bootlegs included)
 atari/verify_atari.py      check the Atari listings against the real ROMs
 atari/slamscan.py          scan Atari 6502 games for a slam-switch credit trap
 docs/                  write-ups and this guide
