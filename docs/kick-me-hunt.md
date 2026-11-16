@@ -1,5 +1,17 @@
 # The "kick me for a free game" story – looked for, not found
 
+## In short
+
+Ned Batchelder [heard a story](https://nedbatchelder.com/blog/200404/arcade_copy_protection) at General Computer
+(Ms. Pac-Man's developers) in 1982: a game that, if its copyright notice is missing, shows "KICK ME FOR A FREE GAME"
+and gives a credit each time the cabinet's slam switch trips. I looked for it in the games closest to the story
+(Missile Command, General Computer's Super Missile Attack, Ms. Pac-Man), searched every 1975–85 set for the
+wording, and scanned all 112 sets that use Atari's standard coin routine for a slam-switch read that leads to a
+credit. **Not found**: in every one, the slam switch only blocks coins for a moment, and Ms. Pac-Man's board has
+no slam switch at all. That search is what turned up Asteroids Deluxe and Centipede.
+
+## The story
+
 Ned Batchelder [heard this story](https://nedbatchelder.com/blog/200404/arcade_copy_protection) during a summer at
 General Computer (the company behind Ms. Pac-Man) in 1982: a game that, after 100 plays, checks screen memory for
 its copyright notice and, if it's missing, shows "KICK ME FOR A FREE GAME" and gives a credit every time the

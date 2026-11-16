@@ -1,5 +1,20 @@
 # The easter egg that travelled: "TAITO COP" in other companies' games
 
+## In short
+
+Space Invaders' hidden "TAITO COP" message turns up in other companies' games built on Taito's code. In
+**Space Stranger** (1978, the ROM says "HOEI CORP") the egg was moved to the new board's input port and its
+message changed to **"HOEI COP"**. It still works: hold P2 Start + Fire + Left during the demo, then P1 Start
++ Fire. Nichibutsu's **Rolling Crash** kept the egg's code but blanked its message to spaces.
+
+| Space Invaders | Space Stranger |
+|---|---|
+| <img src="img/invaders-taito-cop.gif" width="360" alt="Space Invaders: the TAITO COP combination, then the message"> | <img src="img/sstrangr-hoei-cop.gif" width="360" alt="Space Stranger: the same combination, then HOEI COP"> |
+
+*The two button combinations as the emulator runs them. Made with `scripts/eggdemo.py --gif`.*
+
+## The egg and where it went
+
 Space Invaders (1978) has a well-known hidden message: during the attract-mode demo, hold one button
 combination, then another, and "TAITO COP" appears under the scores
 ([The Cutting Room Floor](https://new.tcrf.net/Space_Invaders_(Arcade))).
