@@ -52,7 +52,7 @@ built on the same idea as Lunar Rescue: a copy check that quietly gives free cre
 - [Asteroids Deluxe](asteroids-deluxe.md), revisions 1 and 2: a changed copyright line arms a 1-in-3 chance of
   2 free credits at every game over on the high-score table. Not found documented.
 - [Centipede](centipede.md): free credits at every game start on a board without a genuine POKEY. Already
-  documented; the bootlegs that replaced the POKEY patched it out.
+  documented; of the six bootlegs that replaced the POKEY, three patched it out and three left it alone.
 
 ## Limits
 

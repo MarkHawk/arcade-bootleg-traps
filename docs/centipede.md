@@ -22,10 +22,10 @@ chip's random-number register. It then reads that register twice and adds the di
 
 This one is known: the commented disassembly at
 [6502disassembly.com](https://6502disassembly.com/va-centipede/Centipede_rev4.html) calls it "add credits if it's
-not a POKEY". What the MAME sets add is the bootleggers' side. Four Centipede bootlegs replace the POKEY with a cheaper General
+not a POKEY". What the MAME sets add is the bootleggers' side. Six Centipede bootlegs replace the POKEY with a cheaper General
 Instrument sound chip. **Caterpillar** and one set of **Magic Worm** (the bootleg Atari took to court) changed these
 two reads to read the same byte twice, so the difference is always 0; the other Magic Worm set removed the check;
-two more bootlegs left it alone.
+three more bootlegs left it alone.
 
 ## The check ($2876, at power-up and at the start of every game)
 
@@ -52,8 +52,8 @@ a 1989 hack).
 
 ## What the bootlegs did
 
-Four Centipede bootlegs in MAME replace the POKEY with a cheaper General Instrument AY-3-8910/8912 sound chip. Two
-of them changed the check; two left it as Atari wrote it:
+Six Centipede bootlegs in MAME 0.277 replace the POKEY with a cheaper General Instrument AY-3-8910/8912 sound chip.
+Two changed the two reads, one removed the check, and three left it as Atari wrote it:
 
 | Set | Sound chip | Code at the check |
 |---|---|---|
@@ -61,11 +61,13 @@ of them changed the check; two left it as Atari wrote it:
 | `magworm`, Magic Worm set 1 (Sidam bootleg) | AY-3-8912 | removed: the bytes now set up the AY chip (`LDA #$07 / STA $1001 / LDA #$31 / STA $1003`, then `JSR $3069 / NOP / NOP / NOP`) |
 | `magworma`, Magic Worm set 2 (bootleg) | AY-3-8912 | `LDA $E2 / NOP / EOR $E2 / NOP`: reads a RAM byte twice, always 0 |
 | `caterplr`, Caterpillar (Olympia bootleg) | AY-3-8910 | `LDA $289F / EOR $289F`: reads a ROM byte twice, always 0 |
-| `centipdb`, `millpac` (Millpac: Valadon Automation) | AY-3-8910 | unchanged |
+| `centipdb`, Centipede bootleg set 1 | AY-3-8910 | unchanged |
+| `centipdb2`, Centipede bootleg set 2 | AY-3-8910 | unchanged (it shares this ROM, `e1`, with set 1) |
+| `millpac`, Millpac (Valadon Automation bootleg) | AY-3-8910 | unchanged |
 
 Leaving it in can be harmless: if address `$100A` returns the same value twice on the bootleg board, Atari's code
-adds nothing. What `$100A` reads on each of these boards isn't known, so neither is why two makers changed the
-check and two didn't.
+adds nothing. What `$100A` reads on each of these boards isn't known, so neither is why three changed or removed the
+check and three didn't.
 
 Magic Worm is the bootleg that Atari took to court using Centipede's hidden Morse-code signature
 ([Arcade Blogger](https://arcadeblogger.com/2019/06/29/atari-centipedes-hidden-code-trap/)).
