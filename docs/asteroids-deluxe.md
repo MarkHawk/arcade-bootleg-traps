@@ -5,6 +5,30 @@ Program ROMs: 036430 $6000, 036431 $6800, 036432 $7000, 036433 $7800. Code also 
 area: 036800 $4800 and 036799 $5000. Work RAM $0000–$03FF, vector RAM $4000–$47FF, POKEY $2C00 (random number
 `$2C0A`), inputs $2000/$2400 (one bit per address, read in bit 7). The addresses below are revision 1.
 
+## In short
+
+Asteroids Deluxe keeps **two copies** of its copyright line, "© 1980 ATARI INC". It draws the one at `$7603` on
+screen and never displays the other, at `$7845`. When a game ends with a **new top score**, it redraws the line
+from the hidden copy in a compare-only mode and checks every byte against what's on screen. A bootlegger who put
+their own name in the copyright changed only the copy that is drawn, so the two differ, and a flag at `$91` is set
+for good. Nothing visible happens. From then on, at the end of every game that makes the high-score table:
+
+```
+703B  LDA $91          ; copyright check failed earlier?
+703D  BEQ $704A        ; no -> nothing
+703F  LDA #$55
+7041  CMP $2C0A        ; POKEY random number
+7044  BCC $704A        ; above $55 (about 2 times in 3) -> nothing
+7046  INC $93          ; credits + 1
+7048  INC $93          ; credits + 1
+```
+
+`$93` is the credit count: the coin routine adds to it and Start takes from it, and nothing else writes it. So
+the board pays out at random, only to people who play well, and only after someone has set a top score, which
+makes it far harder to notice than Lunar Rescue's combo.
+
+Atari removed it: revision 2 still has it, revision 3 (MAME's `astdelux`) has none of it.
+
 ## Credits
 
 - Credit count: **`$93`**.
@@ -128,6 +152,10 @@ game ends. On the changed board "PRESS START" appears on the initials screen bec
 itself 2 credits.*
 
 ![Asteroids Deluxe, copyright changed: the game ends and PRESS START appears](img/astdelux-bootleg-gameover.gif)
+
+*The changed board at game over: as the initials screen appears, so does PRESS START. The board has just given
+itself 2 credits. Over 42 game overs with the flag set, 12 paid out (the code's chance is 34%); on the genuine board,
+none of 28 did. Made with `atari/astdelux_trap.lua`.*
 
 Results from unattended runs:
 
