@@ -8,7 +8,7 @@
 -- count ($28A2 in rev 4). On a genuine POKEY the two reads are equal and nothing is added. This script makes those
 -- two reads differ by XORVAL (default 3), as on a board whose random register kept changing, so each game start adds
 -- 3 credits. Only those two reads are changed: Centipede checks for a genuine POKEY elsewhere too, and faking the
--- chip everywhere makes the game reset. The credit count is $C8 (BCD), shown as CREDITS on the attract screen.
+-- chip everywhere makes the game reset. The credit count is $C8 (binary, capped at 18), shown as CREDITS on the attract screen.
 -- Inserts one coin and presses Start every 2 minutes (COINS=n to stop after n).
 
 local mem = manager.machine.devices[":maincpu"].spaces["program"]
@@ -43,6 +43,6 @@ notifier = emu.add_machine_frame_notifier(function()
   press(coin, t >= 300 and t < 306)
   press(start, t >= 400 and t < 406)
   local c = mem:read_u8(0xc8)
-  if frame > 3 and c ~= last then print(string.format("%5d s  credits %X", frame // 60, c)) end
+  if frame > 3 and c ~= last then print(string.format("%5d s  credits %d", frame // 60, c)) end
   last = c
 end)

@@ -1,7 +1,11 @@
 # Centipede (Atari, 1980) – free credits on boards without a genuine POKEY
 
 MAME set `centiped` (revision 4) and clones. 6502 CPU. Program ROMs 136001-407 to -410 at $2000–$3FFF; POKEY at
-$1000 (`$100A` = random number, `$100F` = SKCTL). Credit count: **`$C8`** (BCD).
+$1000 (`$100A` = random number, `$100F` = SKCTL). Credit count: **`$C8`**, a plain
+binary count (no `SED` is in force in any code that touches it): coins add to it with `INC $C8` (`$3487`, and
+`$3489` for a second credit), Start takes 1 with `DEC $C8` (`$2600`), the CREDITS display (`$25CD`) shows a "1" and
+then `$C8` − 10 when it is 10 or more, and the interrupt handler (`$38F9`) caps it at 18, and hangs if it ever
+reaches 37.
 
 **This one is already documented**: the commented disassembly at
 [6502disassembly.com](https://6502disassembly.com/va-centipede/Centipede_rev4.html) labels it *"add credits if it's
