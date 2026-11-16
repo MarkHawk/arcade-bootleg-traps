@@ -2,7 +2,7 @@
 --   package.path = "konami/?.lua;" .. package.path; local tf = require("lib_tf")
 -- Everything is RAM-side: taps and pokes, never ROM.
 local tf = {}
-tf.cpu = manager.machine.devices[":maincpu"]
+tf.cpu = manager.machine.devices[":" .. (os.getenv("TF_CPU") or "maincpu")]   -- Time Pilot '84: TF_CPU=cpu1
 tf.mem = tf.cpu.spaces["program"]
 tf.frame = 0
 tf.KEEP = {}            -- taps and notifiers must stay referenced
