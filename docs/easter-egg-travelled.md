@@ -17,7 +17,7 @@ message changed to **"HOEI COP"**. It still works: hold P2 Start + Fire + Left d
 
 Space Invaders (1978) has a well-known hidden message: during the attract-mode demo, hold one button
 combination, then another, and "TAITO COP" appears under the scores
-([The Cutting Room Floor](https://new.tcrf.net/Space_Invaders_(Arcade))).
+([The Cutting Room Floor](https://tcrf.net/Space_Invaders_(Arcade))).
 
 Searching a MAME 0.277 collection for the egg's two button checks (`ANI $76 / SUI $72` and `ANI $76 / CPI $34`)
 found them, at the same addresses as in Space Invaders, in games from two other companies. Each had copied
