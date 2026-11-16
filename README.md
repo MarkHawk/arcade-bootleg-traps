@@ -144,8 +144,13 @@ Three pirate copies pay out free games. Two others don't: Rescate Lunar patches 
 the other Moon Lander set ignores the controls while the game is idle, which blocks it. All six Space Invaders
 Part II sets carry their trap too.
 
-Details, including the Moon Base Zeta near miss and [what was going on at the squash
-club](docs/bootleg-results.md#so-what-was-going-on-at-the-squash-club): [docs/bootleg-results.md](docs/bootleg-results.md).
+Details, including the Moon Base Zeta near miss: [docs/bootleg-results.md](docs/bootleg-results.md).
+
+So what was going on at the squash club? The machine was an unmarked cocktail table: no maker's name, a very
+generic cabinet. If it was a Lunar Rescue copy with the Taito name changed (*Destination Earth* or *Escape from
+Mars*, or the right version of *Moon Lander*, which was a UK bootleg), holding the combo during the attract demo
+gave free credits. I can't know which board it was, but the memory fits the code, and those copies were real.
+The full version: [docs/bootleg-results.md](docs/bootleg-results.md#so-what-was-going-on-at-the-squash-club).
 
 ## Was this policy?
 
