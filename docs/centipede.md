@@ -66,8 +66,29 @@ Two changed the two reads, one removed the check, and three left it as Atari wro
 | `millpac`, Millpac (Valadon Automation bootleg) | AY-3-8910 | unchanged |
 
 Leaving it in can be harmless: if address `$100A` returns the same value twice on the bootleg board, Atari's code
-adds nothing. What `$100A` reads on each of these boards isn't known, so neither is why three changed or removed the
-check and three didn't.
+adds nothing. What `$100A` reads on each of these real boards isn't known, so neither is why three changed or removed
+the check and three didn't.
+
+### The three that kept the check, in MAME
+
+In MAME 0.285, `centipdb`, `centipdb2` and `millpac` map only the AY chip in that area (`$1000`–`$1001`, mirrored at
+`$5000`). `$1002`–`$100F` is mapped as a do-nothing read, so both reads of `$100A` return `00`, the difference is 0,
+and nothing is added. On the genuine set both reads return `FF` (the POKEY's frozen random register).
+
+Run with a fresh NVRAM, a coin every 30 seconds and Start pressed every 10 seconds (a probe script that logs each
+read at the check and every change to `$C8`; the ROMs are not changed):
+
+| Set | Check runs (power-up + game starts) | Values read at the check | Reads that differed | Credits added by the check |
+|---|---|---|---|---|
+| `centiped` (genuine, for comparison) | 1 + 12 | `FF` | 0 | 0 |
+| `centipdb` | 1 + 15 | `00` | 0 | 0 |
+| `centipdb2` | 1 + 15 | `00` | 0 | 0 |
+| `millpac` | 1 + 13 | `00` | 0 | 0 |
+
+So none of the three pays out in the emulator, because MAME returns 0 for an address with nothing behind it. That
+is emulation only. On a real board the read hits nothing, and what an unconnected read returns depends on the board:
+on a 6502 it is often the last byte on the data bus, here `$10` (the high byte of the address), which would also be
+the same both times, but that hasn't been checked on hardware.
 
 Magic Worm is the bootleg that Atari took to court using Centipede's hidden Morse-code signature
 ([Arcade Blogger](https://arcadeblogger.com/2019/06/29/atari-centipedes-hidden-code-trap/)).
