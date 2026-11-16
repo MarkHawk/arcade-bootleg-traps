@@ -10,6 +10,50 @@ that draws it, or one particular data byte, makes the game crash, freeze or keep
 wait: they stay dormant until the board has started 50, 1,500 or 4,000 games, counted by hidden counters that
 nothing else in the game uses.
 
+## In short
+
+Konami's protection works the other way round from the Taito and Atari traps. It catches pirates who **edit** the ROMs, not
+straight copies, and it stops the game instead of giving credits away. **Track & Field** (Hyper Olympic in Japan)
+has six checks on the "© KONAMI 1983" line, the code that draws it and one data byte. Three of them are held back
+by two hidden games-started counters that the game keeps for nothing else, so they only switch on after 50, 1,500
+or 4,000 games. The others wait for moments such as a 7.2 m long jump or the high jump mole bonus. If a checked byte
+has been changed, the game crashes, freezes or resets. In the emulator, changing one letter of "KONAMI" leaves the
+game working normally until the 1,500th game, after which the board resets about once a second, and still does
+after a power cycle, because the armed state is kept in battery-backed RAM. Two of the six checks are demonstrated
+this way; the rest are described from the code. None of the dumped bootlegs changes a checked byte, so none trips
+them. The game also hides a "©KONAMI 1983" message, which reads like an ownership signature, first published by
+cmonkey on UKVAC in 2016.
+
+Checking the copyright and freezing isn't new in itself: Donkey Kong (1981) does it with "NINTENDO" (see [Prior art](../README.md#prior-art)).
+What's new here is the delay through hidden counters, the arming kept for good in battery-backed RAM, and six
+layered checks. Check 2, the one that waits for the 1,500th game:
+
+```
+F99D  LDD   $2FE4       ; games started: +1 at every game start ($F774), read by nothing but the checks
+F9A0  CMPD  #$05DC      ; the 1,500th?
+F9A4  BNE   $F9B1
+F9A6  LDA   #$19        ; arm for good: signature 19 65 DB in battery-backed RAM
+F9A8  STA   $2FE7
+F9AB  LDD   #$65DB
+F9AE  STD   $2FEE
+ ...                    ; from then on, in the interrupt handler, all through attract mode:
+673E  LDA   $2FE7
+6741  CMPA  #$19        ; armed? (likewise $2FEE and $2FEF)
+6743  BNE   $67AB
+6753  LDY   #$A6BC      ; "KONAMI", each letter compared with an offset, so the values don't spell it:
+6757  LDA   ,Y+
+6759  DECA
+675A  CMPA  #$4A        ; "K" - 1
+675C  BNE   $67A8
+ ...                    ; "O" + $20, "N" - 5, "A" + 1, "M" + 3, "I"
+6783  LDX   #$FC47
+6786  LEAX  36,X        ; $FC6B: the code that draws the copyright line
+ ...                    ; add 4 of its bytes
+67A2  CMPD  #$0312
+67A6  BEQ   $67AB       ; all as Konami wrote them: carry on
+67A8  LBRA  $B8E6       ; otherwise jump into data: the board crashes and resets
+```
+
 ## The hidden counters
 
 `$2FE4` and `$2FE0` are two 16-bit counters in battery-backed RAM. The normal game-start code adds 1 to each for
@@ -88,6 +132,8 @@ The script sets `$2FE4` to 1,499 and starts one game; false starts end it quickl
 | <img src="img/trackfld-check2-genuine.gif" width="360" alt="Check 2, genuine: the game starts, then attract mode carries on"> | <img src="img/trackfld-check2-edited.gif" width="360" alt="Check 2, edited: at frame 3707 the screen fills with repeated tiles and the board keeps resetting"> |
 
 *Counter set to 1,499, one game started (the 1,500th), then attract mode. Every 4th frame of the `konami/demo.sh 2` runs.*
+*The 1,500th game arms the check, which runs once the game is over. Genuine: attract mode carries on. "KNNAMI":
+the board resets about once a second from then on.*
 
 ![Check 2 at the same frames, genuine above, edited below](img/trackfld-check2-frames.png)
 
