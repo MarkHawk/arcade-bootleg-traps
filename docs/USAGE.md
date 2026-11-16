@@ -24,6 +24,56 @@ python3 trapscan.py run lrescue.zip --frames 1720 \
 
 `scan` prints a report and writes a full disassembly to `out/<set>.asm`.
 
+## Every maker at a glance
+
+These are the commands the main README used to list in full; it now keeps one example per maker.
+
+ROMs are not included; use your own MAME sets (the results here are from MAME 0.277 sets, Konami's from 0.285).
+
+**Taito** (pure Python 3: a disassembler, a signature scanner and an 8080 emulator of the Space Invaders board):
+
+```bash
+python3 trapscan.py scan lrescue.zip invadpt2.zip     # report + disassembly
+python3 trapscan.py run lrescue.zip --frames 1720 --patch 4676=13 \
+    --hold start1+fire+right@1600-1700 --watch 20eb     # bootleg simulation -> credits 03
+python3 scripts/verify.py ~/roms                       # check every Taito listing against the ROMs
+```
+
+In MAME's debugger:
+
+- **Lunar Rescue:** after **both** title screens (~10 s from power-on), enter `b@20ed=1`, then hold
+  P1 Start + Fire + Right once the demo starts.
+- **Space Invaders Part II:** the board check clears the flag again and again during attract mode, so set it at
+  the moment the trap reads it: `bpset 418c,1,{b@20e3=1;g}`. Reset, and hold P1 Start + P2 Start + Fire + Left
+  from power-on; the trap runs about 4 seconds in, and the credits go to 2.
+
+**Atari** (MAME's Lua scripting; the scripts play by themselves and print the credit count):
+
+```bash
+mame astdelux1 -autoboot_script atari/astdelux_trap.lua              # copyright changed: +2 credits at some game overs
+TAMPER=none mame astdelux1 -autoboot_script atari/astdelux_trap.lua  # genuine: never
+mame centiped -autoboot_script atari/centipede_trap.lua              # reads differ: +3 credits per game start
+python3 atari/verify_atari.py ~/roms                                 # check every Atari listing against the ROMs
+python3 atari/slamscan.py ~/roms -o slamscan.md                      # the slam-switch scan
+```
+
+Add `-nothrottle` to run faster than real time. On Windows PowerShell, set the variable first: `$env:TAMPER="none"`.
+More on the Atari scripts: [Atari tools](#atari-tools-atari) below.
+
+**Konami** (MAME's Lua scripting and debugger; the Track & Field results are from MAME 0.285):
+
+```bash
+python3 konami/build_roms.py ~/roms          # one-byte edits of trackfldu, built from your own set into konami/roms/
+konami/demo.sh 2 ~/roms                      # "KONAMI" -> "KNNAMI", counter at 1,499: genuine passes, edited boot-loops
+konami/demo.sh 1 ~/roms                      # $C418 changed: genuine plays on, edited freezes in the high jump
+```
+
+Each run starts from an empty NVRAM and writes its log to `konami/out/`. More on the Konami demos:
+[konami-track-and-field.md](konami-track-and-field.md#rerun).
+
+To search a whole collection, any manufacturer, for the Taito trap code and its arming checks: `sigsearch.py`
+([below](#search-a-whole-mame-collection-for-the-trap-code)).
+
 ## Batch: a whole folder into one report
 
 ```bash
