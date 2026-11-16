@@ -186,6 +186,8 @@ each check's run and fail. The GIF tool needs Pillow (`pip install pillow`).
 - The fifth copy of the copyright check (`$B555`) was not reached; `tp84a` and `tp84b` were compared statically and
   not run.
 - The comparison with the original Time Pilot is from TCRF's Time Pilot page, not from running that game.
+- TCRF's Time Pilot (Arcade) page was read by hand before I was banned from the site (it doesn't allow AI agents).
+  TCRF was not checked for Time Pilot '84, so "no write-up found" of the accusation rests on other sources only.
 - I also looked at two other Konami 6809 games, Hyper Sports and Road Fighter. Hyper Sports has no copy check, only
   the already known initials egg. Road Fighter has a coin counter and key checks in battery-backed RAM, but they only
   act if an input line that is low on every board in MAME is wired high; on a normal board they never run.

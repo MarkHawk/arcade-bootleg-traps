@@ -297,9 +297,12 @@ Sets worth collecting: [docs/ROMLIST.md](docs/ROMLIST.md).
   the ROM test's sum, because a one-byte edit is stopped by the ROM test first; it also uses a RAM poke to open the
   rare checks, and free play because a coin did not register in MAME. The comparison with the original Time Pilot is
   from TCRF's Time Pilot page, not from running that game.
+- TCRF: its Time Pilot (Arcade) and Track & Field (Arcade) pages were read by hand before I was banned from the site
+  (it doesn't allow AI agents). TCRF was not checked for Time Pilot '84, so "no earlier write-up found" for it rests on
+  other sources only. TCRF links in these docs are not checked by the link checker, by request.
 - "Right" means bit 6 of input port 1, the standard Space Invaders wiring.
-- "Not documented before" means I couldn't find it online, in TCRF, Computer Archeology, 6502disassembly.com or the
-  arcade history databases. If you know otherwise, open an issue; I'd love to hear it.
+- "Not documented before" means I couldn't find it online, in Computer Archeology, 6502disassembly.com or the
+  arcade history databases, and, except for Time Pilot '84 (see the TCRF note above), in TCRF. If you know otherwise, open an issue; I'd love to hear it.
 
 ## Prior art
 
