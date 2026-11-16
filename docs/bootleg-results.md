@@ -2,6 +2,40 @@
 
 Scanned with `batch.py` (merged zips expanded; clone ROMs placed by matching the parent's code).
 
+## Summary: it worked on real bootlegs
+
+Scanning the 149 Taito-family sets in a MAME 0.277 collection and running each Lunar Rescue copy in the emulator:
+
+| Set | Made by | Trap as shipped |
+|---|---|---|
+| **Destination Earth** (`desterth`) | bootleg | **live: the combo gives 3 credits** |
+| **Escape from Mars** (`escmars`) | bootleg | **live: the combo gives 3 credits** |
+| **Moon Lander, set 2** (`mlandera`) | Leisure Time Electronics (UK) | **live: the combo gives 3 credits** |
+| Moon Lander, set 1 (`mlander`) | Leisure Time Electronics (UK) | armed but blocked: patched so the controls read nothing while idle |
+| Rescate Lunar (`resclunar`) | Niemer S.A. (Spain) | disabled: `RZ`→`RET` at `$47E6`, plus its own ROM checksum |
+| Lunar Rescue Model Racing / Artic copies, Galaxy Rescue | various | switched off: Taito copyright left intact |
+
+<img src="img/lrescue-mlandera.gif" width="360" alt="Moon Lander set 2, buttons held then released: the credit counter goes to 3">
+
+*`mlandera` as shipped, P1 Start + Fire + Right held in the attract demo and then released: 3 credits. Made with `scripts/trapdemo.py --gif`.*
+
+Three pirate copies pay out free games. Two others don't: Rescate Lunar patches the trap out directly, and
+the other Moon Lander set ignores the controls while the game is idle, which blocks it. The two Moon Lander sets
+differ by exactly that: 25 bytes, every one of them part of the idle check. So one version of the
+UK bootleg gave free games and the other didn't (which came first, and whether the fix was deliberate, isn't known).
+A later byte-signature search of every 1975–85 set in that collection (2,497 zips, clones included) and in a
+MAME 0.78 collection found the trap code in these two families and nowhere else.
+All six Space Invaders Part II sets carry their trap too; Midway's *Space Invaders Deluxe* even updated one check to
+match its own changes.
+
+**Moon Base Zeta** (`moonbase`, Taito / Nichibutsu) is the near miss. It changed the five ROM bytes that Part II's
+*second* trap checks, without updating the check. So that trap switches on, and in the emulator the combo
+(P1 Start + P2 Start + Fire + Right) is accepted. But that trap has Taito's bug: it writes the "2 credits" into
+read-only memory, so nothing pays out. Without the bug, Moon Base would have handed out free games.
+(The second set, `moonbasea`, kept the original bytes, so the trap stays off there.)
+
+The full results follow.
+
 ## Lunar Rescue family (trap at $47D8, armed unless "© TAITO CORPORATION" is intact)
 
 | Set | Maker | Trap status as shipped | Combo in attract (P1 Start + Fire + Right) |
@@ -72,3 +106,16 @@ Destination Earth replaces the coin check in the interrupt routine with a call t
 a coin input on port 1 bit 7 and adds **3 or 6 credits per coin**, chosen by a DIP switch (port 2 bit 7)
 ($50A7; the same code appears again at $54A7). A pirate coinage change, not a trap. Not covered: Straight Flush (6800 CPU) and the Z80 games (no emulator, so no
 coin test – static combo search only).
+
+## So what was going on at the squash club?
+
+The machine was an unmarked cocktail table: no maker's name, a very generic cabinet. Around the same time the club
+also had unmarked Asteroids and Space Firebird machines, two on site at once, which sounds like an operator buying
+copied boards.
+
+If the machine was a Lunar Rescue copy with the Taito name changed (*Destination Earth* or *Escape from
+Mars*, or the right version of *Moon Lander*, which was a UK bootleg), holding the combo during the attract demo
+gave free credits, exactly as described in [lunar-rescue.md](lunar-rescue.md). I can't know which board it was, but the memory fits the code, and
+those copies were real. A cocktail table makes no difference: the trap reads the player 1 controls whatever the
+cabinet type. (Atari's [Asteroids Deluxe trap](asteroids-deluxe.md) is in a different game from the club's Asteroids; nothing like it turned
+up in the original Asteroids.)
