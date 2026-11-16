@@ -19,8 +19,11 @@ lives, flips the screen, swaps the controls and prints an accusation.
 
 > [!NOTE]
 > **As far as I can find, the free-credit routines in Lunar Rescue, Space Invaders
-> Part II and Asteroids Deluxe, Track & Field's delay and permanent arming (and a real bootleg being caught by it), and
-> Time Pilot '84's sabotage and on-screen message, haven't been documented before.** Repairers had already
+> Part II and Asteroids Deluxe haven't been documented before. For Konami the new claims are narrower: Track &
+> Field's hidden games-started counters and thresholds, its permanent arming in battery-backed RAM, a real bootleg
+> (Atlant Olimpic) caught by it in normal play, and Time Pilot '84's on-screen accusation with its sabotage of lives,
+> screen and controls.** Konami's copyright checks as such, including checks triggered by game events, many checksums
+> and checks on how the copyright is displayed, were already in Time Pilot in 1982. Repairers had already
 > spotted the reset half of Part II's board check, and Centipede's is known; see below.
 
 ## The short version
@@ -31,8 +34,8 @@ lives, flips the screen, swaps the controls and prints an accusation.
 | [**Space Invaders Part II**](docs/space-invaders-part-ii.md) (Taito, 1979) | one of two ground links on the board is missing | 2 credits for P1 Start + P2 Start + Fire + Left in attract mode | new |
 | [**Asteroids Deluxe**](docs/asteroids-deluxe.md), revisions 1 and 2 (Atari, 1980) | the copyright line has been altered | 2 credits at about 1 game over in 3, on the high-score table | new |
 | [**Centipede**](docs/centipede.md) (Atari, 1980) | no genuine POKEY sound chip | extra credits at every game start | known |
-| [**Track & Field**](docs/konami-track-and-field.md) (Konami, 1983) | the "© KONAMI 1983" line (its text or its place on screen), the code that draws it, or one data byte has been changed | an edited board crashes, freezes or keeps resetting, after 50, 1,500 or 4,000 games or a particular result; the 1996 bootleg Atlant Olimpic freezes at the attract demo after a 3-player round | new: delayed, permanent tamper checks, and a real bootleg caught by one (no earlier write-up found) |
-| [**Time Pilot '84**](docs/konami-time-pilot-84.md) (Konami, 1984) | the "© KONAMI" text, or a stored "ILLEGAL DUPLICATE" message, has been changed (and the ROM sums rebalanced) | all lives lost, screen flipped and controls swapped every frame, and the message printed | new: the sabotage and the on-screen message (no bootleg known) |
+| [**Track & Field**](docs/konami-track-and-field.md) (Konami, 1983) | the "© KONAMI 1983" line (its text or its place on screen), the code that draws it, or one data byte has been changed | an edited board crashes, freezes or keeps resetting, after 50, 1,500 or 4,000 games or a particular result; the 1996 bootleg Atlant Olimpic freezes at the attract demo after a 3-player round | new: hidden games-started counters and thresholds, arming kept in battery-backed RAM, and a real bootleg caught in normal play (copyright checks as such: Time Pilot, 1982) |
+| [**Time Pilot '84**](docs/konami-time-pilot-84.md) (Konami, 1984) | the "© KONAMI" text, or a stored "ILLEGAL DUPLICATE" message, has been changed (and the ROM sums rebalanced) | all lives lost, screen flipped and controls swapped every frame, and the message printed | new: the on-screen accusation with the lives, screen and control sabotage (no bootleg known) |
 
 Every Taito and Atari listing in this repo is checked against the real ROMs by `scripts/verify.py` (Taito) and
 `atari/verify_atari.py` (Atari), and every free-credit trap is shown working in an emulator, with the genuine board
@@ -115,7 +118,8 @@ Konami's protection works the other way round from the traps above: it catches p
 straight copies, and it stops the game instead of giving credits away. **Track & Field** (Hyper Olympic in Japan)
 has six checks on the "© KONAMI 1983" line, the code that draws it and one data byte. Three of them are held back
 by two hidden games-started counters that the game keeps for nothing else, so they only switch on after 50, 1,500
-or 4,000 games.
+or 4,000 games. Copyright checks as such were not new: Konami's Time Pilot had a dense set of them in 1982 (see
+[Prior art](#prior-art)); the counters, with their thresholds, and the arming are what Track & Field adds.
 
 And it has caught a **real bootleg**. **Atlant Olimpic** (1996), an Italian bootleg of Hyper Olympic, moved the
 copyright line off screen and draws "GEORGIA 1996" in its place, which fails **check 6**. In normal play, a 3- or
@@ -153,6 +157,8 @@ your lives, flips the screen and swaps the controls between the two players on e
 message**. There are two layers. The board's own power-on ROM test sums each ROM block, so a careless one-byte edit is
 caught at power-on ("ROM2 BAD") and the board halts. The hidden checks catch the pirate who rebalanced the ROM sums,
 simulated here by also changing the year. No bootleg of it is known in MAME, so the demonstration is simulated.
+Checks like these were already in Konami's original Time Pilot (1982); what I found no write-up of is the on-screen
+accusation together with the sabotage of lives, screen and controls.
 
 <img src="docs/img/timepilot84-pair.gif" width="720" alt="Time Pilot '84, genuine on the left, the edited copyright on the right: the edited game flips upside down every other frame and prints THIS IS AN ILLEGAL DUPLICATE OF KONAMI'S ORIGINAL PCBOARD">
 
@@ -205,10 +211,11 @@ On the evidence so far, the free-credit traps were a tactic of 1979–80, when c
 - **Atari:** Centipede (the check is in every revision checked: 1, 2, 3 and 4, and the Japanese set) and the first two revisions of Asteroids Deluxe pay out on copies; Asteroids
   Deluxe revision 3 drops it. Atari's other tricks of the time were evidence and sabotage rather than payouts:
   Centipede's hidden Morse-code signature, used in court, and checksums such as Tempest's.
-- **Konami:** copyright checks rather than payouts, from 1982 to 1984. The original Time Pilot (1982) has copyright
-  checksum checks that hang or reset the game ([TCRF](https://tcrf.net/Time_Pilot_(Arcade))). In 1983 Track & Field
-  locked up edited boards instead of paying out on copies, with delayed, permanent checks, and one has since caught a
-  real 1996 bootleg (Atlant Olimpic). In 1984 Time Pilot '84 sabotaged the game and printed an accusation.
+- **Konami:** copyright checks rather than payouts, from 1982 to 1984. The original Time Pilot (1982) already had a
+  dense set of them, with event-triggered checks, many checksums and palette checks, failing by reset, hang or garbage
+  graphics ([TCRF](https://tcrf.net/Time_Pilot_(Arcade))). In 1983 Track & Field locked up edited boards instead of paying out on copies, adding hidden
+  games-started counters and arming kept for good in battery-backed RAM; one of its checks has since caught a real
+  1996 bootleg (Atlant Olimpic). In 1984 Time Pilot '84 failed by sabotage and an on-screen accusation.
 
 ## How it was found
 
@@ -286,7 +293,7 @@ Sets worth collecting: [docs/ROMLIST.md](docs/ROMLIST.md).
 - Time Pilot '84 has no known bootleg. Its demonstration needs a two-byte edit (the copyright and the year) that keeps
   the ROM test's sum, because a one-byte edit is stopped by the ROM test first; it also uses a RAM poke to open the
   rare checks, and free play because a coin did not register in MAME. The comparison with the original Time Pilot is
-  from TCRF's description.
+  from TCRF's Time Pilot page, not from running that game.
 - "Right" means bit 6 of input port 1, the standard Space Invaders wiring.
 - "Not documented before" means I couldn't find it online, in TCRF, Computer Archeology, 6502disassembly.com or the
   arcade history databases. If you know otherwise, open an issue; I'd love to hear it.
@@ -302,14 +309,18 @@ Other anti-copying tricks from the same era that are documented:
   [6502disassembly.com](https://6502disassembly.com/va-centipede/Centipede_rev4.html)).
 - **Donkey Kong (1981)** checks part of "NINTENDO" in its copyright line and freezes if it has been changed
   ([TCRF](https://tcrf.net/Donkey_Kong_(Arcade))).
-- **Track & Field (Konami, 1983)**, above, works like Donkey Kong's check (the copyright line, and a stopped game),
-  but waits for hidden games-started counters, stays armed for good in battery-backed RAM, and spreads the test over
-  six checks. Its hidden "©KONAMI 1983" message was published by cmonkey on UKVAC in 2016; I found no earlier
-  write-up of the checks, or of a bootleg tripping one.
-- **Time Pilot (Konami, 1982)** has copyright checksum checks that hang or reset the game when they fail
-  ([TCRF](https://tcrf.net/Time_Pilot_(Arcade))). Time Pilot '84 above is in the same family. Nothing in the original,
-  as TCRF describes it, delays the checks until a counter opens them, keeps them armed in battery-backed RAM, or leaves
-  the game running while it wrecks it and prints the reason.
+- **Track & Field (Konami, 1983)**, above, works like Donkey Kong's check (the copyright line, and a stopped game) and
+  like Time Pilot's (below), but adds hidden games-started counters with thresholds, and arming that stays for good
+  in battery-backed RAM. Its hidden "©KONAMI 1983" message was published by cmonkey on UKVAC in 2016; I found no earlier
+  write-up of the counters or the permanent arming, or of a bootleg tripping one of its checks.
+- **Time Pilot (Konami, 1982)** already had a dense set of copyright checks. [TCRF](https://tcrf.net/Time_Pilot_(Arcade)) lists them: two copies of the
+  copyright string drawn on alternate frames, plus two more in the sprite ROM; checksums of the copyright and of many
+  code ranges across six phases (boot, crosshatch, title, demo and gameplay, special checks, high-score entry);
+  palette checks on the copyright line and on individual letters ("M", "K", "N"); checks triggered by game events
+  (losing a life, the next stage, entering stage 5); and failures by reset, hang or garbage graphics. **So
+  event-triggered checks, multiple checksums, and checks on how the copyright is displayed (in Time Pilot its palette,
+  in Track & Field its screen position) were already in Time Pilot in 1982.** Time Pilot '84 and Track & Field above
+  are in the same family.
 - **Tempest (1981)**: a buggy anti-piracy checksum in the first revision could award 40 free credits; Atari
   fixed it in revision 2 ([TCRF](https://tcrf.net/Tempest_(Arcade))).
 - **Space Invaders Part II's board check:** its reset was identified by repairers in 2022, as a guard against
@@ -324,8 +335,9 @@ Other anti-copying tricks from the same era that are documented:
 
 What's different here: the Lunar Rescue, Part II and Asteroids Deluxe traps actually run, they're tied to a copy
 check, and the Lunar Rescue one pays out on real bootlegs (Destination Earth, Escape from Mars, one version of Moon
-Lander). On the Konami side: Track & Field's delay and permanent arming, a real bootleg (Atlant Olimpic) being caught
-by one of its checks, and Time Pilot '84's sabotage and on-screen message.
+Lander). On the Konami side, and not on TCRF's Time Pilot page: Track & Field's hidden games-started counters and
+thresholds, its permanent arming in battery-backed RAM, a real bootleg (Atlant Olimpic) caught by it in normal play,
+and Time Pilot '84's on-screen accusation with its sabotage of lives, screen and controls.
 
 ## References
 

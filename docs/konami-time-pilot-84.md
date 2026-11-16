@@ -15,6 +15,10 @@ swaps the controls between player 1 and player 2 on every frame, and prints that
 check runs on every frame of play and one at game start and similar set-up points; three more wait for a counter, and only open
 about once every 18 minutes of play.
 
+None of this is new in kind: Konami's original Time Pilot (1982) already had many copyright and code checksums, palette
+checks on the copyright, and checks triggered by game events (see [the comparison below](#compared-with-the-original-time-pilot-1982)).
+What I found no write-up of is the on-screen accusation together with the sabotage of lives, screen and controls.
+
 There are two layers. The board's own **power-on ROM test** adds up each 8 KB ROM block, so a careless one-byte edit
 is caught before the game starts ("ROM2 BAD", then the board halts and resets). The **hidden checks** catch the
 pirate who edited the copyright *and* rebalanced the ROM sums so that the test still passes. That case is simulated
@@ -122,21 +126,28 @@ flipping and the message, so an edited board shows it from its first demo.
 
 ## Compared with the original Time Pilot (1982)
 
-[TCRF](https://tcrf.net/Time_Pilot_(Arcade)) documents copyright checksum checks in the original Time Pilot that hang
-or reset the game on a mismatch. I haven't run the original (a Z80 board), so this comparison rests on that
+The original Time Pilot already had a dense set of copyright checks. [TCRF](https://tcrf.net/Time_Pilot_(Arcade)) lists them: two copies of the copyright
+string drawn on alternate frames, plus two more in the sprite ROM; checksums of the copyright and of many code ranges
+across six phases (boot, crosshatch, title, demo and gameplay, special checks, high-score entry); palette checks on the
+copyright line and on individual letters ("M", "K", "N"); checks triggered by game events (losing a life, the next
+stage, entering stage 5); and failures by reset, hang or garbage graphics. **So event-triggered checks, multiple
+checksums, and checks on how the copyright is displayed were already in Time Pilot in 1982.** I haven't run the
+original (a Z80 board), so the right-hand column below is what I traced and ran in Time Pilot '84, set against that
 description:
 
-| | Time Pilot (1982), per TCRF | Time Pilot '84 |
+| | Time Pilot (1982), per TCRF | Time Pilot '84 (traced and run) |
 |---|---|---|
-| Checksum of the copyright | yes | yes: "©KONAMI" |
-| Checksum of a stored message | not mentioned | yes: "THIS IS AN ILLEGAL DUPLICATE OF KONAMI'S ORIGINAL PCBOARD" |
-| Checksums over code ranges | yes | no; single code bytes check each other instead |
-| When | not clear to me | every play frame and every game start, plus one frame in 65,536 |
-| On failure | the game hangs or resets | the game keeps running but is wrecked (no lives, screen flipping, controls split) and **prints the accusation** |
-| First layer | not known | a power-on ROM test that halts the board on any block sum mismatch |
+| Copies of the copyright | two drawn on alternate frames, two more in the sprite ROM | two copies of "KONAMI 1984" in program ROM (`$BD5F`, which the checks read, and `$BF86`, which nothing I found refers to); I haven't worked out how they are drawn |
+| Checksums | the copyright and many code ranges, in six phases | the copyright (7 bytes) and the tail of the message; no code range is summed, single code bytes check each other instead; the power-on ROM test sums each ROM block |
+| Checks on how it is displayed | palette checks on the line and on letters ("M", "K", "N") | none found; I did not look for palette checks specifically |
+| What triggers them | game events: losing a life, the next stage, entering stage 5; the phases above | every frame of play, game start and similar set-up points, and one frame in 65,536 of play; I did not map these to game events beyond game start |
+| On failure | reset, hang or garbage graphics | the game keeps running but is wrecked (no lives, screen flipping, controls split) and **prints the accusation** |
+| A stored message | not mentioned | "THIS IS AN ILLEGAL DUPLICATE OF KONAMI'S ORIGINAL PCBOARD", checksummed and drawn only on failure |
 
-What I can't find described elsewhere: failure that leaves the game running, and says why on screen, and the two
-layers. I couldn't read TCRF's own Time Pilot '84 page, so check it for anything I've missed.
+What TCRF's Time Pilot page doesn't describe, and what I call new in Time Pilot '84: the on-screen accusation, and
+failure that leaves the game running while taking the lives, flipping the screen and splitting the controls. The two
+layers are not a claim: TCRF lists a boot phase for the original, and I can't tell whether it is the same kind of
+test as this board's power-on ROM test. As far as I can find nothing has been written about Time Pilot '84 itself.
 
 ## Default high scores
 
@@ -168,7 +179,7 @@ each check's run and fail. The GIF tool needs Pillow (`pip install pillow`).
 - Games ran on free play (the coin did not register in MAME). Sound was not recorded.
 - The fifth copy of the copyright check (`$B555`) was not reached; `tp84a` and `tp84b` were compared statically and
   not run.
-- The comparison with the original Time Pilot is from TCRF's description, not from running that game.
+- The comparison with the original Time Pilot is from TCRF's Time Pilot page, not from running that game.
 - I also looked at two other Konami 6809 games, Hyper Sports and Road Fighter. Hyper Sports has no copy check, only
   the already known initials egg. Road Fighter has a coin counter and key checks in battery-backed RAM, but they only
   act if an input line that is low on every board in MAME is wired high; on a normal board they never run.
