@@ -17,7 +17,9 @@ about once every 18 minutes of play.
 
 None of this is new in kind: Konami's original Time Pilot (1982) already had many copyright and code checksums, palette
 checks on the copyright, and checks triggered by game events (see [the comparison below](#compared-with-the-original-time-pilot-1982)).
-What I found no write-up of is the on-screen accusation together with the sabotage of lives, screen and controls.
+Sabotage as such was already in Atari's Tempest and Millipede, whose failed checks cripple the game rather than stop
+it ([TCRF](https://tcrf.net/Tempest_(Arcade)), [TCRF](https://tcrf.net/Millipede_(Arcade))). What I found no write-up
+of is the on-screen accusation.
 
 There are two layers. The board's own **power-on ROM test** adds up each 8 KB ROM block, so a careless one-byte edit
 is caught before the game starts ("ROM2 BAD", then the board halts and resets). The **hidden checks** catch the
@@ -144,8 +146,12 @@ description:
 | On failure | reset, hang or garbage graphics | the game keeps running but is wrecked (no lives, screen flipping, controls split) and **prints the accusation** |
 | A stored message | not mentioned | "THIS IS AN ILLEGAL DUPLICATE OF KONAMI'S ORIGINAL PCBOARD", checksummed and drawn only on failure |
 
-What TCRF's Time Pilot page doesn't describe, and what I call new in Time Pilot '84: the on-screen accusation, and
-failure that leaves the game running while taking the lives, flipping the screen and splitting the controls. The two
+What TCRF's Time Pilot page doesn't describe, and what I call new in Time Pilot '84: the on-screen accusation. Failure
+that leaves the game running but wrecked is not new: TCRF says Tempest's failed checks "cripple many aspects of the
+game during later rounds, rendering further gameplay impossible", and that Millipede's failed copyright checksum makes
+it run arbitrary code every 128 frames until it is unplayable ([Tempest](https://tcrf.net/Tempest_(Arcade)),
+[Millipede](https://tcrf.net/Millipede_(Arcade))). The particular effects here (lives to 0, screen flip, control swap)
+are Konami's own. The two
 layers are not a claim: TCRF lists a boot phase for the original, and I can't tell whether it is the same kind of
 test as this board's power-on ROM test. As far as I can find nothing has been written about Time Pilot '84 itself.
 
