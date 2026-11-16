@@ -4,6 +4,17 @@ ROMs: pv01–pv04 at $0000–$1FFF, pv05 at $4000–$47FF. Same 8080 hardware fa
 Controls are read through $1F49, which jumps via `PCHL` to $15E8 (port 1 for P1, port 2 for P2).
 Bits used below (port 1): b1 Start2, b2 Start1, b4 Fire, b5 Left, b6 Right.
 
+## The Taito traps at a glance
+
+| Game | Secret combo (attract mode) | Gives | Armed when… |
+|---|---|---|---|
+| **Lunar Rescue** | P1 Start + Fire + Right | 3 credits | the "© TAITO CORPORATION" text on the title screen has been altered |
+| **Space Invaders Part II** | P1 Start + P2 Start + Fire + Left | 2 credits | one of two unused input lines on the board reads high (i.e. it isn't running on the expected hardware) |
+| Space Invaders Part II, second trap | P1 Start + P2 Start + Fire + Right | nothing (bug) | the game's own ROM has been patched |
+| Space Invaders (1978; MAME's `invaders`, the Midway set) | none | – | no trap, just the known "TAITO COP" easter egg |
+
+Combos must be exact: the other buttons have to be released, or nothing happens.
+
 ## Credits are guarded
 - Credits: $20EB (BCD). Shadow copy: **$20CC**.
 - The interrupt handler at $0094 compares the two copies and jumps to $0003 (restart) if they differ,
@@ -12,37 +23,40 @@ Bits used below (port 1): b1 Start2, b2 Start1, b4 Fire, b5 Left, b6 Right.
   `MVI H,$1F / INR H / MVI L,$EC / DCR L`).
 
 ## Trap 1 – works: Start1 + Start2 + Fire + Left, attract mode ($4186)
+
+Part II's trap is also in the extra ROM at `$4000`:
+
 ```
 4186  mvi  h,$1F
 4188  mvi  l,$E4
 418A  inr  h
-418B  dcr  l           ; HL = $20E3 (arming flag)
+418B  dcr  l           ; HL = $20E3, the "armed" flag, built in pieces
 418C  mov  a,m
 418D  ana  a
-418E  rz
+418E  rz               ; not armed -> do nothing
 418F  call $1F49       ; read player 1 controls
-4192  ani  $76
-4194  cpi  $36         ; Start1+Start2+Fire+Left, Right released
+4192  ani  $76         ; keep Start1, Start2, Fire, Left, Right
+4194  cpi  $36         ; Start1+Start2+Fire+Left, Right released: nothing else
 4196  rnz
 4197  mvi  l,$EC
 4199  dcr  l
 419A  mvi  h,$1F
-419C  inr  h           ; HL = $20EB
+419C  inr  h           ; HL = $20EB, the credit counter
 419D  mvi  m,$02       ; credits = 2
 419F  mvi  l,$CC
-41A1  mvi  m,$02       ; shadow = 2
+41A1  mvi  m,$02       ; shadow copy = 2 as well
 ```
-**Arming flag $20E3:** set to 1 at power-up. At $459C (called from $1F53 in attract):
+**Arming flag $20E3:** set to 1 at power-up. At $459C (called from $1F53 in attract), run over and over in attract mode:
 ```
-459C  in   0
-459E  ani  $0A
+459C  in   0           ; read input port 0
+459E  ani  $0A         ; keep bits 1 and 3, the two lines Taito ties to ground
 45A0  cpi  $0A
 45A2  jz   $0000       ; port 0 bits 1 AND 3 high -> reset the machine
 45A5  ana  a
 45A6  nop
 45A7  rnz              ; exactly one high -> stay armed
-45A8  lxi  h,$20E3
-45AB  mvi  m,$00       ; both low -> clear $20E3: disarm
+45A8  lxi  h,$20E3     ; both low (Taito's wiring):
+45AB  mvi  m,$00       ;   clear the flag ($20E3), trap disarmed
 45AD  ret
 ```
 MAME's driver notes (from Taito's schematic) say port 0 bits 1 and 3 are **tied low** on Taito's board, while
@@ -75,6 +89,47 @@ that arms the credit trap.
 **Emulator result:** with port 0 = $02 and the combo held during attract → credits 2, game starts.
 Genuine port values → nothing.
 
+| Genuine wiring (port 0 = `$00`) | One line high (port 0 = `$02`) |
+|---|---|
+| <img src="img/invadpt2-genuine.gif" width="360" alt="Part II, port 0 = 00, buttons held then released: the credit counter stays at 0"> | <img src="img/invadpt2-one-line-high.gif" width="360" alt="Part II, port 0 = 02, buttons held then released: the credit counter goes to 2"> |
+
+*`invadpt2`, P1 Start + P2 Start + Fire + Left held in the attract demo and then released: nothing with Taito's wiring, 2 credits with one of the two lines high. Made with `scripts/trapdemo.py --gif`.*
+
+## How Part II hides it
+
+Part II hides the same idea more carefully than Lunar Rescue:
+
+- **The credit address never appears in the code.** It's built at run time from neighbouring values
+  (`MVI H,$1F / INR H` and `MVI L,$EC / DCR L` gives `$20EB`), so searching the ROM for `$20EB`
+  won't find it.
+- **Credits have a shadow copy** at `$20CC`. The interrupt handler compares the two every frame and
+  restarts the game if they differ, so poking the credit counter in a debugger just resets the
+  machine. The hidden routine writes both copies.
+- **The trigger is the hardware, not the text.** The game keeps reading two input lines (port 0, bits 1 and 3)
+  that do nothing else. According to the notes in MAME's driver, taken from Taito's schematic, both are **tied to
+  ground** on Taito's board, while most of their unused neighbours are pulled high. Both low (Taito's wiring):
+  trap disarmed. Both high (what an unconnected TTL input usually reads): the game resets itself. Exactly one
+  high: the trap stays armed.
+
+  Taito's own schematic of the I/O board (PV070010, "P.T-GAME P.C. BOARD", from
+  [robotron-2084.co.uk](https://www.robotron-2084.co.uk/hardware/boardset/taito-space-invaders-part-ii-3-layer-board-stack))
+  confirms it: every unused input of the four 74LS153 multiplexers that read the port has a 1k pull-up to +5V,
+  except the two the code checks, which also have a **ground link on the same node**. So the check is looking for
+  two specific ground links. A copier who missed both got a board that won't start; one who missed one, or wired
+  it differently, got a board that gives free games. Whether Taito hid those links (under a chip, on the solder
+  side, a jumper wire) or they were ordinary tracks, I can't tell from the code; owners of real Part II boards
+  could check.
+
+  Repairers already knew the reset half. In a 2022 [Arcade Museum forum thread](https://forums.arcade-museum.com/threads/taito-3-board-space-invaders-part-2-bad-shifter-causes-resets.504475/)
+  about a resetting Part II board, HudsonArcade found the check ("it's resetting because the code is telling it
+  to"), said it's "specifically to 'prevent' people from swapping ROMs as an upgrade" (Part II ROMs in a plain
+  Space Invaders board), and gave the patch to disable it. What I couldn't find anywhere is the other half: with
+  exactly one line wrong, the check doesn't reset, it arms a free-credit routine.
+- **There's a second trap that doesn't work.** It's armed if five bytes of the program ROM have been
+  changed, but it reads the controls through a helper that leaves a register pointing at ROM. Its
+  "2 credits" are written into read-only memory and vanish. Whether that's a bug or a decoy, it never
+  pays out.
+
 ## Trap 2 – dead: Start1 + Start2 + Fire + Right ($0A2D)
 - Arming flag $20E2, cleared at $454F if five ROM bytes at $174C–$1750 are intact
   (D6 DB D0 C8 DB). Patch them and the flag stays set.
@@ -83,6 +138,10 @@ Genuine port values → nothing.
   $15EB/$15CC – ROM – and do nothing. Confirmed in the emulator: the store executes, credits stay 0.
 
 ## Also in the extra ROM (not credit-related)
+
+The add-on ROM also contains a cleaned-up version of the known Space Invaders "TAITO COP" easter
+egg: it now spells "TAITO CORP", and its first step no longer needs Left and Right held at once.
+
 - **"TAITO CORP" easter egg ($4519):** hold Start2 + Fire + Right, then Start1 + Fire + Left → prints
   an encoded "TAITO CORP" string (stored at $0D6F, each byte +$3F).
 - **PRESET MODE ($45B9):** opened at game start when DIP IN2 bit 3 is on (MAME: "Preset Mode: Name Entry").
