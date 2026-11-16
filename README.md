@@ -12,9 +12,12 @@ random game overs once its copyright line has been changed, and **Centipede** ad
 on a board without a genuine POKEY sound chip. Instead of locking up a copied board, these games make it lose
 money for whoever is operating it.
 
+Konami went the other way. **Track & Field** (1983) pays out nothing: it locks up a board whose copyright line has
+been edited, and half of its checks wait for 50, 1,500 or 4,000 games first, long after the board has been sold.
+
 > [!NOTE]
 > **As far as I can find, the free-credit routines in Lunar Rescue, Space Invaders
-> Part II and Asteroids Deluxe haven't been documented before.** Repairers had already
+> Part II and Asteroids Deluxe, and Track & Field's delayed tamper checks, haven't been documented before.** Repairers had already
 > spotted the reset half of Part II's board check, and Centipede's is known; see below.
 
 ## The short version
@@ -25,7 +28,7 @@ money for whoever is operating it.
 | **Space Invaders Part II** (Taito, 1979) | one of two ground links on the board is missing | 2 credits for P1 Start + P2 Start + Fire + Left in attract mode | new |
 | **Asteroids Deluxe**, revisions 1 and 2 (Atari, 1980) | the copyright line has been altered | 2 credits at about 1 game over in 3, on the high-score table | new |
 | **Centipede** (Atari, 1980) | no genuine POKEY sound chip | extra credits at every game start | known |
-| **Track & Field** (Konami, 1983) | the "© KONAMI 1983" line, the code that draws it, or one data byte has been changed | crashes, freezes or keeps resetting, after 50, 1,500 or 4,000 games or a particular result | new (no earlier write-up found) |
+| **Track & Field** (Konami, 1983) | the "© KONAMI 1983" line, the code that draws it, or one data byte has been changed | an edited board crashes, freezes or keeps resetting, after 50, 1,500 or 4,000 games or a particular result | new: delayed, permanent tamper checks (no earlier write-up found) |
 
 Every Taito and Atari listing here is checked against the real ROMs by `scripts/verify.py` (Taito) and
 `atari/verify_atari.py` (Atari), and every free-credit trap is shown working in an emulator, with the genuine board
@@ -301,8 +304,46 @@ has been changed, the game crashes, freezes or resets. In the emulator, changing
 game working normally until the 1,500th game, after which the board resets about once a second, and still does
 after a power cycle, because the armed state is kept in battery-backed RAM. Two of the six checks are demonstrated
 this way; the rest are described from the code. None of the dumped bootlegs changes a checked byte, so none trips
-them. The game also hides Konami's ownership signature, a "©KONAMI 1983" message first published by cmonkey on
-UKVAC in 2016.
+them. The game also hides a "©KONAMI 1983" message, which reads like an ownership signature, first published by
+cmonkey on UKVAC in 2016.
+
+Checking the copyright and freezing isn't new in itself: Donkey Kong (1981) does it with "NINTENDO" (see [Prior art](#prior-art)).
+What's new here is the delay through hidden counters, the arming kept for good in battery-backed RAM, and six
+layered checks. Check 2, the one that waits for the 1,500th game:
+
+```
+F99D  LDD   $2FE4       ; games started: +1 at every game start ($F774), read by nothing but the checks
+F9A0  CMPD  #$05DC      ; the 1,500th?
+F9A4  BNE   $F9B1
+F9A6  LDA   #$19        ; arm for good: signature 19 65 DB in battery-backed RAM
+F9A8  STA   $2FE7
+F9AB  LDD   #$65DB
+F9AE  STD   $2FEE
+ ...                    ; from then on, in the interrupt handler, all through attract mode:
+673E  LDA   $2FE7
+6741  CMPA  #$19        ; armed? (likewise $2FEE and $2FEF)
+6743  BNE   $67AB
+6753  LDY   #$A6BC      ; "KONAMI", each letter compared with an offset, so the values don't spell it:
+6757  LDA   ,Y+
+6759  DECA
+675A  CMPA  #$4A        ; "K" - 1
+675C  BNE   $67A8
+ ...                    ; "O" + $20, "N" - 5, "A" + 1, "M" + 3, "I"
+6783  LDX   #$FC47
+6786  LEAX  36,X        ; $FC6B: the code that draws the copyright line
+ ...                    ; add 4 of its bytes
+67A2  CMPD  #$0312
+67A6  BEQ   $67AB       ; all as Konami wrote them: carry on
+67A8  LBRA  $B8E6       ; otherwise jump into data: the board crashes and resets
+```
+
+| Genuine `trackfldu` | "KONAMI" changed to "KNNAMI" |
+|---|---|
+| <img src="docs/img/trackfld-check2-genuine.gif" width="360" alt="Track & Field, genuine: the 1,500th game, then attract mode carries on"> | <img src="docs/img/trackfld-check2-edited.gif" width="360" alt="Track & Field, KONAMI changed: after the 1,500th game the screen fills with repeated tiles and the board keeps resetting"> |
+
+*Games-started counter set to 1,499, then one game: the 1,500th arms the check, which runs once the game is over.
+Genuine: attract mode carries on. "KNNAMI": the board resets about once a second from then on. Made with
+`konami/demo.sh 2`.*
 
 Details: [docs/konami-track-and-field.md](docs/konami-track-and-field.md).
 
@@ -349,6 +390,7 @@ On the evidence so far, the free-credit traps were a tactic of 1979–80, when c
 - **Atari:** Centipede (revisions 1, 2 and 4, the ones checked) and the first two revisions of Asteroids Deluxe pay out on copies; Asteroids
   Deluxe revision 3 drops it. Atari's other tricks of the time were evidence and sabotage rather than payouts:
   Centipede's hidden Morse-code signature, used in court, and checksums such as Tempest's.
+- **Konami:** by 1983, Track & Field locked up edited boards instead of paying out on copies.
 
 ## How it was found
 
@@ -364,6 +406,8 @@ On the evidence so far, the free-credit traps were a tactic of 1979–80, when c
 5. For the Atari games, scanned every set that uses Atari's coin routine (`atari/slamscan.py`), went through every
    remaining credit write by hand, and confirmed each trap in MAME with Lua scripts that play the game unattended,
    on a genuine and a simulated bootleg board.
+6. For Konami, a 6809 disassembly of Track & Field, made while checking its Hammer Throw for a missing easter egg;
+   the checks turned up on the way, and were verified with Lua scripts using MAME's debugger.
 
 ## Try it yourself
 
@@ -423,6 +467,8 @@ Full instructions: [docs/USAGE.md](docs/USAGE.md). Sets worth collecting: [docs/
   changed). Two more checks in that game, one during play and a ROM checksum, are not traced yet.
 - The Centipede demonstration changes only the two reads at the check, to show its effect; a real board without a
   POKEY would differ in other ways too.
+- The Track & Field edits are simulated (one byte changed in a genuine set; no dumped bootleg changes a checked
+  byte), only two of its six checks are demonstrated in the emulator, and its results are from MAME 0.285.
 - "Right" means bit 6 of input port 1, the standard Space Invaders wiring.
 - "Not documented before" means I couldn't find it online, in TCRF, Computer Archeology, 6502disassembly.com or the
   arcade history databases. If you know otherwise, open an issue; I'd love to hear it.
@@ -438,6 +484,10 @@ Other anti-copying tricks from the same era that are documented:
   [6502disassembly.com](https://6502disassembly.com/va-centipede/Centipede_rev4.html)).
 - **Donkey Kong (1981)** checks part of "NINTENDO" in its copyright line and freezes if it has been changed
   ([TCRF](https://tcrf.net/Donkey_Kong_(Arcade))).
+- **Track & Field (Konami, 1983)**, above, works like Donkey Kong's check (the copyright line, and a stopped game),
+  but waits for hidden games-started counters, stays armed for good in battery-backed RAM, and spreads the test over
+  six checks. Its hidden "©KONAMI 1983" message was published by cmonkey on UKVAC in 2016; I found no earlier
+  write-up of the checks.
 - **Tempest (1981)**: a buggy anti-piracy checksum in the first revision could award 40 free credits; Atari
   fixed it in revision 2 ([TCRF](https://tcrf.net/Tempest_(Arcade))).
 - **Space Invaders Part II's board check:** its reset was identified by repairers in 2022, as a guard against
