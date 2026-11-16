@@ -7,6 +7,26 @@ $1000 (`$100A` = random number, `$100F` = SKCTL). Credit count: **`$C8`** (BCD).
 [6502disassembly.com](https://6502disassembly.com/va-centipede/Centipede_rev4.html) labels it *"add credits if it's
 not a POKEY"*. What's added here is how the bootleggers dealt with it, and a demonstration in MAME.
 
+## In short
+
+At power-up and at the start of every game, Centipede puts its POKEY sound chip into reset, which freezes the
+chip's random-number register. It then reads that register twice and adds the difference to the credit count:
+
+```
+28A2  LDA $100A        ; POKEY random number
+28A5  EOR $100A        ; ... again: 0 on a genuine POKEY in reset
+28A8  CLC
+28A9  ADC $C8
+28AB  STA $C8          ; credits = credits + difference
+```
+
+This one is known: the commented disassembly at
+[6502disassembly.com](https://6502disassembly.com/va-centipede/Centipede_rev4.html) calls it "add credits if it's
+not a POKEY". What the MAME sets add is the bootleggers' side. Four Centipede bootlegs replace the POKEY with a cheaper General
+Instrument sound chip. **Caterpillar** and one set of **Magic Worm** (the bootleg Atari took to court) changed these
+two reads to read the same byte twice, so the difference is always 0; the other Magic Worm set removed the check;
+two more bootlegs left it alone.
+
 ## The check ($2876, at power-up and at the start of every game)
 
 ```
@@ -60,6 +80,7 @@ genuine POKEY in other places too, and resets.) `NOPOKEY=0` runs the genuine boa
 |---|---|
 | ![Centipede at power-up, genuine: no credits](img/centiped-genuine-powerup.png) | ![Centipede at power-up, reads differ: CREDITS 3](img/centiped-nopokey-powerup.png) |
 
-*Straight after power-up, before any coin. The check also runs at power-up, so the second board starts with 3
+*Straight after power-up, before any coin. Made with `atari/centipede_trap.lua`, which makes only those two
+reads differ. The check also runs at power-up, so the second board starts with 3
 credits. After that, each coin adds 1 and each Start costs 1 but adds 3: 6, 9, 12... On the genuine board each Start costs
 a credit as normal.*
