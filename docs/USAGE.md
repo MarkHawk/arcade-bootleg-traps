@@ -60,16 +60,25 @@ python3 atari/slamscan.py ~/roms -o slamscan.md                      # the slam-
 Add `-nothrottle` to run faster than real time. On Windows PowerShell, set the variable first: `$env:TAMPER="none"`.
 More on the Atari scripts: [Atari tools](#atari-tools-atari) below.
 
-**Konami** (MAME's Lua scripting and debugger; the Track & Field results are from MAME 0.285):
+**Konami** (MAME's Lua scripting and debugger; the Konami results are from MAME 0.285):
 
 ```bash
 python3 konami/build_roms.py ~/roms          # one-byte edits of trackfldu, built from your own set into konami/roms/
 konami/demo.sh 2 ~/roms                      # "KONAMI" -> "KNNAMI", counter at 1,499: genuine passes, edited boot-loops
 konami/demo.sh 1 ~/roms                      # $C418 changed: genuine plays on, edited freezes in the high jump
+konami/demo_atlantol.sh check6 ~/roms        # Atlant Olimpic against genuine Hyper Olympic, check 6 armed: genuine carries on, atlantol freezes
+konami/demo_atlantol.sh recovery ~/roms      # frozen; still frozen with the NVRAM kept; running with it cleared
+konami/demo_atlantol.sh natural ~/roms       # no RAM writes: a 3-player game sets the flag itself (about 20 minutes)
+python3 konami/build_tp84.py ~/roms          # two edited Time Pilot '84 sets, built from your own set into konami/roms/
+konami/demo_tp84.sh onebyte ~/roms           # "KONAMI" -> "KNNAMI": the power-on ROM test halts the board ("ROM2 BAD")
+konami/demo_tp84.sh sumkept ~/roms           # the edit with the ROM sums kept: lives lost, screen flips, controls swap, message printed
 ```
 
-Each run starts from an empty NVRAM and writes its log to `konami/out/`. More on the Konami demos:
-[konami-track-and-field.md](konami-track-and-field.md#rerun).
+Each run starts from an empty NVRAM and writes its log to `konami/out/` (the one exception is step 2 of the `recovery`
+demo, which reuses the NVRAM step 1 saved). The Atlant Olimpic demos need no edited ROMs; the Time Pilot '84 ones are
+built from your own `tp84.zip` by `konami/build_tp84.py`. `konami/gif_pair.py` (needs Pillow) makes the side-by-side
+GIF. More on the Konami demos: [konami-track-and-field.md](konami-track-and-field.md#rerun),
+[konami-time-pilot-84.md](konami-time-pilot-84.md#rerun).
 
 To search a whole collection, any manufacturer, for the Taito trap code and its arming checks: `sigsearch.py`
 ([below](#search-a-whole-mame-collection-for-the-trap-code)).
