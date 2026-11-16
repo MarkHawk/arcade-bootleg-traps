@@ -328,7 +328,8 @@ Other anti-copying tricks from the same era that are documented:
   in Track & Field its screen position) were already in Time Pilot in 1982.** Time Pilot '84 and Track & Field above
   are in the same family.
 - **Tempest (Atari, 1981)**: a buggy anti-piracy checksum in the first revision could award 40 free credits; Atari
-  fixed it in revision 2. TCRF also says its failed checks "cripple many aspects of the game during later rounds,
+  fixed it in revision 2 ([Arcade Blogger](https://arcadeblogger.com/2018/12/15/golden-age-arcade-games-bootlegs-lawsuits-litigation/),
+  [MAME's `tempest.cpp` notes](https://github.com/mamedev/mame/blob/mame0285/src/mame/atari/tempest.cpp)). TCRF also says its failed checks "cripple many aspects of the game during later rounds,
   rendering further gameplay impossible" ([TCRF](https://tcrf.net/Tempest_(Arcade))). That is sabotage as such: the
   game keeps running but is wrecked.
 - **Millipede (Atari, 1982)**: per TCRF, a failed copyright checksum makes the game run arbitrary code every 128
@@ -354,7 +355,8 @@ Tempest and Millipede; only the accusation and its particular effects (lives, sc
 ## References
 
 - [The Cutting Room Floor: Space Invaders (Arcade)](https://tcrf.net/Space_Invaders_(Arcade)), the "TAITO COP" easter egg
-- [Computer Archeology: Space Invaders](https://www.computerarcheology.com/Arcade/SpaceInvaders/), hardware and original code
+- [Computer Archeology: Space Invaders](https://www.computerarcheology.com/Arcade/SpaceInvaders/), hardware and original
+  code, and also the "TAITO COP" button sequences
 - [6502disassembly.com: Centipede](https://6502disassembly.com/va-centipede/Centipede_rev4.html), commented disassembly
 - [arcade-history.com: Lunar Rescue](https://www.arcade-history.com/game/1418/)
 - [MAME machine data: Space Invaders Part II](https://data.spludlow.co.uk/mame/machine/invadpt2)
