@@ -496,7 +496,7 @@ Other anti-copying tricks from the same era that are documented:
   [UKVAC](https://www.ukvac.com/forum/threads/taito-3-pcb-invaders-boardset-resetting.75648/)); MAME's driver notes
   the two lines are tied low on Taito's schematic. The credit trap behind the same check hasn't been described.
 - **Space Dungeon (Taito America, 1981)** has an untriggered message, "STOLEN FROM THE GOOD BUDDY'S AT TAITO
-  BY AN UNAUTHORIZED DO BADDER" ([TCRF](https://new.tcrf.net/Space_Dungeon)).
+  BY AN UNAUTHORIZED DO BADDER" ([TCRF](https://tcrf.net/Space_Dungeon)).
 - General Computer's "kick me for a free game" story, told second-hand
   ([Ned Batchelder](https://nedbatchelder.com/blog/200404/arcade_copy_protection)); not found, see above.
 
@@ -506,7 +506,7 @@ Lander).
 
 ## References
 
-- [The Cutting Room Floor: Space Invaders (Arcade)](https://new.tcrf.net/Space_Invaders_(Arcade)), the "TAITO COP" easter egg
+- [The Cutting Room Floor: Space Invaders (Arcade)](https://tcrf.net/Space_Invaders_(Arcade)), the "TAITO COP" easter egg
 - [Computer Archeology: Space Invaders](https://www.computerarcheology.com/Arcade/SpaceInvaders/), hardware and original code
 - [6502disassembly.com: Centipede](https://6502disassembly.com/va-centipede/Centipede_rev4.html), commented disassembly
 - [arcade-history.com: Lunar Rescue](https://www.arcade-history.com/game/1418/)
