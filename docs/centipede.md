@@ -102,7 +102,8 @@ summary line at the end. Swap `centipdb` for `centipdb2`, `millpac` or `centiped
 So none of the three pays out in the emulator, because MAME returns 0 for an address with nothing behind it. That
 is emulation only. On a real board the read hits nothing, and what an unconnected read returns depends on the board:
 on a 6502 it is often the last byte on the data bus, here `$10` (the high byte of the address), which would also be
-the same both times, but that hasn't been checked on hardware.
+the same both times, but that hasn't been checked on hardware. That is only a possibility, but it could explain why
+three bootleggers left the check alone: if it never fired on their boards, there was nothing to fix.
 
 Magic Worm is the bootleg that Atari took to court using Centipede's hidden Morse-code signature
 ([Arcade Blogger](https://arcadeblogger.com/2019/06/29/atari-centipedes-hidden-code-trap/)).
