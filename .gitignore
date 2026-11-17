@@ -4,3 +4,4 @@ out/
 roms/
 *.zip
 report.md
+tmp/
