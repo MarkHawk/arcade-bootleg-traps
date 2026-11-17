@@ -16,7 +16,7 @@ Mr. Do! bootleg give 41 credits for the diamond instead of 1.
 | [**Mr. Do!**](docs/universal-mr-do.md) | Universal | 1982 | a protection chip, plus [checksums](#terms-used) over the code that reads it; a failed diamond sum sets the credits to the wrong number | **Mr. Du! trips a sum in MAME: the diamond gives 41 credits instead of 1**; Mr. Lo! removed the protection; the rest kept the chip | [GIF](#mr-do-universal-1982) |
 | [**Lunar Rescue**](docs/lunar-rescue.md) | Taito | 1979 | an altered "© TAITO CORPORATION" leaves a free-credit combo armed: 3 credits for P1 Start + Fire + Right in attract mode | three copies pay out (Destination Earth, Escape from Mars, Moon Lander set 2); Rescate Lunar patched the trap out | [GIF](#lunar-rescue-taito-1979) |
 | [**Space Invaders Part II**](docs/space-invaders-part-ii.md) | Taito | 1979 | a missing ground link on the board arms a free-credit combo: 2 credits for P1 Start + P2 Start + Fire + Left | all six MAME sets (Taito's and the licensed copies) carry the trap; which real boards had the link missing is unknown | [GIF](#space-invaders-part-ii-taito-1979) |
-| [**Asteroids Deluxe**](docs/asteroids-deluxe.md), revisions 1 and 2 | Atari | 1980 | an altered copyright line gives 2 credits at about 1 game over in 3 | no dumped bootleg with its copyright changed is known (simulated here) | [still](#asteroids-deluxe-atari-1980) |
+| [**Asteroids Deluxe**](docs/asteroids-deluxe.md), revisions 1 and 2 | Atari | 1980 | an altered copyright line gives 2 credits at about 1 game over in 3 (simulated here) | no dumped bootleg with its copyright changed is known (simulated here) | [still](#asteroids-deluxe-atari-1980) |
 | [**Centipede**](docs/centipede.md) | Atari | 1980 | no genuine [POKEY](#terms-used) sound chip: extra credits at every game start | six bootlegs without a POKEY: three removed or neutralised the check, three left it in | [still](#centipede-atari-1980) |
 | [**Battlezone**](docs/atari-battlezone.md) | Atari | 1980 | a sum over the drawn copyright is the price of a game; altered, each Start adds 26 credits, and the second bonus tank stops the game (checks published by McFadden) | Desert Wars kept the copyright: unaffected | [GIF](#battlezone-atari-1980) |
 | [**Space Dungeon**](docs/taito-space-dungeon.md) | Taito America | 1981 | silent checksums over code, one delayed to the 64th event; enemies or the thief drawn wrongly; the "STOLEN" message is never shown | no bootleg known in MAME | [GIF](#space-dungeon-taito-america-1981) |
@@ -111,7 +111,7 @@ P1 Start + P2 Start + Fire + Left in attract mode.
 |---|---|
 | <img src="docs/img/invadpt2-genuine.gif" width="360" alt="Part II, port 0 = 00, buttons held then released: the credit counter stays at 0"> | <img src="docs/img/invadpt2-one-line-high.gif" width="360" alt="Part II, port 0 = 02, buttons held then released: the credit counter goes to 2"> |
 
-*`invadpt2`, P1 Start + P2 Start + Fire + Left held in the attract demo and then released: nothing with Taito's wiring, 2 credits with one of the two lines high. Made with `scripts/trapdemo.py --gif`.*
+*In this repo's 8080 emulator, not MAME. `invadpt2`, P1 Start + P2 Start + Fire + Left held in the attract demo and then released: nothing with Taito's wiring, 2 credits with one of the two lines high. Port 0 is set by the script to `$00` on the left and to `$02` on the right: the line is forced high, not read from a real board (see Caveats). Nothing else is written. Made with `scripts/trapdemo.py --gif`.*
 
 Full details, including the schematic, chip positions and the repair threads:
 [docs/space-invaders-part-ii.md](docs/space-invaders-part-ii.md).
@@ -129,8 +129,7 @@ top score. Interpretation: that would make it far harder to notice than Lunar Re
 |---|---|
 | <img src="docs/img/astdelux-genuine-credits.png" width="360" alt="Asteroids Deluxe, genuine: ©1980 ATARI INC, CREDITS 0"> | <img src="docs/img/astdelux-bootleg-credits.png" width="360" alt="Asteroids Deluxe, copyright changed: ©1980 ACME INC, CREDITS 2"> |
 
-*Simulating a bootleg in MAME (the copyright changed to "1980 ACME INC", one coin per game, the ship left alone).
-Made with `atari/astdelux_trap.lua`.*
+*A simulated bootleg in MAME, not a real one. The script edits the copyright bytes in memory to "1980 ACME INC" (the zip is not changed), inserts one coin per game, leaves the ship alone and empties the high-score table at each game start, so every game ends with a new top score. The payout itself is the game's own. Made with `atari/astdelux_trap.lua`.*
 
 Full details: [docs/asteroids-deluxe.md](docs/asteroids-deluxe.md).
 
@@ -291,8 +290,8 @@ ORIGINAL PCBOARD", which is drawn only when a check fails. When a sum is wrong t
 depends on the check: the one that runs on every frame of play **flips the screen and swaps the controls between the
 two players on alternate frames**, two other checks (one at set-up, one on the message) **take all your lives**, and the rare checks on the copyright
 **print that message**. There are two layers. The board's own power-on ROM test sums each ROM block, so a careless
-one-byte edit is caught at power-on ("ROM2 BAD") and the board halts. The hidden checks catch the pirate who rebalanced the ROM sums,
-simulated here by also changing the year. No bootleg of it is known in MAME, so the demonstration is simulated.
+one-byte edit is caught at power-on ("ROM2 BAD") and the board halts. The hidden checks are triggered by an edit that rebalances the ROM sums,
+simulated here by also changing the year. Interpretation: that looks like the case they were built for, a copier who edited the copyright and fixed the sums; the alternative is that they are general integrity checks with no particular copier in mind. No bootleg of it is known in MAME, so the demonstration is simulated.
 Checks like these were already in Konami's original Time Pilot (1982), and failing by sabotage rather than a stop was
 already in Atari's Tempest and Millipede (see [Prior art](#prior-art)); what was not found in the sources checked
 is the on-screen accusation.
@@ -300,7 +299,7 @@ is the on-screen accusation.
 <img src="docs/img/timepilot84-pair.gif" width="720" alt="Time Pilot '84, genuine on the left, the edited copyright on the right: the edited game flips upside down every other frame and prints THIS IS AN ILLEGAL DUPLICATE OF KONAMI'S ORIGINAL PCBOARD">
 
 *Left: genuine. Right: "KNNAMI 1985", with the ROM sums kept so that the power-on test passes. Every frame from 990 to
-1,012: the edited board flips on alternate frames, and from frame 1,001 the message is on screen. Made with
+1,012: the edited board flips on alternate frames, and from frame 1,001 the message is on screen. Two bytes of a genuine set are edited (in a copy built from your own ROMs), games run on free play (a DIP setting; a coin did not register in MAME), and at frame 1,000 a RAM poke sets the check counter `$5235` to `$FFFE` so the rare checks open at once (otherwise after about 18 minutes of play). Nothing else is written. Made with
 `konami/demo_tp84.sh sumkept` and `konami/gif_pair.py`.*
 
 Full details: [docs/konami-time-pilot-84.md](docs/konami-time-pilot-84.md).
@@ -495,7 +494,7 @@ How new games are added: [docs/STYLE.md](docs/STYLE.md).
   bits 1 and 3 (both grounded on Taito's schematic) really tied low on yours, and how is that link made? Does the
   combo work? An issue on this repo with the answer would settle it.
 - The Asteroids Deluxe bootleg is simulated (I don't know of a dumped bootleg of revision 1 or 2 with its copyright
-  changed). Two more checks in that game, one during play and a ROM checksum, are not traced yet.
+  changed): the copyright bytes are edited in memory, and the high-score table is emptied at each game start so every game ends with a new top score. Two more checks in that game, one during play and a ROM checksum, are not traced yet.
 - The Centipede demonstration changes only the two reads at the check, to show its effect; a real board without a
   POKEY would differ in other ways too.
 - The Track & Field edits are simulated (one byte changed in a genuine set), only checks 1 and 2 are demonstrated on
