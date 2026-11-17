@@ -289,7 +289,7 @@ Full details: [docs/konami-time-pilot-84.md](docs/konami-time-pilot-84.md).
 
 ## It worked on real bootlegs
 
-Scanning the 149 Taito-family sets in a MAME 0.277 collection and running each Lunar Rescue copy in the emulator (the last row is from Konami's side):
+Scanning the 149 Taito-family sets in a MAME 0.277 collection and running each Lunar Rescue copy in the emulator:
 
 | Set | Made by | Trap as shipped |
 |---|---|---|
@@ -299,14 +299,31 @@ Scanning the 149 Taito-family sets in a MAME 0.277 collection and running each L
 | Moon Lander, set 1 (`mlander`) | Leisure Time Electronics (UK) | armed but blocked: patched so the controls read nothing while idle |
 | Rescate Lunar (`resclunar`) | Niemer S.A. (Spain) | disabled: `RZ`→`RET` at `$47E6`, plus its own ROM checksum |
 | Lunar Rescue Model Racing / Artic copies, Galaxy Rescue | various | switched off: Taito copyright left intact |
-| **Atlant Olimpic** (`atlantol`), a copy of Konami's Hyper Olympic | bootleg (Italy, 1996) | **tripped: Track & Field's check 6 fails and the board freezes** |
 
 Three pirate copies pay out free games. Two others don't: Rescate Lunar patches the trap out directly, and
 the other Moon Lander set ignores the controls while the game is idle, which blocks it. All six Space Invaders
-Part II sets carry their trap too. Konami's protection pays nothing out; the one bootleg it has caught, Atlant Olimpic,
-simply freezes ([details](docs/konami-track-and-field.md#atlant-olimpic-a-real-bootleg-caught-by-check-6)).
+Part II sets carry their trap too. Details, including the Moon Base Zeta near miss:
+[docs/bootleg-results.md](docs/bootleg-results.md).
 
-Details, including the Moon Base Zeta near miss: [docs/bootleg-results.md](docs/bootleg-results.md).
+The other makers' bootlegs, each run in MAME 0.285:
+
+| Set | Copy of | What it did with the protection | Result |
+|---|---|---|---|
+| **Mr. Du!** (`mrdu`) | Mr. Do! (Taito-licensed code) | put back a branch after a checksum that fails in that code, and kept the self-test's ROM sum | **tripped: the diamond gives 41 credits instead of 1** |
+| Mr. Lo! (`mrlo`) | Mr. Do! | NOPped both protection-chip branches and both checksum branches | protection removed: runs with no chip |
+| `mrdobl`, `mrdofabr` (Fabremar), Yankee DO! (`yankeedo`, a hack) | Mr. Do! | kept the chip reads and the checks | nothing tripped; the boards needed the chip or a copy |
+| Junior King, Up Maguila, Donkey King Jr., `dkongjrb` | Donkey Kong Jr. | copyright letters blanked in the graphics ROM; checked program bytes intact | **dodged**: the check sums to zero |
+| `dkongjrm` | Donkey Kong Jr. (on Moon Cresta hardware) | the copyright line's screen address set to `0000`; checked bytes intact | **dodged** |
+| `dkongjr2` (MAME: possibly a bootleg), `dkongjrpb`, `dkongjrmc` | Donkey Kong Jr. | copyright line left as it was | unaffected |
+| `popeyebl`, `popeyeb2` | Popeye (Japan) | device imitated by a 32-byte PROM; power-on and high-score sums switched off; `popeyeb2` also stops drawing the copyright | **dodged** in play; the service-mode ROM test now fails |
+| `popeyeb3` | Popeye | `popeyeu`'s device-free code (pre-decoded level data), sum table recalculated | nothing tripped |
+| **Desert Wars** (`dsrtwars`, Andra) | Battlezone | kept "ATARI 1980" and both checks | **unaffected** |
+| **Atlant Olimpic** (`atlantol`, Italy, 1996) | Konami's Hyper Olympic | moved the copyright line off screen | **tripped: Track & Field's check 6 fails and the board freezes** ([details](docs/konami-track-and-field.md#atlant-olimpic-a-real-bootleg-caught-by-check-6)) |
+
+So two bootlegs outside Taito's family tripped a check: Mr. Du!, which pays out, and Atlant Olimpic, which freezes. The
+rest dodged the checks, removed them, or never touched what they guard. Interpretation: whether the dodging was
+deliberate can't be told from the bytes; blanking a graphics ROM, or skipping a draw call, was also simply the easiest
+way to remove a copyright line.
 
 So what was going on at the squash club? The machine was an unmarked cocktail table: no maker's name, a very
 generic cabinet. If it was a Lunar Rescue copy with the Taito name changed (*Destination Earth* or *Escape from
@@ -316,7 +333,9 @@ The full version: [docs/bootleg-results.md](docs/bootleg-results.md#so-what-was-
 
 ## Was this policy?
 
-On the evidence so far, the free-credit traps were a tactic of 1979–80, when copied boards were everywhere:
+On the evidence so far, the deliberate free-credit traps were a tactic of 1979–80, when copied boards were everywhere.
+Later games punished edited boards quietly or stopped them; the one later payout found, Mr. Du!'s, comes from a failed
+checksum, and whether anyone meant it as a payout can't be told (see Universal below).
 
 - **Taito:** the original 1978 Space Invaders has no trap, only an easter egg. Both 1979 games put the trap in the
   **add-on ROM at `$4000`** and tie it to an anti-copy check. Through the 1980s Taito moved to **hardware
@@ -324,11 +343,23 @@ On the evidence so far, the free-credit traps were a tactic of 1979–80, when c
   Polaris, Space Chaser, Indian Battle and Steel Worker (no trap), and the Z80 games that followed: Crazy Balloon,
   Space Cruiser, Space Seeker, Alpine Ski, Wild Western, Jungle King, Front Line, Elevator Action (no trap). The
   Elevator Action bootleg had to patch nine places to run without Taito's 68705 protection chip: by 1983 the
-  protection lived in hardware.
+  protection lived in hardware. Taito America's Space Dungeon (1981) has silent checksums over parts of its program that
+  make objects draw wrongly, one of them delayed to the 64th event; its "STOLEN" message is never shown.
 - **Atari:** Centipede (the check is in every revision checked: 1, 2, 3 and 4, and the Japanese set) and the first two revisions of Asteroids Deluxe pay out on copies; Asteroids
   Deluxe revision 3 drops it. Atari's other tricks of the time were evidence and sabotage rather than payouts:
   Centipede's hidden Morse-code signature, used in court, and checksum failures that wreck the game: Tempest's
   cripple later rounds and Millipede's run arbitrary code until it is unplayable (see [Prior art](#prior-art)).
+  Battlezone (1980) does both: its copyright sum is the price of a game, so a changed copyright gives credits away, and
+  a second check stops the game for good at the second bonus tank (both published by McFadden).
+- **Universal:** Mr. Do! (1982) relies on a protection chip, and sums the code that reads the chip. Interpretation: the
+  sums make patching that code change the game quietly (scene counters, the diamond's free credit) instead of failing
+  visibly. On Universal's code the diamond sum passes and on Taito's its branch was removed; only Mr. Du!'s edit makes
+  it fire, so whether a payout was ever intended can't be told.
+- **Nintendo:** sabotage rather than payouts. Donkey Kong (1981) freezes if "NINTENDO" is changed; Donkey Kong Jr.
+  (1982) has the same check at the same addresses and breaks the vines instead. Popeye (1982) relies on a protection
+  device and adds three ROM sums: test mode at power-on, random lives after a high-score entry, and a lost credit.
+  Interpretation: Donkey Kong Jr.'s routine looks like Donkey Kong's re-pointed at new bytes, and its E kit carries a
+  copy that was re-pointed without its constant being updated.
 - **Konami:** copyright checks rather than payouts, from 1982 to 1984. The original Time Pilot (1982) already had a
   dense set of them, with event-triggered checks, many checksums and palette checks, failing by reset, hang or garbage
   graphics ([TCRF](https://tcrf.net/Time_Pilot_(Arcade))). In 1983 Track & Field locked up edited boards instead of paying out on copies, adding hidden
@@ -355,6 +386,17 @@ On the evidence so far, the free-credit traps were a tactic of 1979–80, when c
    bytes of every dumped Track & Field set then turned up Atlant Olimpic tripping check 6, and a scanner built on the
    Track & Field checks (not included here) found Time Pilot '84's. Both were run in MAME, Atlant Olimpic by a script
    that plays the game with no RAM pokes and Time Pilot '84 with edited copies of a genuine set.
+7. For the Z80 games (Mr. Do!, Donkey Kong Jr., Popeye): disassembled with MAME's `unidasm`, from the CPU images MAME
+   actually loads (Popeye's program ROMs are encrypted). Found the protection reads and every loop that sums memory,
+   then confirmed each check in MAME with Lua read, write and execution taps, edited copies of a genuine set, and, for
+   the protection hardware, Lua taps that change what the CPU reads without touching any ROM. Donkey Kong's published
+   check was the control for Donkey Kong Jr.; Mr. Do! had no known software check to use as a control, so "nothing
+   found" there is weaker.
+8. Space Dungeon (6809): a disassembler checked against `unidasm`, and a decode of every byte offset of the ROM to
+   look for anything that could print the message. Battlezone: Andy McFadden's disassembly first, then MAME runs.
+9. One rule for every MAME run from step 7 on: an edited zip is the only folder on the ROM path, and the run logs the
+   bytes MAME actually loaded. With the real ROM folder as a second path, MAME rejects the edited file on its checksum
+   and silently loads the genuine one, which first turned up as a false "no effect" in the Donkey Kong work.
 
 Two side trails: [the "kick me for a free game" story](docs/kick-me-hunt.md), looked for and not found (that search
 is what turned up Asteroids Deluxe and Centipede), and [the easter egg that travelled](docs/easter-egg-travelled.md),
@@ -362,7 +404,8 @@ Space Invaders' "TAITO COP" in other companies' games.
 
 ## Try it yourself
 
-ROMs are not included; use your own MAME sets (the results here are from MAME 0.277 sets, Konami's from 0.285).
+ROMs are not included; use your own MAME sets (the results here are from MAME 0.277 sets; Konami's and the five games
+added in November 2026 from MAME 0.285, with 0.277 sets).
 
 **Taito** (pure Python 3: a disassembler, a signature scanner and an 8080 emulator of the Space Invaders board):
 
@@ -375,6 +418,7 @@ python3 trapscan.py run lrescue.zip --frames 1720 --patch 4676=13 \
 
 ```bash
 mame astdelux1 -autoboot_script atari/astdelux_trap.lua              # copyright changed: +2 credits at some game overs
+atari/demo_bzone.sh credits ~/roms                                   # Battlezone: genuine 1 -> 0, "ATARO" 1 -> 27 -> 53
 ```
 
 **Konami** (MAME's Lua scripting and debugger; the Konami results are from MAME 0.285):
@@ -387,6 +431,16 @@ python3 konami/build_tp84.py ~/roms          # two edited Time Pilot '84 sets, b
 konami/demo_tp84.sh sumkept ~/roms           # genuine against the edit with the ROM sums kept: screen flips, controls swap, message printed
 ```
 
+**Universal, Nintendo and Taito America** (MAME's Lua scripting; each script runs both sides, prints the logs and
+writes the GIF; any edited set is built from your own zip into a temporary folder):
+
+```bash
+universal/demo_mrdu.sh ~/roms                # Mr. Do! against the bootleg Mr. Du!: the diamond gives 1 credit, or 41
+nintendo/demo_dkjr.sh ~/roms                 # Junior King climbs; genuine Donkey Kong Jr. with one checked tile changed falls
+nintendo/demo_popeye.sh ~/roms               # Popeye: 3 lives against 4 after the high-score sum fails
+taito/demo_sdungeon.sh ~/roms                # Space Dungeon: the delayed check fires on the 64th event
+```
+
 More commands (the genuine-board runs, the MAME debugger steps, the verify scripts, Centipede, the slam-switch scan,
 the whole-collection search) and full instructions: [docs/USAGE.md](docs/USAGE.md#every-maker-at-a-glance).
 Sets worth collecting: [docs/ROMLIST.md](docs/ROMLIST.md).
@@ -394,7 +448,8 @@ Sets worth collecting: [docs/ROMLIST.md](docs/ROMLIST.md).
 ## Caveats
 
 - Confirmed by disassembly and emulation, **not yet on real hardware**.
-- Z80 games are scanned statically (no Z80 emulator yet).
+- The Taito Z80 games are scanned statically (no Z80 emulator here); the Z80 games added later (Mr. Do!, Donkey Kong
+  Jr., Popeye) were run in MAME.
 - Which real boards had one of the Part II input lines high is unknown. MAME leaves them low (Taito's wiring),
   so the trap is off there unless you poke the flag. If you have a genuine or bootleg Part II board: are port 0
   bits 1 and 3 (both grounded on Taito's schematic) really tied low on yours, and how is that link made? Does the
@@ -413,12 +468,28 @@ Sets worth collecting: [docs/ROMLIST.md](docs/ROMLIST.md).
   the ROM test's sum, because a one-byte edit is stopped by the ROM test first; it also uses a RAM poke to open the
   rare checks, and free play because a coin did not register in MAME. The comparison with the original Time Pilot is
   from TCRF's Time Pilot page, not from running that game.
+- Battlezone: the board with "ATARO" is a simulation (no bootleg in MAME changed the copyright). The credit count is
+  read from RAM, because the game doesn't show it; the 100,000-point run poked the score to 99,000, and the kill after
+  it was the game's own.
+- Space Dungeon: one scripted-play seed; the delayed check was shown with its counter poked to 63, the 64th event
+  natural (in the attract demo).
+- Mr. Do!: no known software check to test the method against. Mr. Du!'s 41 credits were shown with one RAM write,
+  the random roll at the first natural chance of a diamond; the spawn, the pick-up and the award were natural (a run
+  with nothing written found three diamonds in about 155 emulated hours, none usable). "With chip" means MAME's chip.
+  One of the two sums (check A) is from the code only.
+- Donkey Kong Jr.: scripted play reached screen 1 only; `dkingjrv` is not in the 0.277 sets.
+- Popeye: the high-score and copyright triggers were poked (the score; the copyright sum's sequence state), and the
+  edit was made in MAME's decrypted copy of the program, because the ROM files are encrypted.
 - TCRF: its Time Pilot (Arcade) and Track & Field (Arcade) pages were read by hand before I was banned from the site
   (it doesn't allow AI agents). TCRF was not checked for Time Pilot '84, so "not found in the sources checked" for it rests
-  on other sources only. TCRF links in these docs are not checked by the link checker, by request.
+  on other sources only. TCRF was not checked either for the five games added in November 2026 (Battlezone, Space
+  Dungeon, Mr. Do!, Donkey Kong Jr., Popeye); for Donkey Kong Jr. a YouTube video links to a TCRF description of a
+  piracy check, which may cover what is here. TCRF links in these docs are not checked by the link checker, by request.
 - "Right" means bit 6 of input port 1, the standard Space Invaders wiring.
 - "Not found in the sources checked" means not found online, in Computer Archeology, 6502disassembly.com or the
-  arcade history databases, and, except for Time Pilot '84 (see the TCRF note above), in TCRF. If you know otherwise, open an issue; I'd love to hear it.
+  arcade history databases, and, except for Time Pilot '84 and the five games added in November 2026 (see the TCRF
+  note above), in TCRF. For those five, each doc lists the sources it checked: MAME's driver sources and change
+  history, MAME Testers, Arcade Museum forum threads, jammarcade.net, Arcade History, Arcade Database and others. If you know otherwise, open an issue; I'd love to hear it.
 
 ## Prior art
 
@@ -429,8 +500,19 @@ Other anti-copying tricks from the same era that are documented:
   evidence in court that the bootleg *Magic Worm* was copied from its code
   ([Arcade Blogger](https://arcadeblogger.com/2019/06/29/atari-centipedes-hidden-code-trap/),
   [6502disassembly.com](https://6502disassembly.com/va-centipede/Centipede_rev4.html)).
+- **Battlezone (Atari, 1980)**: **Andy McFadden's commented disassembly**
+  ([6502disassembly.com](https://6502disassembly.com/va-battlezone/)) documents both of its copyright checks: the
+  sum used when credits are deducted, and the check that stops the saucer sounds after 100,000 points and is never
+  cleared. The measured effects above (each Start adds 26 credits; the game stops at the second bonus tank) and Desert
+  Wars being unaffected are all this repo adds.
 - **Donkey Kong (1981)** checks part of "NINTENDO" in its copyright line and freezes if it has been changed
-  ([TCRF](https://tcrf.net/Donkey_Kong_(Arcade))).
+  ([TCRF](https://tcrf.net/Donkey_Kong_(Arcade)); furrykef's [dkdasm](https://github.com/furrykef/dkdasm)). Donkey
+  Kong Jr.'s check above uses the same routine at the same addresses.
+- **Mr. Do! (Universal, 1982)**: its protection chip, the screens it leaves uncleared and the NOP bypass that Mr. Lo!
+  uses were described on the [Arcade Museum forum](https://forums.arcade-museum.com/threads/mr-do-pcb.386835/) in
+  2016; the EXTRA letters that stay lit are [MAME Testers 08201](https://mametesters.org/view.php?id=8201).
+- **Popeye (Nintendo, 1982)**: the protection device, and the reset without it, are described at
+  [jammarcade.net](https://jammarcade.net/popeye-tech-info/) (2017) and in MAME's driver.
 - **Track & Field (Konami, 1983)**, above, works like Donkey Kong's check (the copyright line, and a stopped game) and
   like Time Pilot's (below), but adds hidden games-started counters with thresholds, and arming that stays for good
   in battery-backed RAM. Its hidden "©KONAMI 1983" message was published by cmonkey on UKVAC in 2016; the counters, the permanent arming
@@ -457,13 +539,16 @@ Other anti-copying tricks from the same era that are documented:
   [UKVAC](https://www.ukvac.com/forum/threads/taito-3-pcb-invaders-boardset-resetting.75648/)); MAME's driver notes
   the two lines are tied low on Taito's schematic. The credit trap behind the same check was not found in the sources checked.
 - **Space Dungeon (Taito America, 1981)** has an untriggered message, "STOLEN FROM THE GOOD BUDDY'S AT TAITO
-  BY AN UNAUTHORIZED DO BADDER" ([TCRF](https://tcrf.net/Space_Dungeon)).
+  BY AN UNAUTHORIZED DO BADDER" ([TCRF](https://tcrf.net/Space_Dungeon)); [pronama.jp](https://pronama.jp/2024/05/31/space-dungeon/)
+  (2024) says no command displays it. The code agrees: it is never shown (above).
 - General Computer's "kick me for a free game" story, told second-hand
   ([Ned Batchelder](https://nedbatchelder.com/blog/200404/arcade_copy_protection)); not found, see above.
 
-What's different here: the Lunar Rescue, Part II and Asteroids Deluxe traps actually run, they're tied to a copy
-check, and the Lunar Rescue one pays out on real bootlegs (Destination Earth, Escape from Mars, one version of Moon
-Lander). On the Konami side, and not on TCRF's Time Pilot page: Track & Field's hidden games-started counters and
+Not found in the sources checked: that the Lunar Rescue, Part II and Asteroids Deluxe traps actually run, that they're
+tied to a copy check, and that the Lunar Rescue one pays out on real bootlegs (Destination Earth, Escape from Mars, one
+version of Moon Lander). For the later games: Mr. Do!'s sums over its protection code and Mr. Du!'s 41 credits;
+Popeye's three ROM sums and what its bootlegs did about them; Donkey Kong Jr.'s check and how its bootlegs dodged it;
+Space Dungeon's checksums. On the Konami side, and not on TCRF's Time Pilot page: Track & Field's hidden games-started counters and
 thresholds, its permanent arming in battery-backed RAM, a real bootleg (Atlant Olimpic) caught by it in normal play,
 and Time Pilot '84's on-screen accusation. Wrecking the game on failure, as Time Pilot '84 does, was already in Atari's
 Tempest and Millipede; only the accusation and its particular effects (lives, screen flip, control swap) are Konami's.
@@ -476,8 +561,26 @@ Tempest and Millipede; only the accusation and its particular effects (lives, sc
 - [6502disassembly.com: Centipede](https://6502disassembly.com/va-centipede/Centipede_rev4.html), commented disassembly
 - [arcade-history.com: Lunar Rescue](https://www.arcade-history.com/game/1418/)
 - [MAME machine data: Space Invaders Part II](https://data.spludlow.co.uk/mame/machine/invadpt2)
-- MAME's driver sources (`8080bw.cpp`, `asteroid.cpp`, `centiped.cpp`, `pokey.cpp`, `trackfld.cpp`, `tp84.cpp`), for memory maps, inputs and
-  POKEY behaviour
+- MAME's driver sources (`8080bw.cpp`, `asteroid.cpp`, `centiped.cpp`, `pokey.cpp`, `trackfld.cpp`, `tp84.cpp`,
+  [`bzone.cpp`](https://github.com/mamedev/mame/blob/mame0285/src/mame/atari/bzone.cpp),
+  [`mrdo.cpp`](https://github.com/mamedev/mame/blob/mame0285/src/mame/universal/mrdo.cpp),
+  [`dkong.cpp`](https://github.com/mamedev/mame/blob/mame0285/src/mame/nintendo/dkong.cpp),
+  [`popeye.cpp`](https://github.com/mamedev/mame/blob/mame0285/src/mame/nintendo/popeye.cpp),
+  [`qix.cpp`](https://github.com/mamedev/mame/blob/mame0285/src/mame/taito/qix.cpp)), for memory maps, inputs,
+  POKEY behaviour and the protection hardware; MAME commit
+  [16a0695af](https://github.com/mamedev/mame/commit/16a0695afe88108dc69edcde75f39aa2057d7de4), which swapped the names
+  `popeyebl` and `popeyeb2` in 2018
+- [Andy McFadden: Battlezone, commented disassembly](https://6502disassembly.com/va-battlezone/), the source of both
+  Battlezone checks
+- [furrykef/dkdasm](https://github.com/furrykef/dkdasm), the Donkey Kong disassembly whose check was the control for
+  Donkey Kong Jr.
+- [MAME Testers 08201](https://mametesters.org/view.php?id=8201) and the Arcade Museum forum threads
+  ["Mr. Do PCB"](https://forums.arcade-museum.com/threads/mr-do-pcb.386835/) and
+  ["WTB: Security IC used in Popeye"](https://forums.arcade-museum.com/threads/wtb-security-ic-used-in-popeye.557068/)
+- [jammarcade.net: Popeye tech info](https://jammarcade.net/popeye-tech-info/) and
+  [Not In Mame: Popeye pcb (bootleg) repair](https://notinmame.blogspot.com/2018/05/popeye-pcb-bootleg-repair.html)
+- [Arcade Database: Space Dungeon](https://adb.arcadeitalia.net/dettaglio_mame.php?game_name=sdungeon&lang=en) and
+  [pronama.jp: Space Dungeon](https://pronama.jp/2024/05/31/space-dungeon/)
 - [List of Taito games (Wikipedia)](https://en.wikipedia.org/wiki/List_of_Taito_games)
 - [robotron-2084.co.uk: Taito Space Invaders Part II 3-layer board stack](https://www.robotron-2084.co.uk/hardware/boardset/taito-space-invaders-part-ii-3-layer-board-stack), board photos and Taito's
   schematics (CPU AA017757, ROM AA017756A, I/O and sound PV070010); thanks for making them available
