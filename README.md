@@ -38,8 +38,8 @@ Which of these were published before, and which weren't found in the sources che
 
 ## The makers in brief
 
-**Taito (1979).** Lunar Rescue's trap is armed by an altered copyright line: in MAME, on a genuine Taito board it
-switches itself off a few seconds after power-up, and on a bootleg it stays live. Part II's is armed by a missing
+**Taito (1979).** Lunar Rescue's trap is armed by an altered copyright line: in the emulator, a genuine Taito set
+switches the trap off a few seconds after power-up, and a set with the copyright changed leaves it live. Part II's is armed by a missing
 ground link on the board. Interpretation: both look designed to work only on copied boards.
 
 **Atari (1980).** **Asteroids Deluxe** (the first two revisions) quietly gives away 2 credits at random game overs once
@@ -86,16 +86,16 @@ the check, it flips the screen and swaps the controls on alternate frames, takes
 
 Each time the title screen draws "© TAITO CORPORATION", a routine reads three bytes of screen memory *inside the
 letters of "TAITO"* and compares them with what they should be. If they match, the trap's "armed" flag is cleared and the trap is
-dead: on a genuine board, the trap disarms itself 2.6 seconds after switch-on. But if a bootlegger changed the
-copyright line, which they routinely did to sell copies under another name, the check fails, the flag stays set,
-and anyone who knows the combo gets free games on the bootlegger's machine: 3 credits for P1 Start + Fire + Right
-in attract mode.
+dead: in this repo's 8080 emulator, a genuine `lrescue` disarms the trap 2.6 seconds after switch-on. But if a bootlegger changed the
+copyright line, which they routinely did to sell copies under another name, the check fails and the flag stays set, so in the
+emulator the combo gives free games: 3 credits for P1 Start + Fire + Right in attract mode. The real bootlegs that did this
+were run in the same emulator (see below); no real board was tested.
 
 | Genuine `lrescue` | Bootleg `desterth` (Destination Earth) |
 |---|---|
 | <img src="docs/img/lrescue-genuine.gif" width="360" alt="lrescue, buttons held then released: the credit counter stays at 0"> | <img src="docs/img/lrescue-desterth.gif" width="360" alt="desterth, buttons held then released: the credit counter goes to 03"> |
 
-*Same buttons (P1 Start + Fire + Right) held in the attract demo, then released once the credit counter changes. Genuine: nothing. Destination Earth: 3 credits. Made with `scripts/trapdemo.py --gif`.*
+*In this repo's 8080 emulator, not MAME. Same buttons (P1 Start + Fire + Right) held in the attract demo, then released once the credit counter changes. Genuine: nothing. Destination Earth (a real bootleg set, unedited): 3 credits. Nothing poked. Made with `scripts/trapdemo.py --gif`.*
 
 Full details: [docs/lunar-rescue.md](docs/lunar-rescue.md).
 

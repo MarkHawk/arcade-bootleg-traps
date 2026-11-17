@@ -48,7 +48,7 @@ attract-mode demo.
   screen memory inside the word "TAITO" ($2B47=$7F, $2C47=$44, $2E27=$40).
   If they match, $20ED is cleared and the routine is dead.
 - So the combo only works if the copyright line has been **changed** (e.g. a bootleg relabelled
-  with another company's name). On a genuine board it never fires.
+  with another company's name). In emulation a genuine set never fires it; no real board was tested.
 - A second check at $46A0 (called from $43D0 during play) sums another column of that text
   and diverts to $0362 if it's wrong. This looks like more anti-bootleg logic.
 
@@ -56,10 +56,11 @@ attract-mode demo.
 "© TAITO CORPORATION", a routine reads three bytes of screen memory *inside the letters of "TAITO"*
 and compares them with what they should be. If they match, the flag is cleared and the trap is dead.
 
-So on a genuine board, the trap disarms itself 2.6 seconds after switch-on. But if a bootlegger
-changed the copyright line, which they routinely did to sell copies under another name, the check
-fails, the flag stays set, and anyone who knows the combo gets free games on the bootlegger's
-machine.
+So in this repo's 8080 emulator, a genuine `lrescue` disarms the trap 2.6 seconds after switch-on
+(frame 156). But if a bootlegger changed the copyright line, which they routinely did to sell copies
+under another name, the check fails and the flag stays set, so in the emulator the combo gives free
+games. These are emulation results from this repo's emulator (the MAME steps further down are a way to reproduce
+them), not real hardware.
 
 | Genuine `lrescue` | Bootleg `desterth` (Destination Earth) |
 |---|---|
