@@ -13,7 +13,7 @@ on a board without a genuine POKEY sound chip. In **Battlezone**, whose checks A
 changed copyright makes every Start *add* 26 credits. Mostly, instead of locking up a copied board, these games make it lose
 money for whoever is operating it.
 
-Universal's **Mr. Do!** (1982) did it with a bootleg's own help. The game guards its protection chip with checksums over
+In Universal's **Mr. Do!** (1982), a bootlegger set off the trap themselves. The game guards its protection chip with checksums over
 the code that reads it. One real bootleg, **Mr. Du!**, put back a branch the code it copied had lost and fixed the ROM
 test's sum so that its self-test passes, but in that code the branch acts on a checksum that fails: **taking the
 diamond gives 41 credits instead of 1**.
