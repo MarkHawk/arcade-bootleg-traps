@@ -22,7 +22,7 @@ locked-up board, or a quietly spoiled game. Everything here comes from disassemb
 | [**Donkey Kong Jr.**](docs/nintendo-donkey-kong-jr.md) | Nintendo | 1982 | a changed copyright tile breaks the vine table: Jr. can't hold a vine | all eight working bootlegs pass: five dodged it (letters blanked in the graphics [ROM](#terms-used), or the screen address moved); three left the copyright line alone | [GIF](#donkey-kong-jr-nintendo-1982) |
 | [**Popeye**](docs/nintendo-popeye.md) | Nintendo | 1982 | a device decodes the level data; three software sums on top (test mode, random lives, a lost credit) | two bootlegs imitated the device with a 32-byte PROM and switched off the power-on and high-score ROM sums | [GIF](#popeye-nintendo-1982) |
 | [**Track & Field**](docs/konami-track-and-field.md) | Konami | 1983 | an edited copyright line, the code that draws it or one data byte locks the board, some checks only after 50, 1,500 or 4,000 games | Atlant Olimpic (1996) trips check 6 in MAME and freezes at the attract demo | [GIF](#track--field-konami-1983) |
-| [**Time Pilot '84**](docs/konami-time-pilot-84.md) | Konami | 1984 | an edited "© KONAMI" or stored message: the check that runs every frame flips the screen and swaps the controls on alternate frames, the set-up checks take all the lives, and the rare checks print an accusation | no bootleg known (simulated here) | [GIF](#time-pilot-84-konami-1984) |
+| [**Time Pilot '84**](docs/konami-time-pilot-84.md) | Konami | 1984 | an edited "© KONAMI" or stored message: the check that runs every frame flips the screen and swaps the controls on alternate frames, two other checks take all the lives, and the rare checks on the copyright print an accusation | no bootleg known (simulated here) | [GIF](#time-pilot-84-konami-1984) |
 
 Every Taito and Atari listing in this repo is checked against the real ROMs by `scripts/verify.py` (Taito) and
 `atari/verify_atari.py` (Atari), and every free-credit trap is shown working in an emulator, with the genuine board
@@ -127,7 +127,7 @@ displays the other. When a game ends with a **new top score**, it checks every b
 copy; a bootlegger who put their own name in the copyright changed only the copy that is drawn, so the two differ,
 and a flag is set for good. From then on, the board gives itself 2 credits at about 1 game over in 3, on the
 high-score table. So the board pays out at random, only to people who play well, and only after someone has set a
-top score, which makes it far harder to notice than Lunar Rescue's combo.
+top score. Interpretation: that would make it far harder to notice than Lunar Rescue's combo.
 
 | Genuine board | Copyright changed |
 |---|---|
@@ -193,7 +193,7 @@ Full details: [docs/taito-space-dungeon.md](docs/taito-space-dungeon.md).
 
 ## Mr. Do! (Universal, 1982)
 
-Mr. Do!'s board has a protection chip, a PAL that answers four codes; without it screens are not cleared and the EXTRA
+Mr. Do!'s board has a protection chip, a [PAL](#terms-used) that answers four codes; without it screens are not cleared and the EXTRA
 letters stay lit. That much is published. On top of it, the game **sums the code that asks the chip**, and a failed sum
 changes the game quietly rather than stopping it. One of those sums runs when the diamond gives its free credit: if it fails, the
 credit count is set to the wrong sum plus 1.
@@ -214,9 +214,8 @@ Full details, including the chip without its answers and the other bootlegs: [do
 
 ## Donkey Kong Jr. (Nintendo, 1982)
 
-Donkey Kong (1981) sums six letters of "NINTENDO" and freezes if they have been changed; that check is published. For
-Donkey Kong Jr., a piracy check is shown in a YouTube video ("Donkey Kong Jr. - Piracy Check") that links to TCRF; that description
-was not read.
+Donkey Kong (1981) sums six letters of "NINTENDO" and freezes if they have been changed; that check is published. (A piracy
+check for Donkey Kong Jr. in a YouTube video is covered under [Prior art](#prior-art).)
 **Donkey Kong Jr. has the same check at the same addresses**, pointed at seven tiles in the middle of its title-screen
 copyright line. A failed sum builds the screen's vine table in the wrong place, so **Jr. can't hold a vine**: the game
 doesn't freeze, it just can't be won. **No working bootleg in MAME trips it.** All eight sum the checked bytes to zero;
@@ -261,9 +260,9 @@ by two hidden games-started counters that the game keeps for nothing else, so th
 or 4,000 games. Copyright checks as such had been done before: Konami's Time Pilot had a dense set of them in 1982 (see
 [Prior art](#prior-art)); the counters, with their thresholds, and the arming are what Track & Field adds.
 
-And it has caught a **real bootleg**. **Atlant Olimpic** (1996), an Italian bootleg of Hyper Olympic, moved the
+And a **real bootleg's ROMs trip it in MAME**. **Atlant Olimpic** (1996), an Italian bootleg of Hyper Olympic, moved the
 copyright line off screen and draws "GEORGIA 1996" in its place, which fails **check 6**. In normal play, a 3- or
-4-player game that reaches the round 1 high jump makes the game itself set that check's flag in battery-backed RAM,
+4-player game that reaches the round 1 high jump makes the game itself set that check's flag in [battery-backed RAM](#terms-used),
 and from then on the board freezes at the attract demo after every game and every power-on, until the RAM is cleared.
 The code that sets the flag is byte for byte the same in genuine Hyper Olympic; there I had to force the flag to show
 check 6 passing, because the genuine game has no continues.
@@ -286,16 +285,17 @@ because the armed state is kept in battery-backed RAM.
 Genuine: attract mode carries on. "KNNAMI": the board resets about once a second from then on. Made with
 `konami/demo.sh 2`.*
 
-Full details, including the recovery, the watchdog and the bootleggers' own board-lock checks:
+Full details, including the recovery, the [watchdog](#terms-used) and the bootleggers' own board-lock checks:
 [docs/konami-track-and-field.md](docs/konami-track-and-field.md).
 
 ## Time Pilot '84 (Konami, 1984)
 
 Time Pilot '84 checksums its copyright, "© KONAMI", and a stored message, "THIS IS AN ILLEGAL DUPLICATE OF KONAMI'S
-ORIGINAL PCBOARD", which is drawn only when a check fails. When a sum is wrong the game doesn't stop: it **takes all
-your lives, flips the screen and swaps the controls between the two players on every frame, and prints that
-message**. There are two layers. The board's own power-on ROM test sums each ROM block, so a careless one-byte edit is
-caught at power-on ("ROM2 BAD") and the board halts. The hidden checks catch the pirate who rebalanced the ROM sums,
+ORIGINAL PCBOARD", which is drawn only when a check fails. When a sum is wrong the game doesn't stop, and what happens
+depends on the check: the one that runs on every frame of play **flips the screen and swaps the controls between the
+two players on alternate frames**, two other checks (one at set-up, one on the message) **take all your lives**, and the rare checks on the copyright
+**print that message**. There are two layers. The board's own power-on ROM test sums each ROM block, so a careless
+one-byte edit is caught at power-on ("ROM2 BAD") and the board halts. The hidden checks catch the pirate who rebalanced the ROM sums,
 simulated here by also changing the year. No bootleg of it is known in MAME, so the demonstration is simulated.
 Checks like these were already in Konami's original Time Pilot (1982), and failing by sabotage rather than a stop was
 already in Atari's Tempest and Millipede (see [Prior art](#prior-art)); what was not found in the sources checked
@@ -342,9 +342,9 @@ The other makers' bootlegs, each run in MAME 0.285:
 | `popeyebl`, `popeyeb2` | Popeye (Japan) | device imitated by a 32-byte PROM; the power-on and high-score ROM sums switched off; `popeyeb2` also stops drawing the copyright | **dodged** in play; the service-mode ROM test now fails |
 | `popeyeb3` | Popeye | `popeyeu`'s device-free code (pre-decoded level data), sum table recalculated | nothing tripped |
 | **Desert Wars** (`dsrtwars`, Andra) | Battlezone | kept "ATARI 1980" and both checks | **unaffected** |
-| **Atlant Olimpic** (`atlantol`, Italy, 1996) | Konami's Hyper Olympic | moved the copyright line off screen | **tripped: Track & Field's check 6 fails and the board freezes** ([details](docs/konami-track-and-field.md#atlant-olimpic-a-real-bootleg-caught-by-check-6)) |
+| **Atlant Olimpic** (`atlantol`, Italy, 1996) | Konami's Hyper Olympic | moved the copyright line off screen | **tripped: Track & Field's check 6 fails and the board freezes** ([details](docs/konami-track-and-field.md#atlant-olimpic-a-real-bootlegs-roms-trip-check-6)) |
 
-So two bootlegs outside Taito's family tripped a check: Mr. Du!, which pays out, and Atlant Olimpic, which freezes. The
+So two bootlegs outside Taito's family tripped a check in MAME: Mr. Du!, which pays out, and Atlant Olimpic, which freezes. The
 rest dodged the checks, removed them, or never touched what they guard. Interpretation: whether the dodging was
 deliberate can't be told from the bytes; blanking a graphics ROM, or skipping a draw call, was also simply the easiest
 way to remove a copyright line.
@@ -357,13 +357,13 @@ The full version: [docs/bootleg-results.md](docs/bootleg-results.md#so-what-was-
 
 ## Was this policy?
 
-On the evidence so far, the deliberate free-credit traps were a tactic of 1979–80, when copied boards were everywhere.
+Interpretation: on the evidence so far, the deliberate free-credit traps were a tactic of 1979–80, when copied boards were everywhere.
 Later games punished edited boards quietly or stopped them; the one later payout found, Mr. Du!'s, comes from a failed
 checksum, and whether anyone meant it as a payout can't be told (see Universal below).
 
 - **Taito:** the original 1978 Space Invaders has no trap, only an easter egg. Both 1979 games put the trap in the
   **add-on ROM at `$4000`** and tie it to an anti-copy check. Through the 1980s Taito moved to **hardware
-  protection**: custom microcontrollers the game can't run without. Since checked: Balloon Bomber, Lupin III,
+  protection**: custom microcontrollers ([MCUs](#terms-used)) the game can't run without. Since checked: Balloon Bomber, Lupin III,
   Polaris, Space Chaser, Indian Battle and Steel Worker (no trap), and the Z80 games that followed: Crazy Balloon,
   Space Cruiser, Space Seeker, Alpine Ski, Wild Western, Jungle King, Front Line, Elevator Action (no trap). The
   Elevator Action bootleg had to patch nine places to run without Taito's 68705 protection chip: by 1983 the
@@ -388,13 +388,13 @@ checksum, and whether anyone meant it as a payout can't be told (see Universal b
 - **Konami:** copyright checks rather than payouts, from 1982 to 1984. The original Time Pilot (1982) already had a
   dense set of them, with event-triggered checks, many checksums and palette checks, failing by reset, hang or garbage
   graphics ([TCRF](https://tcrf.net/Time_Pilot_(Arcade))). In 1983 Track & Field locked up edited boards instead of paying out on copies, adding hidden
-  games-started counters and arming kept for good in battery-backed RAM; one of its checks has since caught a real
-  1996 bootleg (Atlant Olimpic). In 1984 Time Pilot '84 failed by sabotage, as Atari's Tempest and Millipede already did, and added an on-screen
+  games-started counters and arming kept for good in battery-backed RAM; one of its checks fails on the ROMs of a real
+  1996 bootleg (Atlant Olimpic), in MAME. In 1984 Time Pilot '84 failed by sabotage, as Atari's Tempest and Millipede already did, and added an on-screen
   accusation.
 
 ## How it was found
 
-1. Disassembled the program ROMs: Intel 8080 for the Taito games, 6502 for the Atari ones. (Atari's Lunar Lander was
+1. Disassembled the program ROMs: Intel 8080 for the Taito games, 6502 for the Atari ones (see [Terms used](#terms-used) for the CPUs). (Atari's Lunar Lander was
    checked first as a control, an unrelated 1979 game on a 6502, and is clean: see [docs/lunar-lander-clean.md](docs/lunar-lander-clean.md).)
 2. Found the credit counter by inserting coins in the emulator, then traced **every** instruction that writes it.
    Anything other than "coin in" and "start pressed" is suspicious.
@@ -429,8 +429,23 @@ Space Invaders' "TAITO COP" in other companies' games.
 
 ## Try it yourself
 
-ROMs are not included; use your own MAME sets (the results here are from MAME 0.277 sets; Konami's and the five games
-added in November 2026 from MAME 0.285, with 0.277 sets).
+ROMs are not included: you need your own MAME sets.
+
+**Requirements**
+
+- **Python 3.8 or later** for the Taito scanner and the verify scripts. **Pillow** (`pip install pillow`) is needed to
+  write screenshots and GIFs. **z80dis** (`python3 -m pip install z80dis`) is needed only to scan the Z80 games.
+- **MAME 0.285**, with `mame` on your path (or set `MAME=/path/to/mame`), for the Lua demos. They run through
+  `scripts/mame.sh`, which needs bash and the standard `timeout` and `nice`.
+- **A ROM folder** (the examples use `~/roms`), holding one zip per game named by its MAME short name, such as
+  `lrescue.zip` or `bzone.zip`. Keep each clone's parent zip beside it, and add device zips where a demo needs one
+  (Space Dungeon needs `m68705p3.zip`). Merged sets work with the Taito scanner, which expands the clones inside them
+  itself. For the MAME demos, `mame -verifyroms <set>` passing on your folder is the test. The sets each demo needs are
+  listed in [docs/USAGE.md](docs/USAGE.md#the-november-2026-demos) and [docs/ROMLIST.md](docs/ROMLIST.md).
+
+**Versions used.** The Taito and earlier Atari results are from MAME 0.277 ROM sets. The Konami results and the five
+later games (Battlezone, Space Dungeon, Mr. Do!, Donkey Kong Jr. and Popeye) were run in MAME 0.285, with ROM sets from
+0.277. Other versions are untested; ROM names and checksums change between MAME releases.
 
 **Taito** (pure Python 3: a disassembler, a signature scanner and an 8080 emulator of the Space Invaders board):
 
@@ -508,19 +523,19 @@ Sets worth collecting: [docs/ROMLIST.md](docs/ROMLIST.md).
 - Popeye: the high-score and copyright triggers were poked (the score; the copyright sum's sequence state), and the
   edit was made in MAME's decrypted copy of the program, because the ROM files are encrypted.
 - TCRF: TCRF does not allow automated or AI access. Its Time Pilot, Track & Field, Tempest, Millipede and Space
-  Invaders pages were consulted before that was known; it was not checked for Time Pilot '84 or the five games added
-  in November 2026 (Battlezone, Space Dungeon, Mr. Do!, Donkey Kong Jr., Popeye), so "not found in the sources
-  checked" for those rests on other sources only. For Donkey Kong Jr. a YouTube video links to a TCRF description of a
-  piracy check, which was not read. TCRF links in these docs are not checked by the link checker, by request.
+  Invaders pages were consulted before that was known; it was not checked for Time Pilot '84 or the five later games
+  (Battlezone, Space Dungeon, Mr. Do!, Donkey Kong Jr., Popeye), so "not found in the sources
+  checked" for those rests on other sources only. The Donkey Kong Jr. YouTube video is covered under [Prior art](#prior-art). TCRF links in these docs are not checked by the link checker, by request.
 - "Right" means bit 6 of input port 1, the standard Space Invaders wiring.
 - "Not found in the sources checked" means not found online, in Computer Archeology, 6502disassembly.com or the
-  arcade history databases, and, except for Time Pilot '84 and the five games added in November 2026 (see the TCRF
+  arcade history databases, and, except for Time Pilot '84 and the five later games (see the TCRF
   note above), in TCRF. For those five, each doc lists the sources it checked: MAME's driver sources and change
   history, MAME Testers, Arcade Museum forum threads, jammarcade.net, Arcade History, Arcade Database and others. If you know otherwise, open an issue; I'd love to hear it.
 
 ## Prior art
 
-Other anti-copying tricks from the same era that are documented:
+Other anti-copying tricks from the same era that are documented. The Time Pilot, Tempest and Millipede entries rest on
+TCRF pages read by hand earlier and not rechecked:
 
 - **Centipede (Atari, 1980)** adds credits when its POKEY isn't genuine (above), and hid a data pattern that spells
   "COPYRIGHT 1980 ATARI" in Morse code once decoded. The Morse pattern does nothing at run time; Atari used it as
@@ -578,10 +593,8 @@ Not found in the sources checked: that the Lunar Rescue, Part II and Asteroids D
 tied to a copy check, and that the Lunar Rescue one pays out on real bootlegs (Destination Earth, Escape from Mars, one
 version of Moon Lander). For the later games: Mr. Do!'s sums over its protection code and Mr. Du!'s 41 credits;
 Popeye's three ROM sums and what its bootlegs did about them; how Donkey Kong Jr.'s bootlegs dodged its check, and the
-E kit's broken copy of it; Space Dungeon's checksums. Already published: Donkey Kong's check; for Donkey Kong Jr.'s,
-a piracy check is shown in a YouTube video ("Donkey Kong Jr. - Piracy Check") that links to TCRF; that description
-was not read. On the Konami side, and not on TCRF's Time Pilot page: Track & Field's hidden games-started counters and
-thresholds, its permanent arming in battery-backed RAM, a real bootleg (Atlant Olimpic) caught by it in normal play,
+E kit's broken copy of it; Space Dungeon's checksums. Already published: Donkey Kong's check (and see its entry above for Donkey Kong Jr.). On the Konami side, and not on TCRF's Time Pilot page: Track & Field's hidden games-started counters and
+thresholds, its permanent arming in battery-backed RAM, a real bootleg (Atlant Olimpic) tripping it in MAME in scripted normal play,
 and Time Pilot '84's on-screen accusation. Wrecking the game on failure, as Time Pilot '84 does, was already in Atari's
 Tempest and Millipede; only the accusation and its particular effects (lives, screen flip, control swap) are Konami's.
 
