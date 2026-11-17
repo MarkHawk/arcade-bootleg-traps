@@ -1,5 +1,7 @@
 # Time Pilot '84 (Konami, 1984) – copy checks that wreck the game and print an accusation
 
+[Back to the README](../README.md)
+
 MAME sets `tp84`, `tp84a` and `tp84b`. Two 6809s (main CPU tag `cpu1`, unencrypted) and a Z80 for sound. No
 battery-backed RAM. Program ROMs at `$8000–$FFFF`. Addresses below are `tp84`'s.
 

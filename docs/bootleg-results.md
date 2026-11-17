@@ -1,5 +1,7 @@
 # Results across 149 Taito-family sets in a MAME 0.277 collection
 
+[Back to the README](../README.md)
+
 Scanned with `batch.py` (merged zips expanded; clone ROMs placed by matching the parent's code).
 
 ## Summary: it worked on real bootlegs

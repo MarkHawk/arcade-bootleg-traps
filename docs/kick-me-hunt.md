@@ -1,5 +1,7 @@
 # The "kick me for a free game" story – looked for, not found
 
+[Back to the README](../README.md)
+
 ## In short
 
 Ned Batchelder [heard a story](https://nedbatchelder.com/blog/200404/arcade_copy_protection) at General Computer

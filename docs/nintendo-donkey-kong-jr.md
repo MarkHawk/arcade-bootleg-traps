@@ -1,5 +1,7 @@
 # Donkey Kong Jr. (Nintendo, 1982) – a copyright check that breaks the vines, and the bootlegs that dodged it
 
+[Back to the README](../README.md)
+
 MAME sets `dkongjr` (US), `dkongjrj` and `dkongjnrj` (Japan), `dkongjre` (E kit), `dkongjr2` (question-marked in MAME
 as a possible bootleg) and the bootlegs `dkongjrpb`, `dkingjr`, `dkongjrb`, `jrking` (Junior King), `maguila` (Up
 Maguila), `dkongjrm` and `dkongjrmc` (on Moon Cresta hardware). One Z80. Addresses are Z80 CPU addresses, written

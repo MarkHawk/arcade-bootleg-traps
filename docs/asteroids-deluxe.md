@@ -1,5 +1,7 @@
 # Asteroids Deluxe (Atari, 1980–81) – the copyright check that pays out
 
+[Back to the README](../README.md)
+
 MAME sets: `astdelux1` (revision 1), `astdelux2` (revision 2), `astdelux` (revision 3). 6502 CPU.
 Program ROMs: 036430 $6000, 036431 $6800, 036432 $7000, 036433 $7800. Code also runs from the "vector ROM"
 area: 036800 $4800 and 036799 $5000. Work RAM $0000–$03FF, vector RAM $4000–$47FF, POKEY $2C00 (random number

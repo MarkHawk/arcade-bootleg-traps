@@ -1,5 +1,7 @@
 # The easter egg that travelled: "TAITO COP" in other companies' games
 
+[Back to the README](../README.md)
+
 ## In short
 
 Space Invaders' hidden "TAITO COP" message turns up in other companies' games built on Taito's code. In

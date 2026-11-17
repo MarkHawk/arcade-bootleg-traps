@@ -1,5 +1,7 @@
 # Lunar Rescue (Taito, 1979) – hidden credit routine
 
+[Back to the README](../README.md)
+
 ROM map: lrescue.1–.4 at $0000–$1FFF, lrescue.5–.6 at $4000–$4FFF. 8080 CPU, Space Invaders-style I/O.
 Work RAM $2000–$23FF, video RAM $2400–$3FFF.
 

@@ -1,5 +1,7 @@
 # Lunar Lander (Atari, 1979) – fuel/credit path notes
 
+[Back to the README](../README.md)
+
 Program ROM image: 0x6000–0x7FFF (f1, de1, c1, b1). RESET/IRQ $7B84, NMI $7AA8 (rev 2).
 
 ## Inputs actually read by game code

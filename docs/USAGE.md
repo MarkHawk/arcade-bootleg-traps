@@ -1,5 +1,7 @@
 # trapscan
 
+[Back to the README](../README.md)
+
 Tools for finding hidden credit routines ("free-play backdoors") in 8080 Space Invaders-family
 arcade ROMs: Taito, Midway and their bootlegs, 1978–81.
 

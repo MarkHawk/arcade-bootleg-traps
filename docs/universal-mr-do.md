@@ -1,5 +1,7 @@
 # Mr. Do! (Universal, 1982) – a protection chip, sums over the code that reads it, and a bootleg that pays 41 credits
 
+[Back to the README](../README.md)
+
 MAME sets `mrdo` (Universal), `mrdoy` (prototype), `mrdot` and `mrdofix` (Taito licence), and the bootlegs and hack
 `mrdobl`, `mrdofabr` (Fabremar), `mrdu` (Mr. Du!), `mrlo` (Mr. Lo!) and `yankeedo` (Yankee DO!, a hack). One Z80.
 Addresses are Z80 CPU addresses in `mrdo` unless a set is named. MAME 0.285, ROMs from 0.277 sets.

@@ -1,5 +1,7 @@
 # Centipede (Atari, 1980) – free credits on boards without a genuine POKEY
 
+[Back to the README](../README.md)
+
 MAME set `centiped` (revision 4) and clones. 6502 CPU. Program ROMs 136001-407 to -410 at $2000–$3FFF; POKEY at
 $1000 (`$100A` = random number, `$100F` = SKCTL). Credit count: **`$C8`**, a plain
 binary count (no `SED` is in force in any code that touches it): coins add to it with `INC $C8` (`$3487`, and
