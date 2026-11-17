@@ -23,7 +23,7 @@ the vines; **Popeye** (1982) adds three software sums to its protection device, 
 lives. The bootlegs of both dodged the checks. And the "STOLEN FROM ... TAITO" message in Taito America's **Space
 Dungeon** (1981) is never shown: the real protection is silent code checksums.
 
-Konami went the other way. **Track & Field** (1983) pays out nothing: it locks up a board whose copyright line has
+Konami, like Nintendo, pays nothing out. **Track & Field** (1983) locks up a board whose copyright line has
 been edited, and half of its checks wait for 50, 1,500 or 4,000 games first, long after the board has been sold. One
 real bootleg, **Atlant Olimpic** (1996), has tripped it. **Time Pilot '84** (1984) doesn't lock up: it takes your
 lives, flips the screen, swaps the controls and prints an accusation.
@@ -138,8 +138,8 @@ Full details: [docs/centipede.md](docs/centipede.md).
 
 Both of Battlezone's checks are published, in **Andy McFadden's commented disassembly**
 ([6502disassembly.com](https://6502disassembly.com/va-battlezone/)); what this section adds is only what they do when
-run. The game checks the *drawing* of "© ATARI 1980": two sums over the start of each frame's vector display list,
-where the copyright's character calls sit. One of them **sets the price of a game**: Start subtracts it from the
+run. The game checks the *drawing* of "© ATARI 1980": a sum and an XOR over the start of each frame's vector display
+list, where the copyright's character calls sit. One of them **sets the price of a game**: Start subtracts it from the
 credits. On a genuine board it is 1. With one letter changed it is −26 (`$E6`), so **each Start adds 26 credits**. The
 other catches the board later: at the second bonus tank (100,000 points by default) the game **stops for good**. The
 one bootleg in MAME, Desert Wars, kept Atari's copyright line, so neither check fires.
@@ -173,8 +173,8 @@ Full details: [docs/taito-space-dungeon.md](docs/taito-space-dungeon.md).
 ## Mr. Do! (Universal, 1982)
 
 Mr. Do!'s board has a protection chip, a PAL that answers four codes; without it screens are not cleared and the EXTRA
-letters stay lit. That much is published. On top of it, the game **sums the code that asks the chip**, so that patching
-that code changes the game quietly. One of those sums runs when the diamond gives its free credit: if it fails, the
+letters stay lit. That much is published. On top of it, the game **sums the code that asks the chip**, and a failed sum
+changes the game quietly rather than stopping it. One of those sums runs when the diamond gives its free credit: if it fails, the
 credit count is set to the wrong sum plus 1.
 
 And a **real bootleg trips it**. **Mr. Du!** (`mrdu`) is built on the Taito-licensed code, in which that sum no longer
@@ -230,8 +230,8 @@ Full details, including the device and the bootlegs' PROM: [docs/nintendo-popeye
 
 ## Track & Field (Konami, 1983)
 
-Konami's protection works the other way round from the traps above: it catches pirates who **edit** the ROMs, not
-straight copies, and it stops the game instead of giving credits away. **Track & Field** (Hyper Olympic in Japan)
+Konami's protection works the other way round from the Taito and Atari payouts: it catches pirates who **edit** the
+ROMs, not straight copies, and it stops the game instead of giving credits away. **Track & Field** (Hyper Olympic in Japan)
 has six checks on the "© KONAMI 1983" line, the code that draws it and one data byte. Three of them are held back
 by two hidden games-started counters that the game keeps for nothing else, so they only switch on after 50, 1,500
 or 4,000 games. Copyright checks as such had been done before: Konami's Time Pilot had a dense set of them in 1982 (see
@@ -394,9 +394,9 @@ checksum, and whether anyone meant it as a payout can't be told (see Universal b
    found" there is weaker.
 8. Space Dungeon (6809): a disassembler checked against `unidasm`, and a decode of every byte offset of the ROM to
    look for anything that could print the message. Battlezone: Andy McFadden's disassembly first, then MAME runs.
-9. One rule for every MAME run from step 7 on: an edited zip is the only folder on the ROM path, and the run logs the
-   bytes MAME actually loaded. With the real ROM folder as a second path, MAME rejects the edited file on its checksum
-   and silently loads the genuine one, which first turned up as a false "no effect" in the Donkey Kong work.
+9. One rule for the MAME runs in steps 7 and 8: an edited zip is the only folder on the ROM path, and the run logs
+   the bytes MAME actually loaded. With the real ROM folder as a second path, MAME rejects the edited file on its
+   checksum and silently loads the genuine one; that turned up in the Donkey Kong control runs.
 
 Two side trails: [the "kick me for a free game" story](docs/kick-me-hunt.md), looked for and not found (that search
 is what turned up Asteroids Deluxe and Centipede), and [the easter egg that travelled](docs/easter-egg-travelled.md),
