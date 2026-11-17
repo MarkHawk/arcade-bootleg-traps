@@ -3,7 +3,7 @@
 Run from the repo root: python3 scripts/linkcheck.py
 
 External links are never fetched. tcrf.net links are listed as "not checked,
-by request" (TCRF does not allow AI agents; see CLAUDE.md).
+by request" (TCRF does not allow automated or AI access; see CLAUDE.md).
 """
 import re
 from pathlib import Path

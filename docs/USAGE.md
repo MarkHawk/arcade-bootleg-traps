@@ -1,9 +1,10 @@
-# trapscan
+# Usage
 
 [Back to the README](../README.md)
 
-Tools for finding hidden credit routines ("free-play backdoors") in 8080 Space Invaders-family
-arcade ROMs: Taito, Midway and their bootlegs, 1978–81.
+`trapscan` finds hidden credit routines ("free-play backdoors") in 8080 Space Invaders-family
+arcade ROMs: Taito, Midway and their bootlegs, 1978–81. The MAME Lua demos for the later games (Atari, Konami, Universal,
+Nintendo and Taito America) are listed under [Every maker at a glance](#every-maker-at-a-glance).
 
 They came out of reverse-engineering two 1979 Taito games, where both turned out to contain
 anti-bootleg traps that hand out credits on a secret button combination: see the main README.
@@ -30,8 +31,9 @@ python3 trapscan.py run lrescue.zip --frames 1720 \
 
 These are the commands the main README used to list in full; it now keeps one example per maker.
 
-ROMs are not included; use your own MAME sets (the results here are from MAME 0.277 sets; Konami's and the five games
-added in November 2026 from MAME 0.285, with 0.277 sets).
+ROMs are not included: you need your own MAME sets. The requirements (Python, Pillow, z80dis, MAME version and the
+ROM folder) and the versions used for each result are in the README's
+[Try it yourself](../README.md#try-it-yourself).
 
 **Taito** (pure Python 3: a disassembler, a signature scanner and an 8080 emulator of the Space Invaders board):
 
