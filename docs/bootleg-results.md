@@ -121,3 +121,9 @@ gave free credits, exactly as described in [lunar-rescue.md](lunar-rescue.md). I
 those copies were real. A cocktail table makes no difference: the trap reads the player 1 controls whatever the
 cabinet type. (Atari's [Asteroids Deluxe trap](asteroids-deluxe.md) is in a different game from the club's Asteroids; nothing like it turned
 up in the original Asteroids.)
+
+## Prior art and sources checked
+
+This list was written after the fact, from the sources the README names (its Prior art and Caveats) and the ones this doc already cites. It is not a log of searches made at the time.
+
+Sources: Computer Archeology, 6502disassembly.com and the arcade history databases, as the README's Caveats name them. The set lists come from a MAME 0.277 collection and a MAME 0.78 collection (data, not sources of claims); the per-game docs list what each was compared with. TCRF: TCRF does not allow automated or AI access. Its pages were consulted earlier, before TCRF's policy on automated access was known, and were not rechecked.

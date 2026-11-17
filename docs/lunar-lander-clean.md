@@ -43,3 +43,9 @@ Program ROM image: 0x6000–0x7FFF (f1, de1, c1, b1). RESET/IRQ $7B84, NMI $7AA8
 
 ## Anti-tamper
 - NMI at $7AE1: ($00 XOR $C1 XOR $C2) must equal $85, otherwise it spins until the watchdog resets.
+
+## Prior art and sources checked
+
+This list was written after the fact, from the sources the README names (its Prior art and Caveats) and the ones this doc already cites. It is not a log of searches made at the time.
+
+Sources: Computer Archeology, 6502disassembly.com and the arcade history databases, as the README's Caveats name them. No other source is cited in this doc. TCRF: TCRF does not allow automated or AI access. Its pages were consulted earlier, before TCRF's policy on automated access was known, and were not rechecked.

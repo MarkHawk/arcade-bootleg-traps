@@ -155,3 +155,13 @@ egg: it now spells "TAITO CORP", and its first step no longer needs Left and Rig
    Set it at the moment the trap reads it instead: `bpset 418c,1,{b@20e3=1;g}`.
 3. Reset and hold P1 Start + P2 Start + Fire + Left from power-on. The trap runs once per attract cycle, about
    4 seconds in (frame 233): credits go to 2 (both $20EB and $20CC), and the held Start begins a game.
+
+## Prior art and sources checked
+
+This list was written after the fact, from the sources the README names (its Prior art and Caveats) and the ones this doc already cites. It is not a log of searches made at the time.
+
+Published, and not claimed here: the board check's reset half, in the [Arcade Museum forum thread](https://forums.arcade-museum.com/threads/taito-3-board-space-invaders-part-2-bad-shifter-causes-resets.504475/) (2022) and the [UKVAC thread](https://www.ukvac.com/forum/threads/taito-3-pcb-invaders-boardset-resetting.75648/); Taito's schematics via [robotron-2084.co.uk](https://www.robotron-2084.co.uk/hardware/boardset/taito-space-invaders-part-ii-3-layer-board-stack); and the notes in MAME's driver (tied low on the schematic).
+
+Not found in the sources checked: the credit trap behind the same check, armed by exactly one line wrong (README, Prior art). Neither thread mentions it.
+
+Sources: those pages, plus Computer Archeology, 6502disassembly.com and the arcade history databases, as the README's Caveats name them. TCRF: TCRF does not allow automated or AI access. Its pages were consulted earlier, before TCRF's policy on automated access was known, and were not rechecked.

@@ -63,3 +63,11 @@ built on the same idea as Lunar Rescue: a copy check that quietly gives free cre
 - In the story the trap only arms after 100 plays. A static search still sees the credit write, so this doesn't
   hide it, but nothing here was run for 100 games.
 - The story may describe a scheme that never shipped.
+
+## Prior art and sources checked
+
+This list was written after the fact, from the sources the README names (its Prior art and Caveats) and the ones this doc already cites. It is not a log of searches made at the time.
+
+The story is Ned Batchelder's, second-hand: [Arcade copy protection](https://nedbatchelder.com/blog/200404/arcade_copy_protection) (2004), cited above.
+
+Sources: that page, plus Computer Archeology, 6502disassembly.com and the arcade history databases, as the README's Caveats name them. The searches of ROM text and code are listed under "Where I looked" above, and are the work of this repo, not a source. TCRF: TCRF does not allow automated or AI access. Its pages were consulted earlier, before TCRF's policy on automated access was known, and were not rechecked.

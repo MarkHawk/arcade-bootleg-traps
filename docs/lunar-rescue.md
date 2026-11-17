@@ -84,3 +84,11 @@ Which real bootlegs pay out: [bootleg-results.md](bootleg-results.md).
    so set `b@20ed=1` after the second one (~10 s from power-on). When the attract demo starts
    (~27 s), hold P1 Start + Fire + Right. Credits jump to 3.
 3. Or with trapscan: `python3 trapscan.py run lrescue.zip --poke 20ed=1@600 --hold start1+fire+right@1600-1700 --watch 20eb`
+
+## Prior art and sources checked
+
+This list was written after the fact, from the sources the README names (its Prior art and Caveats) and the ones this doc already cites. It is not a log of searches made at the time.
+
+Not found in the sources checked: the credit routine at `$47D8`, its arming by the copyright check, and that it pays out on real bootlegs (README, Prior art).
+
+Sources: Computer Archeology, 6502disassembly.com and the arcade history databases, as the README's Caveats name them. TCRF: TCRF does not allow automated or AI access. Its pages were consulted earlier, before TCRF's policy on automated access was known, and were not rechecked. The other docs and results are linked above: [bootleg-results.md](bootleg-results.md).
