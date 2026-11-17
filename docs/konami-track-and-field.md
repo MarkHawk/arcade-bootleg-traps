@@ -303,12 +303,20 @@ From the repo root, with your MAME ROM folder (`trackfld.zip`, merged, or `track
 python3 konami/build_roms.py ~/roms         # checks the genuine CRCs, writes konami/roms/check1..6
 konami/demo.sh 2 ~/roms                     # logs: konami/out/demo_check2_{genuine,edited}.log
 konami/demo.sh 1 ~/roms
+konami/demo_repair.sh ~/roms                # the "For repairers" runs: battery kept, Erase on Reset, good ROM, flat battery
 ```
+
+Every run goes through `scripts/mame.sh` (a fresh, empty NVRAM folder, headless) with **one folder** on the ROM
+path: your own folder for the genuine side, `konami/roms/checkN` alone for the edit. Each `konami/roms/checkN` is a
+complete copy of your zip with one chip changed (and, for split sets, an unchanged copy of the parent `trackfld.zip`),
+because with your own folder as a second path MAME rejects the edited chip on its checksum and silently loads the
+genuine one. The logs list the ROM bytes under test as the CPU reads them.
 
 `konami/demo_check1.lua` and `konami/demo_check2.lua` hold the inputs and forces; `konami/lib_demo.lua` the
 breakpoints on each check's run, pass and fail addresses (MAME's debugger, started with `-debug -debugger none`).
-On Windows, run the two `mame trackfldu ... -autoboot_script konami/demo_check2.lua` commands from `konami/demo.sh`
-by hand, with `TF_SIDE` set to `genuine` or `edited`.
+On Windows, run `mame trackfldu -rompath ... -debug -debugger none -autoboot_script konami/demo_check2.lua` by hand
+with `TF_SIDE` set to `genuine` or `edited`, a fresh NVRAM folder each time, and only one folder on the ROM path (yours
+for genuine, `konami/roms/check2` for the edit).
 
 Atlant Olimpic needs no edited ROMs (genuine sets only):
 
@@ -319,8 +327,10 @@ konami/demo_atlantol.sh natural ~/roms      # no RAM writes at all; about 20 min
 ```
 
 `konami/demo_atlantol.lua` plays the natural run, `konami/demo_check6.lua` the forced-flag and recovery runs (with
-`TF_WATCHDOG=180` it simulates a 3-second watchdog). Logs and snapshots go to `konami/out/`; each run starts from an
-empty NVRAM folder, except step 2 of `recovery`, which reuses the NVRAM step 1 saved.
+`TF_WATCHDOG=180` it simulates a 3-second watchdog). Both log the loaded copyright entry (`$A6B6`: `36 CA` in
+`hyprolym`, `37 F0` in `atlantol`). Each run uses a one-folder copy of your set made by `scripts/patchzip.py` (with the
+parent `trackfld.zip` for split sets). Logs and snapshots go to `konami/out/`; each run starts from an empty NVRAM
+folder, except step 2 of `recovery`, which reuses the NVRAM step 1 saved (`scripts/mame.sh`'s `MAME_KEEP_NVRAM`).
 
 ## For repairers
 
@@ -331,7 +341,7 @@ second, and keep doing so after being switched off and on, exactly like the edit
 real board do this; it follows from the code and the runs below.
 
 What clears it (MAME runs on the "KNNAMI" edit, armed as above; the battery-backed RAM is carried over between runs
-except where the table says it is empty):
+except where the table says it is empty; `konami/demo_repair.sh`):
 
 | Run | Result |
 |---|---|

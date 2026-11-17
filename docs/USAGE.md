@@ -67,6 +67,7 @@ More on the Atari scripts: [Atari tools](#atari-tools-atari) below.
 python3 konami/build_roms.py ~/roms          # one-byte edits of trackfldu, built from your own set into konami/roms/
 konami/demo.sh 2 ~/roms                      # "KONAMI" -> "KNNAMI", counter at 1,499: genuine passes, edited boot-loops
 konami/demo.sh 1 ~/roms                      # $C418 changed: genuine plays on, edited freezes in the high jump
+konami/demo_repair.sh ~/roms                 # check 2 armed: battery kept, Erase on Reset, good ROM back, flat battery
 konami/demo_atlantol.sh check6 ~/roms        # Atlant Olimpic against genuine Hyper Olympic, check 6 armed: genuine carries on, atlantol freezes
 konami/demo_atlantol.sh recovery ~/roms      # frozen; still frozen with the NVRAM kept; running with it cleared
 konami/demo_atlantol.sh natural ~/roms       # no RAM writes: a 3-player game sets the flag itself (about 20 minutes)
@@ -75,8 +76,10 @@ konami/demo_tp84.sh onebyte ~/roms           # "KONAMI" -> "KNNAMI": the power-o
 konami/demo_tp84.sh sumkept ~/roms           # the edit with the ROM sums kept: lives lost, screen flips, controls swap, message printed
 ```
 
-Each run starts from an empty NVRAM and writes its log to `konami/out/` (the one exception is step 2 of the `recovery`
-demo, which reuses the NVRAM step 1 saved). The Atlant Olimpic demos need no edited ROMs; the Time Pilot '84 ones are
+Each run goes through `scripts/mame.sh`, starts from an empty NVRAM and writes its log to `konami/out/` (the
+exceptions, which reuse the NVRAM an earlier step saved, are step 2 of the `recovery` demo and runs 2 to 4 of
+`demo_repair.sh`). Every run has one folder on the ROM path: your own, or a one-folder copy made by
+`konami/build_roms.py`, `konami/build_tp84.py` or `scripts/patchzip.py`. The Atlant Olimpic demos need no edited ROMs; the Time Pilot '84 ones are
 built from your own `tp84.zip` by `konami/build_tp84.py`. `konami/gif_pair.py` (needs Pillow) makes the side-by-side
 GIF. More on the Konami demos: [konami-track-and-field.md](konami-track-and-field.md#rerun),
 [konami-time-pilot-84.md](konami-time-pilot-84.md#rerun).
@@ -352,7 +355,7 @@ taito/demo_sdungeon.sh     Space Dungeon demo; Lua: taito/sdungeon_delayed.lua
 universal/demo_mrdu.sh     Mr. Do! against Mr. Du!; Lua: universal/mrdu_diamond.lua
 nintendo/demo_dkjr.sh      Donkey Kong Jr. demo; Lua: nintendo/dkjr_vine.lua
 nintendo/demo_popeye.sh    Popeye demo; Lua: nintendo/popeye_lives.lua
-scripts/mame.sh            the MAME wrapper the demos above use
+scripts/mame.sh            the MAME wrapper every MAME demo above uses (Konami's included)
 scripts/patchzip.py        an edited copy of one of your zips, in a one-folder rompath under tmp/
 scripts/gif_pair.py        side-by-side captioned GIF from two runs' snapshots
 docs/                  write-ups and this guide

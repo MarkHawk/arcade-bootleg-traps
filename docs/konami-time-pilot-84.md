@@ -172,7 +172,9 @@ python3 konami/gif_pair.py konami/out/tp84_sumkept_genuine.log konami/out/tp84_s
     konami/out/tp84_sumkept_edited.log konami/out/tp84_sumkept_edited/tp84 "KNNAMI 1985 f{f}" pair.gif 990-1012
 ```
 
-Each run takes a few seconds with `-nothrottle`. `konami/demo_tp84.lua` holds the inputs, the poke and the
+Each run goes through `scripts/mame.sh` with one folder on the ROM path: your own folder for the genuine side,
+`konami/roms/tp84_VARIANT` alone (a copy of your `tp84.zip` with the chip changed) for the edit; the log starts with
+the copyright bytes the checks read, as loaded. Each run takes a few seconds with `-nothrottle`. `konami/demo_tp84.lua` holds the inputs, the poke and the
 breakpoints on each check; the logs list every change of `$57C8`, which input byte was read, the message commands and
 each check's run and fail. The GIF tool needs Pillow (`pip install pillow`).
 
