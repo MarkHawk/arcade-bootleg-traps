@@ -8,9 +8,8 @@ data CPU addresses. MAME 0.285, ROMs from 0.277 sets. No bootleg of Space Dungeo
 
 ## In short
 
-The data CPU's ROM holds the message **"STOLEN FROM THE GOOD BUDDY'S AT TAITO BY AN UNAUTHORIZED DO BADDER"**, listed
-as untriggered on TCRF ([Space Dungeon](https://tcrf.net/Space_Dungeon); TCRF was not checked for this work, see the
-caveats). I looked for
+The data CPU's ROM holds the message **"STOLEN FROM THE GOOD BUDDY'S AT TAITO BY AN UNAUTHORIZED DO BADDER"**, quoted
+by the sources under [Prior art and sources checked](#prior-art-and-sources-checked). I looked for
 a way it could be shown, as Time Pilot '84 shows its accusation. **Nothing the game runs prints it.** The only
 instruction naming its address sits in a block of filler-like bytes that no code enters, and even with the CPU forced
 into that block the text does not appear.
@@ -82,7 +81,7 @@ No run printed the STOLEN text.
 Interpretation: the STOLEN text is an unused message. Its place straight after the "." string, and the `LDY #$FAF2` in
 the bytes that follow, could suggest a display that was planned and never wired in, but the ROM does not show that.
 The protection that is wired in punishes quietly, and the one check that would catch an edited copyright text is
-switched off with `BRN`, deliberately or by accident.
+switched off with `BRN`. Interpretation: whether that was done deliberately or by accident can't be told from the code.
 
 ## Rerun
 
@@ -101,7 +100,7 @@ Both sides are built by `scripts/patchzip.py` (an unchanged copy for genuine, so
 The message is quoted in [Arcade Database](https://adb.arcadeitalia.net/dettaglio_mame.php?game_name=sdungeon&lang=en)
 and [Arcade History](https://www.arcade-history.com/?id=2526&n=space-dungeon&page=detail) ("Developer messages are
 hidden in the ROM chip sd19"), and [pronama.jp](https://pronama.jp/2024/05/31/space-dungeon/) (2024) says no command
-displays it and reads it as possibly aimed at unauthorised copies. The finding here agrees: it is unused.
+displays it and reads it as possibly aimed at unauthorised copies (pronama.jp's interpretation; the alternative, a leftover developer note, can't be excluded). The finding here agrees only that it is unused.
 
 Not found in the sources checked: the checksums, the delayed check, the disabled even-byte sum and the block's
 contents. Sources checked: those three pages; MAME 0.285 [`qix.cpp`](https://github.com/mamedev/mame/blob/mame0285/src/mame/taito/qix.cpp)
@@ -111,8 +110,7 @@ discussion of the phrase (none found).
 ## Caveats
 
 - MAME 0.285, emulation only, not real hardware.
-- TCRF's Space Dungeon page was not checked for this work (TCRF doesn't allow AI agents); "untriggered" is quoted from
-  this repo's earlier prior-art list. The developer-credit command was worked out from the code, not taken from TCRF.
+- TCRF's Space Dungeon page was not read for this work: TCRF does not allow automated or AI access. Nothing here rests on it. The developer-credit command was worked out from the code.
 - The delayed check was shown only with its counter poked to 63 (the 64th event natural, in the attract demo); in a
   game the event needs the second level or deeper, which the scripted player did not reach. The `$E41A` check was not
   reached.

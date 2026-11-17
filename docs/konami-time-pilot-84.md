@@ -25,9 +25,8 @@ it ([TCRF](https://tcrf.net/Tempest_(Arcade)), [TCRF](https://tcrf.net/Millipede
 the sources checked is the on-screen accusation.
 
 There are two layers. The board's own **power-on ROM test** adds up each 8 KB ROM block, so a careless one-byte edit
-is caught before the game starts ("ROM2 BAD", then the board halts and resets). The **hidden checks** catch the
-pirate who edited the copyright *and* rebalanced the ROM sums so that the test still passes. That case is simulated
-here by also changing the last digit of the year, which keeps the block sum the same.
+is caught before the game starts ("ROM2 BAD", then the board halts and resets). The **hidden checks** are triggered by an edit that changes the copyright *and* rebalances the ROM sums so that the test still passes. That case is simulated
+here by also changing the last digit of the year, which keeps the block sum the same. Interpretation: that looks like the case they were built for, a copier who fixed the sums; the alternative is that they are general integrity checks with no particular copier in mind.
 
 <img src="img/timepilot84-pair.gif" width="720" alt="Time Pilot '84, genuine on the left, the edited copyright on the right: the edited game flips upside down every other frame and prints THIS IS AN ILLEGAL DUPLICATE OF KONAMI'S ORIGINAL PCBOARD">
 

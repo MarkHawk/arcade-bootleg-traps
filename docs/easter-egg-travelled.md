@@ -64,8 +64,8 @@ Confirmed in this repo's emulator, which has a Space Stranger board (`trapscan/b
 
 Nichibutsu's Rolling Crash (MAME's title: "Rolling Crash / Moon Base"; not the Part II-based Moon Base Zeta) keeps the egg routine unchanged, still called during the
 demo, still reading port $01. But the nine characters it prints have been overwritten with spaces, while the
-copyright text next to it was changed from "TAITO CORPORATION" to "NICHIBUTSU CORP". That looks deliberate:
-someone saw "TAITO COP" in the data and blanked it, without removing the code. Triggered, it draws nothing.
+copyright text next to it was changed from "TAITO CORPORATION" to "NICHIBUTSU CORP". Interpretation: that looks deliberate,
+someone who saw "TAITO COP" in the data and blanked it without removing the code; the alternative is that the blanking has another cause, which the code alone can't rule out. Triggered, it draws nothing.
 (This one is from the code only: Rolling Crash's colour video hardware isn't emulated here.)
 
 ## A false lead: Space Battle
