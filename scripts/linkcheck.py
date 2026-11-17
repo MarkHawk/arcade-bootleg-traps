@@ -35,6 +35,9 @@ bad = n = 0
 tcrf, other = set(), set()
 for f in files:
     t = f.read_text()
+    # Links inside code fences and inline code are examples, not links.
+    t = re.sub(r'```.*?```', '', t, flags=re.S)
+    t = re.sub(r'`[^`\n]*`', '', t)
     targets = (re.findall(r'\]\(((?:[^()\s]|\([^()\s]*\))+)(?:\s+"[^"]*")?\)', t)
                + re.findall(r'(?:src|href)="([^"]+)"', t))
     for tg in targets:

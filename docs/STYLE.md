@@ -5,7 +5,7 @@ How to add a new game to this repo so it matches the existing sections. Every ne
 ## Language
 
 - UK English (colour, licence, neutralised). No em dashes anywhere: use a colon, a comma, or two sentences. The one dash in use is a spaced en dash between a doc's title and its tagline (see Doc), and en dashes in year ranges (1979–84).
-- Plain words first. Explain a term the first time it appears in a section, or link it to [Terms used](README.md#terms-used). Add new terms to that list.
+- Plain words first. Explain a term the first time it appears in a section, or link it to [Terms used](../README.md#terms-used). Add new terms to that list.
 - Short sentences. One idea per sentence where possible.
 - Set names in backticks (`mrdu`), game names in plain text, a bootleg's on-screen name in bold the first time (**Mr. Du!**).
 - Hex with a `$` prefix (`$6245`), the same across README and doc: this is what every doc uses except two. Donkey Kong Jr.'s doc uses `#` (`#2441`) to match the dkdasm listing it was checked against; Mr. Do!'s doc uses `0x` (`0xE006`). A new doc uses `$`. Quote source-code labels exactly, in backticks (`WCURS`).
