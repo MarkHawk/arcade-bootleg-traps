@@ -483,6 +483,8 @@ More commands (the genuine-board runs, the MAME debugger steps, the verify scrip
 the whole-collection search) and full instructions: [docs/USAGE.md](docs/USAGE.md#every-maker-at-a-glance).
 Sets worth collecting: [docs/ROMLIST.md](docs/ROMLIST.md).
 
+How new games are added: [docs/STYLE.md](docs/STYLE.md).
+
 ## Caveats
 
 - Confirmed by disassembly and emulation, **not yet on real hardware**.
