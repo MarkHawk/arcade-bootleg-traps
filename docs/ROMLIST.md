@@ -192,6 +192,20 @@ separate 68705 dump in the MAME set.
 
 ---
 
+## 5. Later games from other makers (added November 2026)
+
+Not on the 8080 board; each has its own doc and demo. MAME 0.285 with 0.277 sets.
+
+| Game | Sets | Doc |
+|---|---|---|
+| Battlezone (Atari, 1980) | `bzone`, `bzonea`, `bzonec`; bootleg `dsrtwars` | [atari-battlezone.md](atari-battlezone.md) |
+| Space Dungeon (Taito America, 1981) | `sdungeon`, `sdungeona`; needs the device ROM `m68705p3` | [taito-space-dungeon.md](taito-space-dungeon.md) |
+| Mr. Do! (Universal, 1982) | `mrdo`, `mrdoy`, `mrdot`, `mrdofix`; bootlegs `mrdobl`, `mrdofabr`, ★ `mrdu`, `mrlo`; hack `yankeedo` | [universal-mr-do.md](universal-mr-do.md) |
+| Donkey Kong Jr. (Nintendo, 1982) | `dkongjr`, `dkongjrj`, `dkongjnrj`, `dkongjre`, `dkongjr2`; bootlegs `dkongjrpb`, `dkingjr`, `dkongjrb`, ★ `jrking`, `maguila`, `dkongjrm`, `dkongjrmc` (`dkingjrv` not in 0.277); control: `dkong` | [nintendo-donkey-kong-jr.md](nintendo-donkey-kong-jr.md) |
+| Popeye (Nintendo, 1982) | `popeye`, `popeyeu`, `popeyef`, `popeyej`, `popeyejo`; bootlegs ★ `popeyebl`, ★ `popeyeb2`, `popeyeb3`; kit `popeyehs` | [nintendo-popeye.md](nintendo-popeye.md) |
+
+---
+
 ## Lead worth following: MAME bug #09074
 
 MAME Testers bug 9074 (found in 0.273, verified, unfixed): on `lrescue`, `desterth`, `escmars`,

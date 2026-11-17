@@ -28,7 +28,8 @@ python3 trapscan.py run lrescue.zip --frames 1720 \
 
 These are the commands the main README used to list in full; it now keeps one example per maker.
 
-ROMs are not included; use your own MAME sets (the results here are from MAME 0.277 sets, Konami's from 0.285).
+ROMs are not included; use your own MAME sets (the results here are from MAME 0.277 sets; Konami's and the five games
+added in November 2026 from MAME 0.285, with 0.277 sets).
 
 **Taito** (pure Python 3: a disassembler, a signature scanner and an 8080 emulator of the Space Invaders board):
 
@@ -79,6 +80,18 @@ demo, which reuses the NVRAM step 1 saved). The Atlant Olimpic demos need no edi
 built from your own `tp84.zip` by `konami/build_tp84.py`. `konami/gif_pair.py` (needs Pillow) makes the side-by-side
 GIF. More on the Konami demos: [konami-track-and-field.md](konami-track-and-field.md#rerun),
 [konami-time-pilot-84.md](konami-time-pilot-84.md#rerun).
+
+**Battlezone, Space Dungeon, Mr. Do!, Donkey Kong Jr. and Popeye** (MAME's Lua scripting; each script runs both sides
+through `scripts/mame.sh`, prints the logs and writes a side-by-side GIF; see [below](#the-november-2026-demos)):
+
+```bash
+atari/demo_bzone.sh credits ~/roms     # Battlezone: genuine 1 -> 0, "ATARO" 1 -> 27 -> 53 (about 20 s)
+atari/demo_bzone.sh 100k ~/roms        # score poked to 99,000, the next kill natural: genuine plays on, ATARO stops (about 1 min)
+taito/demo_sdungeon.sh ~/roms          # Space Dungeon: counter poked to 63, the 64th event natural; edited sum 6B, penalty (about 30 s)
+universal/demo_mrdu.sh ~/roms          # Mr. Do! against Mr. Du!: credits 00 -> 01 against 00 -> 41 at frame 7491 (about 30 s)
+nintendo/demo_dkjr.sh ~/roms           # jrking climbs, genuine with #37FC changed drops back, unedited genuine climbs (about 20 s)
+nintendo/demo_popeye.sh ~/roms         # Popeye: lives setting 3 against 4 after the high-score sum fails (about 1 min)
+```
 
 To search a whole collection, any manufacturer, for the Taito trap code and its arming checks: `sigsearch.py`
 ([below](#search-a-whole-mame-collection-for-the-trap-code)).
@@ -284,6 +297,33 @@ and every write to the credit count, and flags `SLAM->CREDIT` if a slam read lea
 search, so it needs no ROM layout: addresses in its report are offsets inside
 each ROM file.
 
+## The November 2026 demos
+
+Five demos, one per game, each reproducing the GIF its section of the README leads with:
+
+| Script | Lua | Sets needed | Edited ROM |
+|---|---|---|---|
+| `atari/demo_bzone.sh credits\|100k` | `atari/bzone_credits.lua`, `atari/bzone_100k.lua` | `bzone` | `036411-01.k1` +`0x734` `26` -> `32` ("ATARI" to "ATARO") |
+| `taito/demo_sdungeon.sh` | `taito/sdungeon_delayed.lua` (uses MAME's debugger) | `sdungeon`, `m68705p3` | `sd15.u15` +`0xDDA` `40` -> `41` |
+| `universal/demo_mrdu.sh` | `universal/mrdu_diamond.lua` | `mrdo` (with `mrdu`) | none: Mr. Du! is a real dump |
+| `nintendo/demo_dkjr.sh` | `nintendo/dkjr_vine.lua` | `dkongjr` (with `jrking`) | `djr1-c_5b_f-2.5b` +`0x17FC` `C6` -> `C7` |
+| `nintendo/demo_popeye.sh` | `nintendo/popeye_lives.lua` | `popeye` | none on disk: one byte in MAME's decrypted copy, from Lua |
+
+How they run:
+
+- Every MAME call goes through `scripts/mame.sh`, which adds a memory cap (when `systemd-run` is available), a hard
+  time limit, a fresh empty NVRAM and cfg folder per run, and headless video and sound, and refuses a rompath with more
+  than one folder. Snapshots still work from Lua.
+- An edited set is built by `scripts/patchzip.py ROM_FOLDER SET MEMBER:OFFSET:OLD:NEW [--with ZIP]` into a fresh folder
+  under `tmp/`, which is then the **only** folder on the ROM path. If the byte at OFFSET is not OLD, it stops: your set
+  is a different version. `--with` copies another zip unchanged (Space Dungeon needs the 68705 device ROM). The folder
+  is deleted when the demo ends; `tmp/` is not committed.
+- Why one folder: with the real ROM folder as a second path, MAME rejects the edited file on its checksum and silently
+  loads the genuine one, so the run looks like "no effect". Every Lua script therefore also logs the bytes MAME loaded.
+- Logs, snapshots and the GIF go to `atari/out/`, `taito/out/`, `universal/out/` or `nintendo/out/` (not committed).
+  `scripts/gif_pair.py` (needs Pillow) makes the GIF; it is `konami/gif_pair.py` with a footer, a scale, a frame offset
+  for events at different frames, and a `{c}` caption field for a value from the log.
+
 ## Files
 
 ```
@@ -307,6 +347,14 @@ atari/centipede_trap.lua   MAME script: Centipede, genuine POKEY or reads that d
 atari/centipede_probe.lua  MAME script: what Centipede's POKEY check reads on any set (bootlegs included)
 atari/verify_atari.py      check the Atari listings against the real ROMs
 atari/slamscan.py          scan Atari 6502 games for a slam-switch credit trap
+atari/demo_bzone.sh        Battlezone demo (credits, 100k); Lua: atari/bzone_credits.lua, atari/bzone_100k.lua
+taito/demo_sdungeon.sh     Space Dungeon demo; Lua: taito/sdungeon_delayed.lua
+universal/demo_mrdu.sh     Mr. Do! against Mr. Du!; Lua: universal/mrdu_diamond.lua
+nintendo/demo_dkjr.sh      Donkey Kong Jr. demo; Lua: nintendo/dkjr_vine.lua
+nintendo/demo_popeye.sh    Popeye demo; Lua: nintendo/popeye_lives.lua
+scripts/mame.sh            the MAME wrapper the demos above use
+scripts/patchzip.py        an edited copy of one of your zips, in a one-folder rompath under tmp/
+scripts/gif_pair.py        side-by-side captioned GIF from two runs' snapshots
 docs/                  write-ups and this guide
 ```
 
