@@ -108,3 +108,11 @@ bytes. `atari/bzone_credits.lua` and `atari/bzone_100k.lua` hold the inputs and 
 - McFadden's listing also shows `$0370` copied into the vector display list at `$5588`, and a checksum-adjust byte at
   `$5340`; neither was tested here.
 - No bootleg in MAME has its copyright line changed, so the ATARO board is a simulation.
+
+## Prior art and sources checked
+
+This list was written after the fact, from the sources the README names (its Prior art and Caveats) and the ones this doc already cites. It is not a log of searches made at the time.
+
+Published, and not claimed here: both copyright checks, in Andy McFadden's commented disassembly at [6502disassembly.com](https://6502disassembly.com/va-battlezone/), cited in this doc. What this doc adds is the measured effects in MAME and Desert Wars being unaffected.
+
+Sources: McFadden's listing, and MAME's `bzone.cpp` for memory maps and inputs (README, References). TCRF was not checked: TCRF does not allow automated or AI access, and the README lists Battlezone among the games it was not checked for.

@@ -126,3 +126,11 @@ genuine POKEY in other places too, and resets.) `NOPOKEY=0` runs the genuine boa
 reads differ. The check also runs at power-up, so the second board starts with 3
 credits. After that, each coin adds 1 and each Start costs 1 but adds 3: 6, 9, 12... On the genuine board each Start costs
 a credit as normal.*
+
+## Prior art and sources checked
+
+This list was written after the fact, from the sources the README names (its Prior art and Caveats) and the ones this doc already cites. It is not a log of searches made at the time.
+
+Published: the hidden Morse-code data pattern, described by [Arcade Blogger](https://arcadeblogger.com/2019/06/29/atari-centipedes-hidden-code-trap/) and in the commented disassembly at [6502disassembly.com](https://6502disassembly.com/va-centipede/Centipede_rev4.html), both cited in this doc.
+
+Sources: Computer Archeology, 6502disassembly.com and the arcade history databases, as the README's Caveats name them, in addition to the two pages above. TCRF: TCRF does not allow automated or AI access. Its pages were consulted earlier, before TCRF's policy on automated access was known, and were not rechecked.

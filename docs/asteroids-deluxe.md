@@ -170,8 +170,12 @@ In MAME's debugger, by hand: `bpset 7046` never hits on a genuine board. To simu
 set the flag once a game is running (`b@91=1`) and play to a high-score entry; about one game in three, credits
 go up by 2.
 
-## Not found in the sources checked
+## Prior art and sources checked
+
+This list was written after the fact, from the sources the README names (its Prior art and Caveats) and the ones this doc already cites. It is not a log of searches made at the time.
+
+Not found in the sources checked: that the trap runs, that it is tied to a copy check, and that it pays out (README, Prior art).
 
 Sources checked: MAME's driver notes, arcade-history.com, Atari Compendium and The Cutting Room Floor. The
 commented 6502 disassemblies at [6502disassembly.com](https://6502disassembly.com/) cover Asteroids, not
-Asteroids Deluxe. Corrections welcome.
+Asteroids Deluxe. TCRF: TCRF does not allow automated or AI access. Its pages were consulted earlier, before TCRF's policy on automated access was known, and were not rechecked. Corrections welcome.
