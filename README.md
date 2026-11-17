@@ -357,7 +357,8 @@ checksum, and whether anyone meant it as a payout can't be told (see Universal b
 - **Universal:** Mr. Do! (1982) relies on a protection chip, and sums the code that reads the chip. Interpretation: the
   sums make patching that code change the game quietly (scene counters, the diamond's free credit) instead of failing
   visibly. On Universal's code the diamond sum passes and on Taito's its branch was removed; only Mr. Du!'s edit makes
-  it fire, so whether a payout was ever intended can't be told.
+  it fire, so whether a payout was ever intended can't be told. The other case found where a failed sum paid out is
+  Tempest's revision 1, whose buggy anti-piracy checksum could award 40 free credits (see [Prior art](#prior-art)).
 - **Nintendo:** sabotage rather than payouts. Donkey Kong (1981) freezes if "NINTENDO" is changed; Donkey Kong Jr.
   (1982) has the same check at the same addresses and breaks the vines instead. Popeye (1982) relies on a protection
   device and adds three ROM sums: test mode at power-on, random lives after a high-score entry, and a lost credit.
