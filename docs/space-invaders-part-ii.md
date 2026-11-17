@@ -123,7 +123,7 @@ Part II hides the same idea more carefully than Lunar Rescue:
   Repairers already knew the reset half. In a 2022 [Arcade Museum forum thread](https://forums.arcade-museum.com/threads/taito-3-board-space-invaders-part-2-bad-shifter-causes-resets.504475/)
   about a resetting Part II board, HudsonArcade found the check ("it's resetting because the code is telling it
   to"), said it's "specifically to 'prevent' people from swapping ROMs as an upgrade" (Part II ROMs in a plain
-  Space Invaders board), and gave the patch to disable it. What I couldn't find anywhere is the other half: with
+  Space Invaders board), and gave the patch to disable it. What was not found in the sources checked is the other half: with
   exactly one line wrong, the check doesn't reset, it arms a free-credit routine.
 - **There's a second trap that doesn't work.** It's armed if five bytes of the program ROM have been
   changed, but it reads the controls through a helper that leaves a register pointing at ROM. Its

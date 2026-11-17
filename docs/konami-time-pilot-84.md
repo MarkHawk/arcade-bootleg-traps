@@ -15,11 +15,11 @@ swaps the controls between player 1 and player 2 on every frame, and prints that
 check runs on every frame of play and one at game start and similar set-up points; three more wait for a counter, and only open
 about once every 18 minutes of play.
 
-None of this is new in kind: Konami's original Time Pilot (1982) already had many copyright and code checksums, palette
+Each kind of check here was already used before: Konami's original Time Pilot (1982) already had many copyright and code checksums, palette
 checks on the copyright, and checks triggered by game events (see [the comparison below](#compared-with-the-original-time-pilot-1982)).
 Sabotage as such was already in Atari's Tempest and Millipede, whose failed checks cripple the game rather than stop
-it ([TCRF](https://tcrf.net/Tempest_(Arcade)), [TCRF](https://tcrf.net/Millipede_(Arcade))). What I found no write-up
-of is the on-screen accusation.
+it ([TCRF](https://tcrf.net/Tempest_(Arcade)), [TCRF](https://tcrf.net/Millipede_(Arcade))). What was not found in
+the sources checked is the on-screen accusation.
 
 There are two layers. The board's own **power-on ROM test** adds up each 8 KB ROM block, so a careless one-byte edit
 is caught before the game starts ("ROM2 BAD", then the board halts and resets). The **hidden checks** catch the
@@ -146,14 +146,14 @@ description:
 | On failure | reset, hang or garbage graphics | the game keeps running but is wrecked (no lives, screen flipping, controls split) and **prints the accusation** |
 | A stored message | not mentioned | "THIS IS AN ILLEGAL DUPLICATE OF KONAMI'S ORIGINAL PCBOARD", checksummed and drawn only on failure |
 
-What TCRF's Time Pilot page doesn't describe, and what I call new in Time Pilot '84: the on-screen accusation. Failure
-that leaves the game running but wrecked is not new: TCRF says Tempest's failed checks "cripple many aspects of the
+What TCRF's Time Pilot page doesn't describe, and what was not found in the sources checked for Time Pilot '84: the
+on-screen accusation. Failure that leaves the game running but wrecked was already known: TCRF says Tempest's failed checks "cripple many aspects of the
 game during later rounds, rendering further gameplay impossible", and that Millipede's failed copyright checksum makes
 it run arbitrary code every 128 frames until it is unplayable ([Tempest](https://tcrf.net/Tempest_(Arcade)),
 [Millipede](https://tcrf.net/Millipede_(Arcade))). The particular effects here (lives to 0, screen flip, control swap)
 are Konami's own. The two
 layers are not a claim: TCRF lists a boot phase for the original, and I can't tell whether it is the same kind of
-test as this board's power-on ROM test. As far as I can find nothing has been written about Time Pilot '84 itself.
+test as this board's power-on ROM test. Nothing about Time Pilot '84 itself was found in the sources checked.
 
 ## Default high scores
 
@@ -187,7 +187,7 @@ each check's run and fail. The GIF tool needs Pillow (`pip install pillow`).
   not run.
 - The comparison with the original Time Pilot is from TCRF's Time Pilot page, not from running that game.
 - TCRF's Time Pilot (Arcade) page was read by hand before I was banned from the site (it doesn't allow AI agents).
-  TCRF was not checked for Time Pilot '84, so "no write-up found" of the accusation rests on other sources only.
+  TCRF was not checked for Time Pilot '84, so "not found in the sources checked" for the accusation rests on other sources only.
 - I also looked at two other Konami 6809 games, Hyper Sports and Road Fighter. Hyper Sports has no copy check, only
   the already known initials egg. Road Fighter has a coin counter and key checks in battery-backed RAM, but they only
   act if an input line that is low on every board in MAME is wired high; on a normal board they never run.

@@ -168,8 +168,8 @@ In MAME's debugger, by hand: `bpset 7046` never hits on a genuine board. To simu
 set the flag once a game is running (`b@91=1`) and play to a high-score entry; about one game in three, credits
 go up by 2.
 
-## Not found documented
+## Not found in the sources checked
 
-I couldn't find this in MAME's driver notes, arcade-history.com, Atari Compendium or The Cutting Room Floor. The
+Sources checked: MAME's driver notes, arcade-history.com, Atari Compendium and The Cutting Room Floor. The
 commented 6502 disassemblies at [6502disassembly.com](https://6502disassembly.com/) cover Asteroids, not
 Asteroids Deluxe. Corrections welcome.

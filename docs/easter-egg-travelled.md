@@ -82,5 +82,5 @@ python3 scripts/eggdemo.py sstrangr.zip     # -> hoei-cop.png (add --gif for hoe
 In MAME: start Space Stranger, wait for the demo game, hold P2 Start + Fire + Left until it's taken (a second
 or two), then switch to P1 Start + Fire.
 
-As far as I could find, neither the HOEI COP egg nor the blanked one in Rolling Crash has been written up
-before; corrections welcome.
+Neither the HOEI COP egg nor the blanked one in Rolling Crash was found written up in the sources checked (listed
+under the main README's [Caveats](../README.md#caveats)); corrections welcome.

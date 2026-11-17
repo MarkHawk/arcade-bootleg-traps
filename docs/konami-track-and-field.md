@@ -151,14 +151,15 @@ That is why the natural run is so long. It doesn't change when the flag is set.
 
 ## The checks, from the start
 
-Checking the copyright and failing is not new in itself. Donkey Kong (1981) freezes if "NINTENDO" is changed, and
+Checking the copyright and failing had been done before. Donkey Kong (1981) freezes if "NINTENDO" is changed, and
 Konami's own **Time Pilot (1982)** already had a dense set of copyright checks: [TCRF](https://tcrf.net/Time_Pilot_(Arcade)) lists two copies of the
 copyright string drawn on alternate frames and two more in the sprite ROM; checksums of the copyright and of many code
 ranges across six phases (boot, crosshatch, title, demo and gameplay, special checks, high-score entry); palette checks
 on the copyright line and on individual letters ("M", "K", "N"); checks triggered by game events (losing a life, the
 next stage, entering stage 5); and failures by reset, hang or garbage graphics. So **event-triggered checks, multiple
 checksums, and checks on how the copyright is displayed (Time Pilot's palette, Track & Field's screen position) were
-already there in 1982**; see [Prior art](../README.md#prior-art). What I found no write-up of, and call new here, is
+already there in 1982**; see [Prior art](../README.md#prior-art). What was not found in the sources checked (listed
+under the main README's [Caveats](../README.md#caveats)) is
 the hidden games-started counters with their thresholds, the arming kept for good in battery-backed RAM, and a real
 bootleg (Atlant Olimpic) caught by a check in normal play. Check 2, the one that waits for the 1,500th game:
 
