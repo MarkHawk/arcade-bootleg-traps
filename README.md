@@ -10,7 +10,7 @@ itself off a few seconds after power-up. On a bootleg, it stays live.
 It wasn't only Taito. Atari's **Asteroids Deluxe** (the first two revisions) quietly gives away 2 credits at
 random game overs once its copyright line has been changed, and **Centipede** adds credits at every game start
 on a board without a genuine POKEY sound chip. In **Battlezone**, whose checks Andy McFadden had already published, a
-changed copyright makes every Start *add* 26 credits. Instead of locking up a copied board, these games make it lose
+changed copyright makes every Start *add* 26 credits. Mostly, instead of locking up a copied board, these games make it lose
 money for whoever is operating it.
 
 Universal's **Mr. Do!** (1982) did it with a bootleg's own help. The game guards its protection chip with checksums over
