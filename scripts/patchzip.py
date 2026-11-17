@@ -14,6 +14,7 @@ Prints the new folder, a fresh one under tmp/ in the repo. Use it as the ONLY -r
 the genuine one. Nothing ROM-derived is written anywhere else; tmp/ is not committed. Each change is printed to stderr.
 """
 import os
+import shutil
 import sys
 import tempfile
 import zipfile
@@ -33,6 +34,15 @@ def main():
     here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     os.makedirs(os.path.join(here, 'tmp'), exist_ok=True)
     work = tempfile.mkdtemp(prefix='patch_%s_' % name, dir=os.path.join(here, 'tmp'))
+    try:
+        build(roms, name, spec, extra, src, work)
+    except BaseException:
+        shutil.rmtree(work, ignore_errors=True)   # never leave a half-built copy of ROM data behind
+        raise
+    print(work)
+
+
+def build(roms, name, spec, extra, src, work):
     want = {}
     for p in spec.split(','):
         member, off, old, new = p.rsplit(':', 3)
@@ -54,7 +64,6 @@ def main():
         with open(os.path.join(os.path.expanduser(roms), z + '.zip'), 'rb') as f, \
                 open(os.path.join(work, z + '.zip'), 'wb') as g:
             g.write(f.read())
-    print(work)
 
 
 if __name__ == '__main__':
