@@ -24,7 +24,7 @@ On top of the device, the genuine game has **three software checks**, none of th
 | Copyright sum | a 10-byte routine copied from `4BFD` into RAM at `8EA0` | at the end of a game sequence | **one credit is taken** |
 
 **No bootleg trips a check in normal play.** Two bootlegs, `popeyebl` and `popeyeb2`, replaced the device with a
-**32-byte PROM** holding a software shifter, and switched off the two in-game ROM sums. They passed the copyright sum
+**32-byte PROM** holding a software shifter, and switched off the power-on and high-score ROM sums. They passed the copyright sum
 by leaving the copyright records alone (`popeyeb2` hides the line by skipping the calls that draw it). What they missed
 is the service-mode ROM test, which now fails.
 
@@ -103,7 +103,7 @@ checks.
 | `popeye`, `popeyej`, `popeyejo` | yes | used | shown | all pass | none |
 | `popeyeu` | no | removed: tables stored already decoded | shown | all pass | none |
 | `popeyef` | no | not used by the code | shown | all pass | none |
-| `popeyebl` | **32-byte PROM at `E000`** | faked in software | shown | power-on and high-score sums **switched off**; copyright sum passes | service-mode ROM test fails |
+| `popeyebl` | **32-byte PROM at `E000`** | faked in software | shown | the power-on and high-score ROM sums **switched off**; copyright sum passes | service-mode ROM test fails |
 | `popeyeb2` | **32-byte PROM at `E000`** | faked in software | **hidden** (draw calls NOPped) | as `popeyebl` | no copyright line; service-mode ROM test fails |
 | `popeyeb3` | no | removed (`popeyeu`'s code) | shown | all pass (sum table recalculated) | none |
 | `popeyehs` (hack) | no | removed (`popeyeu`'s code) | shown | power-on and high-score sums bypassed; copyright sum passes | none |

@@ -53,7 +53,7 @@ lives, flips the screen, swaps the controls and prints an accusation.
 | [**Battlezone**](docs/atari-battlezone.md) | Atari | 1980 | a sum over the drawn copyright is the price of a game; altered, each Start adds 26 credits, and the second bonus tank stops the game (checks published by McFadden) | Desert Wars kept the copyright: unaffected | [GIF](#battlezone-atari-1980) |
 | [**Space Dungeon**](docs/taito-space-dungeon.md) | Taito America | 1981 | silent checksums over code, one delayed to the 64th event; enemies or the thief drawn wrongly; the "STOLEN" message is never shown | no bootleg known in MAME | [GIF](#space-dungeon-taito-america-1981) |
 | [**Donkey Kong Jr.**](docs/nintendo-donkey-kong-jr.md) | Nintendo | 1982 | a changed copyright tile breaks the vine table: Jr. can't hold a vine | all eight working bootlegs dodged it (letters blanked in the graphics ROM, or the screen address moved) | [GIF](#donkey-kong-jr-nintendo-1982) |
-| [**Popeye**](docs/nintendo-popeye.md) | Nintendo | 1982 | a device decodes the level data; three software sums on top (test mode, random lives, a lost credit) | two bootlegs imitated the device with a 32-byte PROM and switched off the in-game sums | [GIF](#popeye-nintendo-1982) |
+| [**Popeye**](docs/nintendo-popeye.md) | Nintendo | 1982 | a device decodes the level data; three software sums on top (test mode, random lives, a lost credit) | two bootlegs imitated the device with a 32-byte PROM and switched off the power-on and high-score ROM sums | [GIF](#popeye-nintendo-1982) |
 | [**Track & Field**](docs/konami-track-and-field.md) | Konami | 1983 | an edited copyright line, the code that draws it or one data byte locks the board, some checks only after 50, 1,500 or 4,000 games | Atlant Olimpic (1996) trips check 6 and freezes at the attract demo | [GIF](#track--field-konami-1983) |
 | [**Time Pilot '84**](docs/konami-time-pilot-84.md) | Konami | 1984 | an edited "© KONAMI" or stored message: all lives lost, screen flipped and controls swapped every frame, and an accusation printed | no bootleg known (simulated here) | [GIF](#time-pilot-84-konami-1984) |
 
@@ -218,7 +218,7 @@ Popeye's board has a protection device that decodes the level data; without it t
 which is published. On top of it the genuine game has **three software checks**: a power-on ROM sum (test mode, the bad
 chip marked "NG"), a ROM sum after a high-score name entry that **replaces the number of lives with a random 1 to 4**,
 and a sum over the copyright records that **takes a credit**. Two bootlegs, `popeyebl` and `popeyeb2`, **imitated the
-device with a 32-byte PROM** and **switched off the two in-game ROM sums**; they passed the copyright sum by leaving
+device with a 32-byte PROM** and **switched off the power-on and high-score ROM sums**; they passed the copyright sum by leaving
 the copyright records alone. `popeyeb2` hides the copyright line by skipping the calls that draw it. What they missed
 is the service-mode ROM test, which now fails. No bootleg trips a check in normal play. (MAME swapped the names
 `popeyebl` and `popeyeb2` in 2018; Arcade History's "no copyright in bootleg set 1" means today's `popeyeb2`.)
@@ -318,7 +318,7 @@ The other makers' bootlegs, each run in MAME 0.285:
 | Junior King, Up Maguila, Donkey King Jr., `dkongjrb` | Donkey Kong Jr. | copyright letters blanked in the graphics ROM; checked program bytes intact | **dodged**: the check sums to zero |
 | `dkongjrm` | Donkey Kong Jr. (on Moon Cresta hardware) | the copyright line's screen address set to `0000`; checked bytes intact | **dodged** |
 | `dkongjr2` (MAME: possibly a bootleg), `dkongjrpb`, `dkongjrmc` | Donkey Kong Jr. | copyright line left as it was | unaffected |
-| `popeyebl`, `popeyeb2` | Popeye (Japan) | device imitated by a 32-byte PROM; power-on and high-score sums switched off; `popeyeb2` also stops drawing the copyright | **dodged** in play; the service-mode ROM test now fails |
+| `popeyebl`, `popeyeb2` | Popeye (Japan) | device imitated by a 32-byte PROM; the power-on and high-score ROM sums switched off; `popeyeb2` also stops drawing the copyright | **dodged** in play; the service-mode ROM test now fails |
 | `popeyeb3` | Popeye | `popeyeu`'s device-free code (pre-decoded level data), sum table recalculated | nothing tripped |
 | **Desert Wars** (`dsrtwars`, Andra) | Battlezone | kept "ATARI 1980" and both checks | **unaffected** |
 | **Atlant Olimpic** (`atlantol`, Italy, 1996) | Konami's Hyper Olympic | moved the copyright line off screen | **tripped: Track & Field's check 6 fails and the board freezes** ([details](docs/konami-track-and-field.md#atlant-olimpic-a-real-bootleg-caught-by-check-6)) |
