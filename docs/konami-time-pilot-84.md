@@ -12,9 +12,10 @@ the Track & Field edits, the demonstrations here are simulated, with edited copi
 ## In short
 
 Time Pilot '84 checksums its own copyright, "© KONAMI", and a stored message, "THIS IS AN ILLEGAL DUPLICATE OF
-KONAMI'S ORIGINAL PCBOARD". If a sum is wrong the game does not stop. **It takes all your lives, flips the screen and
-swaps the controls between player 1 and player 2 on every frame, and prints that message across the screen.** One
-check runs on every frame of play and one at game start and similar set-up points; three more wait for a counter, and only open
+KONAMI'S ORIGINAL PCBOARD". If a sum is wrong the game does not stop. What happens depends on which check fails (see
+[What a failed check does](#what-a-failed-check-does)): **the check that runs on every frame flips the screen and swaps
+the controls between player 1 and player 2 on alternate frames, two other checks (one at set-up, one on the message) take all your lives, and the
+rare checks on the copyright print the accusation across the screen.** One check runs on every frame of play and one at game start and similar set-up points; three more wait for a counter, and only open
 about once every 18 minutes of play.
 
 Each kind of check here was already used before: Konami's original Time Pilot (1982) already had many copyright and code checksums, palette

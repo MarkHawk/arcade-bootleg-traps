@@ -1,4 +1,4 @@
-# Track & Field / Hyper Olympic (Konami, 1983) – copy checks that stop an edited board, and the bootleg they caught
+# Track & Field / Hyper Olympic (Konami, 1983) – copy checks that stop an edited board, and a real bootleg whose ROMs trip one
 
 [Back to the README](../README.md)
 
@@ -22,7 +22,7 @@ back by two hidden games-started counters that the game keeps for nothing else, 
 1,500 or 4,000 games. The others wait for moments such as a 7.2 m long jump or the high jump mole bonus. If a checked
 byte has been changed, the game crashes, freezes or resets.
 
-It has also caught a **real bootleg**. **Atlant Olimpic** (1996, an Italian bootleg of Hyper Olympic) moved the
+The ROMs of a **real bootleg** also trip one, in MAME. **Atlant Olimpic** (1996, an Italian bootleg of Hyper Olympic) moved the
 copyright line and draws "GEORGIA 1996" in its place; check 6 compares the line's screen address, so it fails. In
 normal play a 3- or 4-player game that reaches the round 1 high jump sets the check's flag in battery-backed RAM, and
 from then on the board freezes at the attract demo after every game and every power-on, until the RAM is cleared.
@@ -33,7 +33,7 @@ cycle, because the armed state is kept in battery-backed RAM. Three of the six c
 (`hyprolymb`, `hyprolymba`, `trackfldnz`, `hipoly`) change no checked byte, so none of them trips anything. The game
 also hides a "©KONAMI 1983" message, first published by cmonkey on UKVAC in 2016.
 
-## Atlant Olimpic: a real bootleg caught by check 6
+## Atlant Olimpic: a real bootleg's ROMs trip check 6
 
 **Atlant Olimpic** (`atlantol` in MAME) is an Italian bootleg of Hyper Olympic from 1996, themed on the Atlanta
 Olympics. It runs Hyper Olympic's program with about 2,400 instructions of the bootleggers' own code added at
@@ -163,7 +163,7 @@ checksums, and checks on how the copyright is displayed (Time Pilot's palette, T
 already there in 1982**; see [Prior art](../README.md#prior-art). What was not found in the sources checked (listed
 under the main README's [Caveats](../README.md#caveats)) is
 the hidden games-started counters with their thresholds, the arming kept for good in battery-backed RAM, and a real
-bootleg (Atlant Olimpic) caught by a check in normal play. Check 2, the one that waits for the 1,500th game:
+bootleg (Atlant Olimpic) tripping a check in scripted normal play. Check 2, the one that waits for the 1,500th game:
 
 ```
 F99D  LDD   $2FE4       ; games started: +1 at every game start ($F774), read by nothing but the checks
