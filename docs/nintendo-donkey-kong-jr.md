@@ -8,8 +8,8 @@ Maguila), `dkongjrm` and `dkongjrmc` (on Moon Cresta hardware). One Z80. Address
 ## In short
 
 Donkey Kong (1981) sums six letters of "NINTENDO" in ROM at every screen start, and a failed sum breaks a ladder table,
-which freezes the game later. That check is published (furrykef's [dkdasm](https://github.com/furrykef/dkdasm), and
-TCRF's Donkey Kong page). I used it as the control: in MAME, one letter changed inside "INTEND" froze the game at frame
+which freezes the game later. That check is published (furrykef's [dkdasm](https://github.com/furrykef/dkdasm), and the
+[Super Mario Wiki](https://www.mariowiki.com/Donkey_Kong_(game))). I used it as the control: in MAME, one letter changed inside "INTEND" froze the game at frame
 1496; the first N, the last O and the genuine set did not.
 
 **Donkey Kong Jr. has the same check at the same addresses** (`#2441`, called from `#0D62`), pointed at seven tiles in
@@ -120,11 +120,11 @@ inputs and logs the loaded copyright entry, each pass of the check with its sum,
 ## Prior art and sources checked
 
 Donkey Kong's check is published (dkdasm's comments: "runs checksum on the NINTENDO, breaks if not correct"). For
-Donkey Kong Jr., a YouTube video shows a piracy check and links to TCRF; I didn't open it, and TCRF was not checked
-(it doesn't allow AI agents), so the Donkey Kong Jr. check itself may well be described there.
+Donkey Kong Jr., a piracy check is shown in a YouTube video ("Donkey Kong Jr. - Piracy Check") that links to TCRF; that description
+was not read; TCRF was not checked (it does not allow automated or AI access).
 
-Not found in the sources checked: the Donkey Kong Jr. check (its range, its effect on the vine table), the bootlegs'
-two ways of dodging it, and the E kit's broken copy. Sources checked: MAME 0.285
+Not found in the sources checked: the bootlegs' two ways of dodging the Donkey Kong Jr. check, and the E kit's broken
+copy. Sources checked: MAME 0.285
 [`dkong.cpp`](https://github.com/mamedev/mame/blob/mame0285/src/mame/nintendo/dkong.cpp); dkdasm (Donkey Kong only);
 the Super Mario Wiki's Donkey Kong (arcade) page (search result text, Donkey Kong's check only); an Aussie Arcade "Donkey
 Kong Jr" repair log (search snippet only; the page refused the request); rotheblog's "Donkie Buddy, the fancy bootleg?"

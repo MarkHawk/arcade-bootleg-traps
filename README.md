@@ -31,12 +31,12 @@ lives, flips the screen, swaps the controls and prints an accusation.
 > [!NOTE]
 > **Not found in the sources checked** (they are listed under [Caveats](#caveats) and in each doc): the free-credit
 > routines in Lunar Rescue, Space Invaders Part II and Asteroids Deluxe; Mr. Do!'s two sums over its protection code,
-> and Mr. Du! tripping one of them for 41 credits; Popeye's three software checks; Donkey Kong Jr.'s check and how its
-> bootlegs dodged it (TCRF, which may describe the check, was not checked); Space Dungeon's checksums, including the
-> delayed one; Track & Field's hidden games-started counters and thresholds, its permanent arming in battery-backed
+> and Mr. Du! tripping one of them for 41 credits; Popeye's three software checks; how Donkey Kong Jr.'s bootlegs dodged
+> its check, and the E kit's broken copy of it; Space Dungeon's checksums, including the delayed one; Track & Field's hidden games-started counters and thresholds, its permanent arming in battery-backed
 > RAM, and a real bootleg (Atlant Olimpic) caught by it in normal play; and Time Pilot '84's on-screen accusation.
 > **Already published:** Battlezone's two checks (McFadden), Centipede's POKEY check, Mr. Do!'s protection chip, Popeye's
-> protection device and Donkey Kong's copyright check. Sabotage as such, failing by crippling the game rather than
+> protection device and Donkey Kong's copyright check. For Donkey Kong Jr.'s check, a piracy check is shown in a YouTube video ("Donkey Kong Jr. - Piracy Check") that links to TCRF; that description
+> was not read. Sabotage as such, failing by crippling the game rather than
 > stopping it, was already in Atari's Tempest and Millipede. Konami's copyright checks as such, including checks
 > triggered by game events, many checksums and checks on how the copyright is displayed, were already in Time Pilot in
 > 1982. Repairers had already spotted the reset half of Part II's board check. See [Prior art](#prior-art).
@@ -193,13 +193,16 @@ Full details, including the chip without its answers and the other bootlegs: [do
 
 ## Donkey Kong Jr. (Nintendo, 1982)
 
-Donkey Kong (1981) sums six letters of "NINTENDO" and freezes if they have been changed; that check is published.
+Donkey Kong (1981) sums six letters of "NINTENDO" and freezes if they have been changed; that check is published. For
+Donkey Kong Jr., a piracy check is shown in a YouTube video ("Donkey Kong Jr. - Piracy Check") that links to TCRF; that description
+was not read.
 **Donkey Kong Jr. has the same check at the same addresses**, pointed at seven tiles in the middle of its title-screen
 copyright line. A failed sum builds the screen's vine table in the wrong place, so **Jr. can't hold a vine**: the game
 doesn't freeze, it just can't be won. **No working bootleg in MAME trips it.** All eight sum the checked bytes to zero;
 the five with no copyright line on screen removed it without touching those bytes: four blanked the letters in the
 graphics ROM, one moved the line's screen address to `0000`. The E kit's own copy of the check is broken (Donkey Kong's
-constant, never updated), so it always fails, harmlessly.
+constant, never updated), so it always fails, harmlessly. How the bootlegs dodged the check, and the E kit's broken
+copy, were not found in the sources checked.
 
 <img src="docs/img/dkjr-jrking-pair.gif" width="720" alt="Donkey Kong Jr.: on the left the bootleg Junior King, with no copyright line, climbs the vine; on the right genuine Donkey Kong Jr. with one checked tile changed jumps at the vine and falls back">
 
@@ -484,7 +487,7 @@ Sets worth collecting: [docs/ROMLIST.md](docs/ROMLIST.md).
   (it doesn't allow AI agents). TCRF was not checked for Time Pilot '84, so "not found in the sources checked" for it rests
   on other sources only. TCRF was not checked either for the five games added in November 2026 (Battlezone, Space
   Dungeon, Mr. Do!, Donkey Kong Jr., Popeye); for Donkey Kong Jr. a YouTube video links to a TCRF description of a
-  piracy check, which may cover what is here. TCRF links in these docs are not checked by the link checker, by request.
+  piracy check, which was not read. TCRF links in these docs are not checked by the link checker, by request.
 - "Right" means bit 6 of input port 1, the standard Space Invaders wiring.
 - "Not found in the sources checked" means not found online, in Computer Archeology, 6502disassembly.com or the
   arcade history databases, and, except for Time Pilot '84 and the five games added in November 2026 (see the TCRF
@@ -506,8 +509,9 @@ Other anti-copying tricks from the same era that are documented:
   cleared. The measured effects above (each Start adds 26 credits; the game stops at the second bonus tank) and Desert
   Wars being unaffected are all this repo adds.
 - **Donkey Kong (1981)** checks part of "NINTENDO" in its copyright line and freezes if it has been changed
-  ([TCRF](https://tcrf.net/Donkey_Kong_(Arcade)); furrykef's [dkdasm](https://github.com/furrykef/dkdasm)). Donkey
-  Kong Jr.'s check above uses the same routine at the same addresses.
+  ([Super Mario Wiki](https://www.mariowiki.com/Donkey_Kong_(game)); furrykef's [dkdasm](https://github.com/furrykef/dkdasm)).
+  Donkey Kong Jr.'s check above uses the same routine at the same addresses; for it, a piracy check is shown in a YouTube video ("Donkey Kong Jr. - Piracy Check") that links to TCRF; that description
+  was not read.
 - **Mr. Do! (Universal, 1982)**: its protection chip, the screens it leaves uncleared and the NOP bypass that Mr. Lo!
   uses were described on the [Arcade Museum forum](https://forums.arcade-museum.com/threads/mr-do-pcb.386835/) in
   2016; the EXTRA letters that stay lit are [MAME Testers 08201](https://mametesters.org/view.php?id=8201).
@@ -538,17 +542,21 @@ Other anti-copying tricks from the same era that are documented:
   ([Arcade Museum forum](https://forums.arcade-museum.com/threads/taito-3-board-space-invaders-part-2-bad-shifter-causes-resets.504475/),
   [UKVAC](https://www.ukvac.com/forum/threads/taito-3-pcb-invaders-boardset-resetting.75648/)); MAME's driver notes
   the two lines are tied low on Taito's schematic. The credit trap behind the same check was not found in the sources checked.
-- **Space Dungeon (Taito America, 1981)** has an untriggered message, "STOLEN FROM THE GOOD BUDDY'S AT TAITO
-  BY AN UNAUTHORIZED DO BADDER" ([TCRF](https://tcrf.net/Space_Dungeon)); [pronama.jp](https://pronama.jp/2024/05/31/space-dungeon/)
-  (2024) says no command displays it. The code agrees: it is never shown (above).
+- **Space Dungeon (Taito America, 1981)** has a message in its ROM, "STOLEN FROM THE GOOD BUDDY'S AT TAITO BY AN
+  UNAUTHORIZED DO BADDER", quoted by
+  [Arcade Database](https://adb.arcadeitalia.net/dettaglio_mame.php?game_name=sdungeon&lang=en) ("Developer messages are
+  hidden in the ROM chip sd19"); [pronama.jp](https://pronama.jp/2024/05/31/space-dungeon/) (2024) says no command
+  displays it. The code agrees: it is never shown (above).
 - General Computer's "kick me for a free game" story, told second-hand
   ([Ned Batchelder](https://nedbatchelder.com/blog/200404/arcade_copy_protection)); not found, see above.
 
 Not found in the sources checked: that the Lunar Rescue, Part II and Asteroids Deluxe traps actually run, that they're
 tied to a copy check, and that the Lunar Rescue one pays out on real bootlegs (Destination Earth, Escape from Mars, one
 version of Moon Lander). For the later games: Mr. Do!'s sums over its protection code and Mr. Du!'s 41 credits;
-Popeye's three ROM sums and what its bootlegs did about them; Donkey Kong Jr.'s check and how its bootlegs dodged it;
-Space Dungeon's checksums. On the Konami side, and not on TCRF's Time Pilot page: Track & Field's hidden games-started counters and
+Popeye's three ROM sums and what its bootlegs did about them; how Donkey Kong Jr.'s bootlegs dodged its check, and the
+E kit's broken copy of it; Space Dungeon's checksums. Already published: Donkey Kong's check; for Donkey Kong Jr.'s,
+a piracy check is shown in a YouTube video ("Donkey Kong Jr. - Piracy Check") that links to TCRF; that description
+was not read. On the Konami side, and not on TCRF's Time Pilot page: Track & Field's hidden games-started counters and
 thresholds, its permanent arming in battery-backed RAM, a real bootleg (Atlant Olimpic) caught by it in normal play,
 and Time Pilot '84's on-screen accusation. Wrecking the game on failure, as Time Pilot '84 does, was already in Atari's
 Tempest and Millipede; only the accusation and its particular effects (lives, screen flip, control swap) are Konami's.
