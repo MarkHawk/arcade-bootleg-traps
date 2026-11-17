@@ -186,8 +186,8 @@ bootleg, Mr. Lo!, removed the protection completely and runs with no chip.
 
 *Left: genuine `mrdo`. Right: the bootleg `mrdu`. The same scripted game, frame for frame; one RAM write on both sides,
 the random roll at the first natural chance of a diamond (1 in 512 otherwise); the spawn, the pick-up and the award are
-the game's own. At frame 7491 the credits go 00 to 01 on the genuine board and 00 to 41 on Mr. Du! (this screen shows
-at most 9). Made with `universal/demo_mrdu.sh`.*
+the game's own. At frame 7491 the credits go 0 to 1 on the genuine board and 0 to 41 on Mr. Du!. The captions read the
+credit count from RAM, because this screen shows at most 9 ("CREDIT 9"). Made with `universal/demo_mrdu.sh`.*
 
 Full details, including the chip without its answers and the other bootlegs: [docs/universal-mr-do.md](docs/universal-mr-do.md).
 

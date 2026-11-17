@@ -25,9 +25,9 @@ credits instead of 1**. This was not found in the sources checked either.
 <img src="img/mrdu-special-pair.gif" width="720" alt="Mr. Do! genuine on the left, the bootleg Mr. Du! on the right: the player walks into the diamond, the SPECIAL screen follows, and the credit count shows CREDIT 1 on the left and CREDIT 9 on the right">
 
 *Left: genuine `mrdo`. Right: the bootleg `mrdu`. The same scripted game, frame for frame. The diamond is picked up at
-frame 6939; at frame 7491 the credits go from 00 to 01 on the genuine board and from 00 to 41 on Mr. Du! (the SPECIAL
-screen shows at most 9). One RAM write on both sides: the random state at the first natural diamond roll (below).
-Made with `universal/demo_mrdu.sh`.*
+frame 6939; at frame 7491 the credits go from 0 to 1 on the genuine board and from 0 to 41 on Mr. Du!. The captions
+read the credit count from RAM (`0xE006`), because the SPECIAL screen shows at most 9 ("CREDIT 9"). One RAM write on
+both sides: the random state at the first natural diamond roll (below). Made with `universal/demo_mrdu.sh`.*
 
 ## The protection chip
 

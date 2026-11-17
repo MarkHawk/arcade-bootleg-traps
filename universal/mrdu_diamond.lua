@@ -6,7 +6,7 @@
 -- roll (1 in 512 otherwise). The apple break, the spawn, the walk into the diamond and the award are the game's own.
 -- Logs: the loaded check-B bytes (MRDO_CHK: 0x74BB in mrdo, 0x74D2 in mrdu) and ROM 0x7FF8-0x7FFF, so the log shows
 -- which ROM ran; the poke; spawn and pick-up; every change of the credit count 0xE006 (BCD); and SNAP lines with
--- c=<credits> for the windows in MRDO_WIN ("from-to:step,...").
+-- c=<credits, in decimal> for the windows in MRDO_WIN ("from-to:step,...").
 local m = manager.machine; local cpu = m.devices[":maincpu"]; local mem = cpu.spaces["program"]; local st = cpu.state
 local logf = io.open(os.getenv("MRDO_LOG"), "w"); local frame = 0
 local rng = tonumber(os.getenv("MRDO_SEED") or "64")
@@ -62,7 +62,7 @@ fn = emu.add_machine_frame_notifier(function() frame = frame + 1
     end
   end
   for _, w in ipairs(wins) do if frame >= w[1] and frame <= w[2] and (frame - w[1]) % w[3] == 0 then
-    m.video:snapshot(); logf:write(string.format("SNAP %04d seq f%d c=%02X\n", nsnap, frame, mem:read_u8(0xE006))); nsnap = nsnap + 1 end end
+    m.video:snapshot(); logf:write(string.format("SNAP %04d seq f%d c=%X\n", nsnap, frame, mem:read_u8(0xE006))); nsnap = nsnap + 1 end end   -- c: BCD, so %X prints it in decimal
   local e = mem:read_u8(0xE006)
   if e ~= last then logf:write(string.format("CREDITS f=%d E006 %02X -> %02X\n", frame, last & 0xFF, e)); last = e end
 end)

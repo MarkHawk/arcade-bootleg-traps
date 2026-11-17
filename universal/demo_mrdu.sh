@@ -17,6 +17,7 @@ run() {  # set check-B-address
 }
 run mrdo 74BB & run mrdu 74D2 & wait
 for s in mrdo mrdu; do echo "== $s"; grep -v "^SNAP" "universal/out/$s.log"; done
-GIF_FOOTER="Random roll poked at a natural apple break; diamond spawned and collected naturally" \
-python3 scripts/gif_pair.py universal/out/mrdo.log universal/out/mrdo/mrdo "Genuine Mr. Do! f{f}" \
-  universal/out/mrdu.log universal/out/mrdu/mrdu "Bootleg mrdu f{f}" universal/out/mrdu_special_pair.gif 6885-7510
+# The captions carry the credit count read from RAM (0xE006): the SPECIAL screen shows at most 9.
+GIF_FOOTER="Credits read from RAM (the screen shows at most 9). One RAM write: the random roll at a natural apple break." \
+python3 scripts/gif_pair.py universal/out/mrdo.log universal/out/mrdo/mrdo "Genuine Mr. Do!  f{f}  credits {c}" \
+  universal/out/mrdu.log universal/out/mrdu/mrdu "Bootleg Mr. Du!  f{f}  credits {c}" universal/out/mrdu_special_pair.gif 6885-7510
