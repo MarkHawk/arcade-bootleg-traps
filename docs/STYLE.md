@@ -20,7 +20,7 @@ These matter more than anything else on this page.
 - **Emulation is not hardware.** Results are "in MAME". A bootleg's ROMs "trip the check in MAME"; never "caught a real board" unless a real board was tested.
 - **Label interpretation.** Anything about intent ("meant to", "designed to", "deliberate") starts with "Interpretation:" and, where there is a reasonable alternative, gives it.
 - **Say what was poked.** Every demo that writes to RAM or edits a ROM says exactly what, and what happened naturally: "score poked to 99,000; the kill that passed 100,000 was the game's own". Use the same wording in the caption, the doc and Caveats.
-- **Never fetch tcrf.net**, by any tool or script. Existing TCRF links stay as they are, unchecked. Don't cite a TCRF page that wasn't read; where a TCRF page is the only known source, say "TCRF was not checked (it doesn't allow AI agents)" and rest nothing on it.
+- **Never fetch tcrf.net**, by any tool or script. Existing TCRF links stay as they are, unchecked. Don't cite a TCRF page that wasn't read; where a TCRF page is the only known source, say "TCRF was not checked: TCRF does not allow automated or AI access" and rest nothing on it.
 - Figures in the README must match the doc. If they differ, the doc (built from the run logs) wins.
 
 ## README section
@@ -57,7 +57,7 @@ Full details: [docs/<maker>-<game>.md](docs/<maker>-<game>.md).
 
 **Terms used**: add any new term, and link to it from the section.
 
-**Prior art**: one bullet per published source, saying exactly what it covers. Then update the "Not found in the sources checked" paragraph at the end of Prior art. TCRF entries keep the wording already used there: read by hand earlier, before TCRF's policy on automated access was known, and not rechecked.
+**Prior art**: one bullet per published source, saying exactly what it covers. Then update the "Not found in the sources checked" paragraph at the end of Prior art. TCRF entries keep the wording already used there: "TCRF does not allow automated or AI access", and for older entries "consulted earlier, before TCRF's policy on automated access was known", and not rechecked.
 
 **Caveats**: one bullet per game: what was poked, which MAME version (0.285), how far scripted play got, any set not tested.
 
@@ -88,7 +88,7 @@ MAME sets `x`, `y`. One Z80. Addresses are CPU addresses in `x`. MAME 0.285, ROM
 - **In short**: what is already published first (credited, linked), then what this repo adds, then the GIF with its caption.
 - **Topic sections**: name them for what they explain ("The check", "The protection chip"). Section names vary by game, and the in-MAME section is called "In MAME", "Tests in MAME" or "Demonstration (MAME 0.285)" in different docs; use "In MAME". Tables with genuine and edited (or bootleg) side by side, frame numbers, values read from RAM.
 - **Controls**: where a published check could be reproduced, or a known edit found, say so in the text (as Donkey Kong Jr. does with Donkey Kong's check). Where there is no control, say that too (as Mr. Do! does).
-- **Prior art and sources checked**: "Published, and not claimed here:" with one bullet per source, then "Not found in the sources checked:" and every source searched, including the ones that said nothing. Say "TCRF was not checked (it doesn't allow AI agents)" where that applies. This is what "not found in the sources checked" rests on.
+- **Prior art and sources checked**: "Published, and not claimed here:" with one bullet per source, then "Not found in the sources checked:" and every source searched, including the ones that said nothing. Say "TCRF was not checked: TCRF does not allow automated or AI access" where that applies. This is what "not found in the sources checked" rests on.
 
 ## Demo script
 

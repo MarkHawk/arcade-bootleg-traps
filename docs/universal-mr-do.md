@@ -171,7 +171,7 @@ Not found in the sources checked: checks A and B (the sums over the protection c
 per-chip ROM sum convention. Sources checked: MAME 0.285 `mrdo.cpp`, `mrdo.h` and `mrdo_v.cpp`; MAME Testers 08201;
 MAME commit 5ddd006; the Arcade Museum forum threads "Mr. Do PCB" and "Weird Mr. Do ROMs"; Arcade History's Mr. Do!
 page; a personal page on Yankee DO! (umjammercammy.neocities.org); web searches for a disassembly of the arcade game
-(none found). TCRF was not checked (it doesn't allow AI agents).
+(none found). TCRF was not checked: TCRF does not allow automated or AI access.
 
 ## Caveats
 

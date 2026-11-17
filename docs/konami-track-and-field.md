@@ -409,5 +409,5 @@ whose copyright has been edited.
 - The natural run is a script playing the game, not a person, and one route of several (continues); the 15 coins and
   the 3-player game are what that script used.
 - The bootleggers' own five checks were read, not run.
-- TCRF's Track & Field (Arcade) and Time Pilot (Arcade) pages were read by hand, before it was known that TCRF
-  does not allow automated or AI access.
+- TCRF's Track & Field (Arcade) and Time Pilot (Arcade) pages were consulted earlier, before TCRF's policy on
+  automated access was known. TCRF does not allow automated or AI access.

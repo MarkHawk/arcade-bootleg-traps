@@ -158,7 +158,7 @@ History's Popeye page; the Arcade Museum forum threads "WTB: Security IC used in
 chip pcb"; jammarcade.net "Popeye tech info"; Not In Mame,
 ["Popeye pcb (bootleg) repair"](https://notinmame.blogspot.com/2018/05/popeye-pcb-bootleg-repair.html) (a bootleg board
 without the copyright line); web searches for Popeye disassemblies and Donkey Kong Forum material (none found). TCRF was
-not checked (it doesn't allow AI agents).
+not checked: TCRF does not allow automated or AI access.
 
 ## Caveats
 

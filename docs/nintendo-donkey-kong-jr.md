@@ -123,7 +123,7 @@ inputs and logs the loaded copyright entry, each pass of the check with its sum,
 
 Donkey Kong's check is published (dkdasm's comments: "runs checksum on the NINTENDO, breaks if not correct"). For
 Donkey Kong Jr., a piracy check is shown in a YouTube video ("Donkey Kong Jr. - Piracy Check") that links to TCRF; that description
-was not read; TCRF was not checked (it does not allow automated or AI access).
+was not read; TCRF was not checked: TCRF does not allow automated or AI access.
 
 Not found in the sources checked: the bootlegs' two ways of dodging the Donkey Kong Jr. check, and the E kit's broken
 copy. Sources checked: MAME 0.285
