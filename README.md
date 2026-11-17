@@ -6,7 +6,8 @@ It's real, in the code. Two Taito games from 1979, **Lunar Rescue** and **Space 
 routines that give free credits when you hold a secret button combination in [attract mode](#terms-used), and the
 routines are armed by checks that a copied board is likely to fail. This repo shows what each of eleven arcade games
 from 1979 to 1984 does when its anti-copy checks fail, and what the bootlegs that exist did about them: free credits, a
-locked-up board, or a quietly spoiled game. Everything here comes from disassembly and emulation, not real hardware.
+locked-up board, or a quietly spoiled game. Everything here comes from disassembly and emulation, not real hardware. The standout: in MAME, the ROMs of a real
+Mr. Do! bootleg give 41 credits for the diamond instead of 1.
 
 ## The short version
 
@@ -24,10 +25,11 @@ locked-up board, or a quietly spoiled game. Everything here comes from disassemb
 | [**Track & Field**](docs/konami-track-and-field.md) | Konami | 1983 | an edited copyright line, the code that draws it or one data byte locks the board, some checks only after 50, 1,500 or 4,000 games | Atlant Olimpic (1996) trips check 6 in MAME and freezes at the attract demo | [GIF](#track--field-konami-1983) |
 | [**Time Pilot '84**](docs/konami-time-pilot-84.md) | Konami | 1984 | an edited "© KONAMI" or stored message: the check that runs every frame flips the screen and swaps the controls on alternate frames, two other checks take all the lives, and the rare checks on the copyright print an accusation | no bootleg known (simulated here) | [GIF](#time-pilot-84-konami-1984) |
 
-Every Taito and Atari listing in this repo is checked against the real ROMs by `scripts/verify.py` (Taito) and
-`atari/verify_atari.py` (Atari), and every free-credit trap is shown working in an emulator, with the genuine board
-alongside (Part II's with an input line forced high, Asteroids Deluxe's on a simulated bootleg). The five later games
-(Battlezone, Space Dungeon, Mr. Do!, Donkey Kong Jr. and Popeye) were checked in MAME 0.285 with Lua scripts: any edited ROM is a copy built from your own set and alone on the ROM path,
+The Lunar Rescue, Part II, Asteroids Deluxe and Centipede listings in this repo are checked against the real ROMs by
+`scripts/verify.py` (Taito) and `atari/verify_atari.py` (Atari), and every free-credit trap is shown working in an
+emulator, with the genuine board alongside (Part II's with an input line forced high, Asteroids Deluxe's on a simulated
+bootleg). The five later games (Battlezone, Space Dungeon, Mr. Do!, Donkey Kong Jr. and Popeye) were checked in MAME
+0.285 with Lua scripts: any edited ROM is a copy built from your own set and alone on the ROM path,
 and every run logs the bytes MAME actually loaded.
 
 Which of these were published before, and which weren't found in the sources checked: see [Prior art](#prior-art). Limits: see [Caveats](#caveats).
@@ -40,14 +42,14 @@ Which of these were published before, and which weren't found in the sources che
 switches itself off a few seconds after power-up, and on a bootleg it stays live. Part II's is armed by a missing
 ground link on the board. Interpretation: both look designed to work only on copied boards.
 
-**Taito America (1981).** The "STOLEN FROM ... TAITO" message in **Space Dungeon** is never shown: the real protection is
-silent code [checksums](#terms-used).
-
 **Atari (1980).** **Asteroids Deluxe** (the first two revisions) quietly gives away 2 credits at random game overs once
 its copyright line has been changed, and **Centipede** adds credits at every game start on a board without a genuine
 [POKEY](#terms-used) sound chip. In **Battlezone**, whose checks Andy McFadden had already published, a changed copyright
 makes every Start *add* 26 credits. Mostly, instead of locking up a copied board, these games make it lose money for
 whoever is operating it.
+
+**Taito America (1981).** The "STOLEN FROM ... TAITO" message in **Space Dungeon** is never shown: the real protection is
+silent code [checksums](#terms-used).
 
 **Universal (1982).** **Mr. Do!** guards its protection chip with checksums over the code that reads it. A bootlegger set
 off the trap themselves: one real bootleg, **Mr. Du!**, put back a branch the code it copied had lost and fixed the ROM
