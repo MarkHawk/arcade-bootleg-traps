@@ -435,7 +435,9 @@ konami/demo_tp84.sh sumkept ~/roms           # genuine against the edit with the
 ```
 
 **Universal, Nintendo and Taito America** (MAME's Lua scripting; each script runs both sides, prints the logs and
-writes the GIF; any edited set is built from your own zip into a temporary folder):
+writes the GIF. Space Dungeon's and Donkey Kong Jr.'s edits are built from your own zip into a temporary folder; Popeye's
+ROM files are encrypted, so its one-byte edit is made in MAME's decrypted copy in memory, from Lua, and no zip is
+changed; Mr. Do! needs no edit, as Mr. Du! is a real dump):
 
 ```bash
 universal/demo_mrdu.sh ~/roms                # Mr. Do! against the bootleg Mr. Du!: the diamond gives 1 credit, or 41
