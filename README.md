@@ -35,7 +35,7 @@ lives, flips the screen, swaps the controls and prints an accusation.
 > its check, and the E kit's broken copy of it; Space Dungeon's checksums, including the delayed one; Track & Field's hidden games-started counters and thresholds, its permanent arming in battery-backed
 > RAM, and a real bootleg (Atlant Olimpic) caught by it in normal play; and Time Pilot '84's on-screen accusation.
 > **Already published:** Battlezone's two checks (McFadden), Centipede's POKEY check, Mr. Do!'s protection chip, Popeye's
-> protection device and Donkey Kong's copyright check. For Donkey Kong Jr.'s check, a piracy check is shown in a YouTube video ("Donkey Kong Jr. - Piracy Check") that links to TCRF; that description
+> protection device and Donkey Kong's copyright check. For Donkey Kong Jr., a piracy check is shown in a YouTube video ("Donkey Kong Jr. - Piracy Check") that links to TCRF; that description
 > was not read. Sabotage as such, failing by crippling the game rather than
 > stopping it, was already in Atari's Tempest and Millipede. Konami's copyright checks as such, including checks
 > triggered by game events, many checksums and checks on how the copyright is displayed, were already in Time Pilot in
@@ -486,10 +486,10 @@ Sets worth collecting: [docs/ROMLIST.md](docs/ROMLIST.md).
 - Donkey Kong Jr.: scripted play reached screen 1 only; `dkingjrv` is not in the 0.277 sets.
 - Popeye: the high-score and copyright triggers were poked (the score; the copyright sum's sequence state), and the
   edit was made in MAME's decrypted copy of the program, because the ROM files are encrypted.
-- TCRF: TCRF does not allow automated or AI access, so its pages were read by hand for Time Pilot and Track & Field
-  only. TCRF was not checked for Time Pilot '84, so "not found in the sources checked" for it rests
-  on other sources only. TCRF was not checked either for the five games added in November 2026 (Battlezone, Space
-  Dungeon, Mr. Do!, Donkey Kong Jr., Popeye); for Donkey Kong Jr. a YouTube video links to a TCRF description of a
+- TCRF: TCRF does not allow automated or AI access. Its Time Pilot, Track & Field, Tempest, Millipede and Space
+  Invaders pages were consulted before that was known; it was not checked for Time Pilot '84 or the five games added
+  in November 2026 (Battlezone, Space Dungeon, Mr. Do!, Donkey Kong Jr., Popeye), so "not found in the sources
+  checked" for those rests on other sources only. For Donkey Kong Jr. a YouTube video links to a TCRF description of a
   piracy check, which was not read. TCRF links in these docs are not checked by the link checker, by request.
 - "Right" means bit 6 of input port 1, the standard Space Invaders wiring.
 - "Not found in the sources checked" means not found online, in Computer Archeology, 6502disassembly.com or the
