@@ -112,6 +112,100 @@ reads differ.*
 
 Full details: [docs/centipede.md](docs/centipede.md).
 
+## Battlezone (Atari, 1980)
+
+Both of Battlezone's checks are published, in **Andy McFadden's commented disassembly**
+([6502disassembly.com](https://6502disassembly.com/va-battlezone/)); what this section adds is only what they do when
+run. The game checks the *drawing* of "© ATARI 1980": two sums over the start of each frame's vector display list,
+where the copyright's character calls sit. One of them **sets the price of a game**: Start subtracts it from the
+credits. On a genuine board it is 1. With one letter changed it is −26 (`$E6`), so **each Start adds 26 credits**. The
+other catches the board later: at the second bonus tank (100,000 points by default) the game **stops for good**. The
+one bootleg in MAME, Desert Wars, kept Atari's copyright line, so neither check fires.
+
+<img src="docs/img/battlezone-ataro-credits.gif" width="720" alt="Battlezone, genuine on the left, ATARO on the right: the genuine credits go 1 to 0 and the second Start is ignored; ATARO goes 1 to 27, then 27 to 53 at the second Start">
+
+*Left: genuine `bzone`. Right: "ATARI" changed to "ATARO". One coin, then Start at 9 s and at 100 s. Genuine: 1, 0,
+and the second Start is ignored. ATARO: 1, 27, 53. Battlezone doesn't show the credit count, so the captions read it
+from RAM. Made with `atari/demo_bzone.sh credits`.*
+
+Full details, including the stop at 100,000 in natural play: [docs/atari-battlezone.md](docs/atari-battlezone.md).
+
+## Space Dungeon (Taito America, 1981)
+
+Space Dungeon's ROM holds the message "STOLEN FROM THE GOOD BUDDY'S AT TAITO BY AN UNAUTHORIZED DO BADDER". It is
+**never shown**: the only instruction naming it sits in a block of bytes that no code enters, and even with the CPU
+forced there the text doesn't appear. The protection that does run is **silent**: checksums over parts of the program
+whose penalty is to change how objects are drawn, so enemies, or the thief, are drawn wrongly or not at all. One of
+them is **delayed**: it adds one byte of the code that prints the copyright at each of 64 game events, and only then
+compares. The one sum that covers the copyright text itself is computed and then ignored (`BRN`, branch never). No
+bootleg of the game is known in MAME.
+
+<img src="docs/img/sdungeon-delayed-pair.gif" width="720" alt="Space Dungeon attract demo, genuine on the left, the copyright-printing code changed on the right: after the 64th event the right-hand thief is drawn as a cut-down shape">
+
+*Left: genuine. Right: one byte of the code that prints the copyright changed. The check's counter was poked to 63; the
+64th event, the thief taking the treasure in the attract demo, is the game's own. Genuine: nothing. Edited: from then
+on the thief is drawn as a cut-down shape. No message appears. Made with `taito/demo_sdungeon.sh`.*
+
+Full details: [docs/taito-space-dungeon.md](docs/taito-space-dungeon.md).
+
+## Mr. Do! (Universal, 1982)
+
+Mr. Do!'s board has a protection chip, a PAL that answers four codes; without it screens are not cleared and the EXTRA
+letters stay lit. That much is published. On top of it, the game **sums the code that asks the chip**, so that patching
+that code changes the game quietly. One of those sums runs when the diamond gives its free credit: if it fails, the
+credit count is set to the wrong sum plus 1.
+
+And a **real bootleg trips it**. **Mr. Du!** (`mrdu`) is built on the Taito-licensed code, in which that sum no longer
+matched and the branch after it had been removed. Mr. Du!'s maker put the branch back and adjusted another byte so that
+the self-test's ROM sum still passes. So on Mr. Du!, **taking the diamond gives 41 credits instead of 1**. Another
+bootleg, Mr. Lo!, removed the protection completely and runs with no chip.
+
+<img src="docs/img/mrdu-special-pair.gif" width="720" alt="Mr. Do! genuine on the left, the bootleg Mr. Du! on the right: the player takes the diamond, the SPECIAL screen follows, and the credit count shows CREDIT 1 on the left and CREDIT 9 on the right">
+
+*Left: genuine `mrdo`. Right: the bootleg `mrdu`. The same scripted game, frame for frame; one RAM write on both sides,
+the random roll at the first natural chance of a diamond (1 in 512 otherwise); the spawn, the pick-up and the award are
+the game's own. At frame 7491 the credits go 00 to 01 on the genuine board and 00 to 41 on Mr. Du! (this screen shows
+at most 9). Made with `universal/demo_mrdu.sh`.*
+
+Full details, including the chip without its answers and the other bootlegs: [docs/universal-mr-do.md](docs/universal-mr-do.md).
+
+## Donkey Kong Jr. (Nintendo, 1982)
+
+Donkey Kong (1981) sums six letters of "NINTENDO" and freezes if they have been changed; that check is published.
+**Donkey Kong Jr. has the same check at the same addresses**, pointed at seven tiles in the middle of its title-screen
+copyright line. A failed sum builds the screen's vine table in the wrong place, so **Jr. can't hold a vine**: the game
+doesn't freeze, it just can't be won. **No working bootleg in MAME trips it.** All eight sum the checked bytes to zero;
+the five with no copyright line on screen removed it without touching those bytes: four blanked the letters in the
+graphics ROM, one moved the line's screen address to `0000`. The E kit's own copy of the check is broken (Donkey Kong's
+constant, never updated), so it always fails, harmlessly.
+
+<img src="docs/img/dkjr-jrking-pair.gif" width="720" alt="Donkey Kong Jr.: on the left the bootleg Junior King, with no copyright line, climbs the vine; on the right genuine Donkey Kong Jr. with one checked tile changed jumps at the vine and falls back">
+
+*Left: the bootleg Junior King (`jrking`), copyright line blanked in the graphics ROM, checked bytes intact: it climbs.
+Right: genuine `dkongjr` with one checked tile changed: it falls back. The same inputs on both: walk right, jump at the
+vine, hold Up. Made with `nintendo/demo_dkjr.sh`, which also runs the unedited genuine set as a control (it climbs).*
+
+Full details: [docs/nintendo-donkey-kong-jr.md](docs/nintendo-donkey-kong-jr.md).
+
+## Popeye (Nintendo, 1982)
+
+Popeye's board has a protection device that decodes the level data; without it the game resets when a game starts,
+which is published. On top of it the genuine game has **three software checks**: a power-on ROM sum (test mode, the bad
+chip marked "NG"), a ROM sum after a high-score name entry that **replaces the number of lives with a random 1 to 4**,
+and a sum over the copyright records that **takes a credit**. Two bootlegs, `popeyebl` and `popeyeb2`, **imitated the
+device with a 32-byte PROM** and **switched off the two in-game ROM sums**; they passed the copyright sum by leaving
+the copyright records alone. `popeyeb2` hides the copyright line by skipping the calls that draw it. What they missed
+is the service-mode ROM test, which now fails. No bootleg trips a check in normal play. (MAME swapped the names
+`popeyebl` and `popeyeb2` in 2018; Arcade History's "no copyright in bootleg set 1" means today's `popeyeb2`.)
+
+<img src="docs/img/popeye-lives-pair.gif" width="720" alt="Popeye, genuine on the left and one unused ROM byte changed on the right, in the game after a high-score entry: Olive's house shows Popeye =2 on the left and =3 on the right">
+
+*The high-score sum. Left: genuine `popeye`. Right: one unused ROM byte changed. Same inputs, the score poked so that a
+top-five name entry follows the game over. After it the edited board's sum fails and its lives setting becomes 4; in
+the next game Olive's house shows "=2" against "=3" reserve lives. Made with `nintendo/demo_popeye.sh`.*
+
+Full details, including the device and the bootlegs' PROM: [docs/nintendo-popeye.md](docs/nintendo-popeye.md).
+
 ## Track & Field (Konami, 1983)
 
 Konami's protection works the other way round from the traps above: it catches pirates who **edit** the ROMs, not
