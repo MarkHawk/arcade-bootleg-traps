@@ -30,13 +30,7 @@ alongside (Part II's with an input line forced high, Asteroids Deluxe's on a sim
 (Battlezone, Space Dungeon, Mr. Do!, Donkey Kong Jr. and Popeye) were checked in MAME 0.285 with Lua scripts: any edited ROM is a copy built from your own set and alone on the ROM path,
 and every run logs the bytes MAME actually loaded.
 
-> [!NOTE]
-> **Not found in the sources checked:** the free-credit routines in the two Taito games and Asteroids Deluxe; the sums
-> in Mr. Do!, Popeye, Donkey Kong Jr. and Space Dungeon; Track & Field's hidden counters and permanent arming; and
-> Time Pilot '84's on-screen accusation. Two real bootlegs' ROMs trip a check in MAME (Mr. Du! and Atlant Olimpic).
-> **Already published:** Battlezone's two checks, Centipede's POKEY check, Mr. Do!'s protection chip, Popeye's
-> protection device and Donkey Kong's copyright check. The full lists, with sources, are under
-> [Prior art](#prior-art) and [Caveats](#caveats).
+Which of these were published before, and which weren't found in the sources checked: see [Prior art](#prior-art). Limits: see [Caveats](#caveats).
 
 ---
 
@@ -535,7 +529,7 @@ Sets worth collecting: [docs/ROMLIST.md](docs/ROMLIST.md).
 ## Prior art
 
 Other anti-copying tricks from the same era that are documented. The Time Pilot, Tempest and Millipede entries rest on
-TCRF pages read by hand earlier and not rechecked:
+TCRF pages consulted earlier, before TCRF's policy on automated access was known, and not rechecked:
 
 - **Centipede (Atari, 1980)** adds credits when its POKEY isn't genuine (above), and hid a data pattern that spells
   "COPYRIGHT 1980 ATARI" in Morse code once decoded. The Morse pattern does nothing at run time; Atari used it as
