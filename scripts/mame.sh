@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
-# The MAME wrapper used by the demos in atari/ (Battlezone), universal/, nintendo/ and taito/. It enforces the run
+# The MAME wrapper used by the demos in atari/ (Battlezone), universal/, nintendo/, taito/ and konami/. It enforces the run
 # rules here rather than in each caller:
 #   - a memory cap (systemd-run --user --scope -p MemoryMax=8G, when systemd-run is available), nice -n 10, and a
 #     hard wall-clock kill (timeout -s KILL);
 #   - emulation runs must pass -seconds_to_run, and get a fresh, empty NVRAM and cfg folder (made under tmp/ in the
-#     repo and deleted afterwards), so no saved state carries over between runs;
+#     repo and deleted afterwards), so no saved state carries over between runs. The one exception, for a demo that
+#     tests what survives a power cycle (konami/demo_atlantol.sh recovery, konami/demo_repair.sh): MAME_KEEP_NVRAM=DIR uses DIR as the NVRAM
+#     folder instead, kept afterwards; the wrapper says so on stderr. The cfg folder is still fresh;
 #   - always headless (-video none -sound none); snapshots still work from Lua;
 #   - a rompath must be ONE folder (no ";"). With a patched zip first and the real ROM folder second, MAME rejects
 #     the patched file on its CRC and silently loads the genuine one from the second folder, so a "no effect" result
@@ -40,5 +42,10 @@ mkdir -p "$here/tmp"
 fresh=$(mktemp -d "$here/tmp/run_XXXXXX")
 trap 'rm -rf "$fresh"' EXIT
 mkdir -p "$fresh/nvram" "$fresh/cfg" "$fresh/diff"
-"${run[@]}" "$@" -nvram_directory "$fresh/nvram" -cfg_directory "$fresh/cfg" -diff_directory "$fresh/diff" \
+nv="$fresh/nvram"
+if [ -n "${MAME_KEEP_NVRAM:-}" ]; then
+  mkdir -p "$MAME_KEEP_NVRAM"; nv=$MAME_KEEP_NVRAM
+  echo "scripts/mame.sh: NVRAM kept in $nv (MAME_KEEP_NVRAM), not fresh" >&2
+fi
+"${run[@]}" "$@" -nvram_directory "$nv" -cfg_directory "$fresh/cfg" -diff_directory "$fresh/diff" \
   -video none -sound none -skip_gameinfo

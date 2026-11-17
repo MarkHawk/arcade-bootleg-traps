@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 """Build a one-folder rompath holding an edited copy of one of your own MAME zips, for the demos.
 
-Usage: python3 scripts/patchzip.py ROM_FOLDER SET MEMBER:OFFSET:OLD:NEW[,...] [--with ZIP ...]
+Usage: python3 scripts/patchzip.py ROM_FOLDER SET MEMBER:OFFSET:OLD:NEW[,...]|- [--with ZIP ...] [--out DIR]
 
   ROM_FOLDER  your MAME ROM folder (it is only read, never written)
   SET         the set to edit; ROM_FOLDER/SET.zip is copied with the changes
   MEMBER:OFFSET:OLD:NEW  file inside the zip, hex offset in that file, the byte it must hold now, the byte to write.
               If the byte is not OLD the script stops: your set is a different version from the one the demo expects.
+              "-" makes an unchanged copy (a genuine set loaded the same way, alone on the rompath).
   --with ZIP  also copy ROM_FOLDER/ZIP.zip unchanged (a parent set or a device ROM the set needs; e.g. m68705p3)
+  --out DIR   build in DIR (emptied first; it must be inside the repo's gitignored konami/roms/ or tmp/) instead of
+              a fresh folder under tmp/
 
 Prints the new folder, a fresh one under tmp/ in the repo. Use it as the ONLY -rompath (scripts/mame.sh refuses a
 ";" rompath): with the real ROM folder as a second path, MAME rejects the edited file on its CRC and silently loads
@@ -22,10 +25,14 @@ import zipfile
 
 def main():
     args = sys.argv[1:]
-    extra = []
+    extra, out = [], None
     while '--with' in args:
         i = args.index('--with')
         extra.append(args[i + 1])
+        del args[i:i + 2]
+    if '--out' in args:
+        i = args.index('--out')
+        out = os.path.abspath(args[i + 1])
         del args[i:i + 2]
     if len(args) != 3:
         sys.exit(__doc__)
@@ -33,7 +40,15 @@ def main():
     src = os.path.join(os.path.expanduser(roms), name + '.zip')
     here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     os.makedirs(os.path.join(here, 'tmp'), exist_ok=True)
-    work = tempfile.mkdtemp(prefix='patch_%s_' % name, dir=os.path.join(here, 'tmp'))
+    if out:
+        allowed = [os.path.join(here, 'tmp'), os.path.join(here, 'konami', 'roms')]
+        if not any(out.startswith(a + os.sep) for a in allowed):
+            sys.exit('--out must be under tmp/ or konami/roms/ in the repo (both gitignored)')
+        shutil.rmtree(out, ignore_errors=True)
+        os.makedirs(out)
+        work = out
+    else:
+        work = tempfile.mkdtemp(prefix='patch_%s_' % name, dir=os.path.join(here, 'tmp'))
     try:
         build(roms, name, spec, extra, src, work)
     except BaseException:
@@ -44,7 +59,7 @@ def main():
 
 def build(roms, name, spec, extra, src, work):
     want = {}
-    for p in spec.split(','):
+    for p in ([] if spec == '-' else spec.split(',')):
         member, off, old, new = p.rsplit(':', 3)
         want.setdefault(member, []).append((int(off, 16), int(old, 16), int(new, 16)))
     done = 0
