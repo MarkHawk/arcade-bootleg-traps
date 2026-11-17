@@ -9,14 +9,16 @@ $BD5F that Konami's hidden checks sum:
                               sum is unchanged: the ROM test passes and only the hidden checks can notice.
                               This stands in for a pirate who rebalanced the ROM checksum.
 
-Output: konami/roms/tp84_<name>/tp84/388_05.8j (only the changed chip; konami/roms/ is not committed). Run MAME with
-  -rompath "konami/roms/tp84_<name>;<your rom folder>"
-so the changed chip is found first and everything else comes from your set. MAME will warn about a wrong
-checksum for that chip: that is the point.
+Output: konami/roms/tp84_<name>/tp84.zip, a copy of your tp84.zip with the chip changed, built by scripts/patchzip.py
+(konami/roms/ is not committed). Run MAME with -rompath konami/roms/tp84_<name> and nothing else on the ROM path
+(konami/demo_tp84.sh does, through scripts/mame.sh): with your own folder as a second path, MAME would reject the
+edited chip on its checksum and silently load the genuine one. MAME warns about a wrong checksum for that chip: that is
+the point.
 
 Usage: python3 konami/build_tp84.py ROM_FOLDER   (reads tp84.zip there; ROM_FOLDER required)
 """
 import os
+import subprocess
 import sys
 import zipfile
 import zlib
@@ -55,9 +57,9 @@ def main():
             if data[addr - BASE] != old:
                 sys.exit("%s: $%04X is %02X, expected %02X" % (tag, addr, data[addr - BASE], old))
             data[addr - BASE] = new
-        out = os.path.join(HERE, "roms", "tp84_" + tag, "tp84")
-        os.makedirs(out, exist_ok=True)
-        open(os.path.join(out, CHIP), "wb").write(data)
+        spec = ",".join("%s:%X:%02X:%02X" % (CHIP, a - BASE, o, n) for a, o, n in edits)
+        subprocess.run([sys.executable, os.path.join(HERE, "..", "scripts", "patchzip.py"), sys.argv[1], "tp84", spec,
+                        "--out", os.path.join(HERE, "roms", "tp84_" + tag)], check=True, stdout=subprocess.DEVNULL)
         print("%s: %s; 8 KB block sum changes by %+d; CRC %08X" % (
             tag, ", ".join("$%04X %02X->%02X" % e for e in edits), sum(data) - sum(genuine), zlib.crc32(data)))
 

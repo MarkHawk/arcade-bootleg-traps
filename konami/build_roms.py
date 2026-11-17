@@ -9,15 +9,17 @@ Each edit changes one byte that one of Konami's copy checks reads (trackfldu add
   check5  $FC6D  00 -> 01   colour of the copyright and licence lines (also read by check 6)
   check6  $A6B9  0A -> 0B   the copyright's screen address: one column to the right (only check 6)
 
-Output: konami/roms/<name>/trackfldu/<chip> (only the changed chip; konami/roms/ is not committed).
-Run MAME with
-  -rompath "konami/roms/<name>;<your rom folder>"
-so the changed chip is found first and everything else comes from your set. MAME will warn
-"WRONG CHECKSUMS" for that chip: that is the point.
+Output: konami/roms/<name>/, a complete one-folder ROM path (konami/roms/ is not committed): a copy of your zip with
+the one chip changed (trackfld.zip if your sets are merged; trackfldu.zip plus an unchanged copy of its parent
+trackfld.zip if they are split), built by scripts/patchzip.py. Run MAME with -rompath konami/roms/<name> and nothing
+else on the ROM path (konami/demo.sh does, through scripts/mame.sh): with your own folder as a second path, MAME would
+reject the edited chip on its checksum and silently load the genuine one. MAME warns "WRONG CHECKSUMS" for that chip:
+that is the point.
 
 Usage: python3 konami/build_roms.py ROM_FOLDER   (reads trackfld.zip or trackfldu.zip there; ROM_FOLDER required)
 """
 import os
+import subprocess
 import sys
 import zipfile
 import zlib
@@ -66,9 +68,13 @@ def main():
         if data[addr - base] != old:
             sys.exit("%s: $%04X is %02X, expected %02X" % (tag, addr, data[addr - base], old))
         data[addr - base] = new
-        out = os.path.join(HERE, "roms", tag, "trackfldu")
-        os.makedirs(out, exist_ok=True)
-        open(os.path.join(out, name), "wb").write(data)
+        change = "%X:%02X:%02X" % (addr - base, old, new)
+        if os.path.exists(os.path.join(rompath, "trackfldu.zip")):      # split sets: the clone's zip plus its parent
+            args = [rompath, "trackfldu", name + ":" + change, "--with", "trackfld"]
+        else:                                                            # merged sets: everything is in trackfld.zip
+            args = [rompath, "trackfld", "trackfldu/" + name + ":" + change]
+        subprocess.run([sys.executable, os.path.join(HERE, "..", "scripts", "patchzip.py")] + args +
+                       ["--out", os.path.join(HERE, "roms", tag)], check=True, stdout=subprocess.DEVNULL)
         print("%s: %s, chip %s offset $%04X, CRC %08X" % (tag, what, name, addr - base, zlib.crc32(data)))
 
 

@@ -13,6 +13,9 @@ package.path = "konami/?.lua;" .. package.path
 local tf = require("lib_tf")
 local tag = os.getenv("TF_TAG") or emu.romname()
 tf.open_log((os.getenv("TF_OUT") or "konami/out") .. "/tp84_" .. tag .. ".log")
+local _t = {}
+for a = 0xBD5E, 0xBD6A do _t[#_t + 1] = string.format("%02X", tf.r8(a)) end
+tf.log("LOADED $BD5E: " .. table.concat(_t, " ") .. "  (copyright as the checks read it: genuine KONAMI 1984 is ... 4B 4F 4E 41 4D 49 ...)", true)
 local POKE = tonumber(os.getenv("TF_POKE") or "1000")
 local SA, SB = tonumber(os.getenv("TF_SEQ_A") or "0"), tonumber(os.getenv("TF_SEQ_B") or "-1")
 local SA2, SB2 = tonumber(os.getenv("TF_SEQ2_A") or "0"), tonumber(os.getenv("TF_SEQ2_B") or "-1")   -- a second range

@@ -16,6 +16,9 @@ package.path = "konami/?.lua;" .. package.path
 local tf = require("lib_tf")
 local tag = os.getenv("TF_TAG") or emu.romname()
 tf.open_log((os.getenv("TF_OUT") or "konami/out") .. "/" .. tag .. ".log")
+local _t = {}
+for a = 0xA6B6, 0xA6C4 do _t[#_t + 1] = string.format("%02X", tf.r8(a)) end
+tf.log("LOADED $A6B6: " .. table.concat(_t, " ") .. "  (copyright entry: screen address, then the text; hyprolym 36 CA, atlantol 37 F0)", true)
 
 local CK, PASS, FAIL, HANG = 0x762E, 0x766C, 0x7669, 0x8A28
 local snaps = {}
