@@ -485,8 +485,8 @@ Sets worth collecting: [docs/ROMLIST.md](docs/ROMLIST.md).
 - Donkey Kong Jr.: scripted play reached screen 1 only; `dkingjrv` is not in the 0.277 sets.
 - Popeye: the high-score and copyright triggers were poked (the score; the copyright sum's sequence state), and the
   edit was made in MAME's decrypted copy of the program, because the ROM files are encrypted.
-- TCRF: its Time Pilot (Arcade) and Track & Field (Arcade) pages were read by hand before I was banned from the site
-  (it doesn't allow AI agents). TCRF was not checked for Time Pilot '84, so "not found in the sources checked" for it rests
+- TCRF: TCRF does not allow automated or AI access, so its pages were read by hand for Time Pilot and Track & Field
+  only. TCRF was not checked for Time Pilot '84, so "not found in the sources checked" for it rests
   on other sources only. TCRF was not checked either for the five games added in November 2026 (Battlezone, Space
   Dungeon, Mr. Do!, Donkey Kong Jr., Popeye); for Donkey Kong Jr. a YouTube video links to a TCRF description of a
   piracy check, which was not read. TCRF links in these docs are not checked by the link checker, by request.
