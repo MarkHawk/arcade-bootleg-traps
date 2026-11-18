@@ -140,7 +140,8 @@ None of these edits touches the trap.
   replaced by "JEUTEL" in `defndjeu`, `tornado1`, `zero` and `zero2`, replaced by Operamatic text in `defenderom`, and
   blanked in `defence`, `galwars2` and `startrkd`. Defense Command's ROM is the one at issue in Williams v. Artic
   (1982, below); `defcmnd` keeps the Williams string as data. That shows only that the string is in the ROM, not that it
-  is shown.
+  is shown. The opinion describes the same notice, stored but never displayed, and says that when Artic's memory
+  devices were printed out, "the listings contained the 'buried' Williams copyright notice in code" (footnote 6).
 
 ## Mayday (Hoei, 1980)
 
@@ -224,7 +225,8 @@ Published, and not claimed here:
   read in full here.
 - Williams Electronics, Inc. v. Artic International, Inc. (3rd Cir. 1982;
   [text](https://www.digital-law-online.info/cases/215PQ405.htm)): the Defense Command ROM was copied from Williams'
-  code. Summaries of the case do not mention the trap. Not read in full here.
+  code. Read for this repo: footnote 6 cites the stored, never-displayed Williams copyright notice found in Artic's ROM
+  listings as evidence of copying. The opinion does not mention the logo trap.
 - Sean Riddle, [New Williams Multigame](http://www.seanriddle.com/newmg.html): "I had to patch Mayday's protection
   scheme to get it to work", with a checksum-preserving patch of "a couple of comparisons" (no addresses). That matches
   the two compare sites above.

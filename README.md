@@ -4,10 +4,11 @@ In the 1980s my friend Phil S was a member of Bexley Squash Club, and on Sunday 
 
 It's real, in the code. Two Taito games from 1979, **Lunar Rescue** and **Space Invaders Part II**, contain hidden
 routines that give free credits when you hold a secret button combination in [attract mode](#terms-used), and the
-routines are armed by checks that a copied board is likely to fail. This repo shows what each of thirteen arcade games
-from 1979 to 1984, and Hoei's Mayday, a reworked Defender, does when its anti-copy checks fail, and what the bootlegs that exist did about them: free credits, a
-locked-up board, or a quietly spoiled game. Everything here comes from disassembly and emulation, not real hardware. The standout: in MAME, the ROMs of a real
-Mr. Do! bootleg give 41 credits for the diamond instead of 1.
+routines are armed by checks that a copied board is likely to fail. This repo shows what thirteen arcade games from
+1979 to 1984 (plus Hoei's Mayday, a reworked Defender) do when their anti-copy checks fail, and what the bootlegs that
+exist did about them: free credits, a locked-up board, or a quietly spoiled game. Everything here comes from
+disassembly and emulation, not real hardware. The standout: in MAME, the ROMs of a real Mr. Do! bootleg give 41
+credits for the diamond instead of 1.
 
 ## The short version
 
@@ -19,9 +20,9 @@ Mr. Do! bootleg give 41 credits for the diamond instead of 1.
 | [**Asteroids Deluxe**](docs/asteroids-deluxe.md), revisions 1 and 2 | Atari | 1980 | an altered copyright line gives 2 credits at about 1 game over in 3 (simulated here) | no dumped bootleg with its copyright changed is known (simulated here) | [still](#asteroids-deluxe-atari-1980) |
 | [**Centipede**](docs/centipede.md) | Atari | 1980 | no genuine [POKEY](#terms-used) sound chip: extra credits at every game start | six bootlegs without a POKEY: three removed or neutralised the check, three left it in | [still](#centipede-atari-1980) |
 | [**Battlezone**](docs/atari-battlezone.md) | Atari | 1980 | a sum over the drawn copyright is the price of a game; altered, each Start adds 26 credits, and the second bonus tank stops the game (checks published by McFadden) | Desert Wars kept the copyright: unaffected | [GIF](#battlezone-atari-1980) |
-| [**Defender**](docs/williams-defender.md), with Hoei's Mayday | Williams | 1980 | if the WILLIAMS logo ends somewhere else or changes colour, random bytes of the game's variables get overwritten in play (published); Mayday (Hoei): a read-back the board must answer | five bootlegs kept the logo's last 10 bytes and pass in MAME; the eight built on the White label never had the trap; without the answer, Mayday freezes in MAME | [still](#defender-williams-1980) |
+| [**Defender**](docs/williams-defender.md), with Hoei's Mayday | Williams | 1980 | if the WILLIAMS logo ends somewhere else or loses its red, random bytes of the game's variables get overwritten in play (published); Mayday (Hoei): a read-back the board must answer | five bootlegs kept the logo's last 10 bytes and pass in MAME; the eight built on the White label never had the trap; without the answer, Mayday freezes in MAME | [still](#defender-williams-1980) |
 | [**Space Dungeon**](docs/taito-space-dungeon.md) | Taito America | 1981 | silent checksums over code, one delayed to the 64th event; enemies or the thief drawn wrongly; the "STOLEN" message is never shown | no bootleg known in MAME | [GIF](#space-dungeon-taito-america-1981) |
-| [**Stargate**](docs/williams-stargate.md) | Williams | 1981 | two disguised ROM sums; a failed one corrupts a random byte of the game's variables; a genuine board also trips one once at power-up, in MAME | no bootleg known in MAME (simulated here) | [still](#stargate-williams-1981) |
+| [**Stargate**](docs/williams-stargate.md) | Williams | 1981 | two disguised ROM sums; a failed one corrupts a random byte of the game's variables; a genuine board also trips one once at power-up, in MAME | no bootleg known in MAME (simulated here) | [table](#stargate-williams-1981) |
 | [**Donkey Kong Jr.**](docs/nintendo-donkey-kong-jr.md) | Nintendo | 1982 | a changed copyright tile breaks the vine table: Jr. can't hold a vine | all eight working bootlegs pass: five dodged it (letters blanked in the graphics [ROM](#terms-used), or the screen address moved); three left the copyright line alone | [GIF](#donkey-kong-jr-nintendo-1982) |
 | [**Popeye**](docs/nintendo-popeye.md) | Nintendo | 1982 | a device decodes the level data; three software sums on top (test mode, random lives, a lost credit) | two bootlegs imitated the device with a 32-byte PROM and switched off the power-on and high-score ROM sums | [GIF](#popeye-nintendo-1982) |
 | [**Track & Field**](docs/konami-track-and-field.md) | Konami | 1983 | an edited copyright line, the code that draws it or one data byte locks the board, some checks only after 50, 1,500 or 4,000 games | Atlant Olimpic (1996) trips check 6 in MAME and freezes at the attract demo | [GIF](#track--field-konami-1983) |
@@ -189,8 +190,8 @@ Bottegal**'s disassembly in a [nesdev thread](https://forums.nesdev.org/viewtopi
 (2021), and in [tobybuk/DefenderPort](https://github.com/tobybuk/DefenderPort). At the first attract logo, the game stores the
 screen address where the WILLIAMS handwriting ends (`$6245`), if the logo colour is right. In play it compares that
 value, and on a mismatch it now and then writes a random byte into its own variables. A bootleg that redraws the logo
-would therefore spoil its own game, unless the drawing still ended at `$6245`. With the logo colour changed (one ROM
-byte), the genuine game makes 13 such writes in about 80 s of play; unchanged, none.
+would therefore spoil its own game, unless the drawing still ended at `$6245`. A genuine set with the logo colour
+changed (one ROM byte) makes 13 such writes in about 80 s of play; unchanged, none.
 
 What this repo adds is the bootlegs' side. **The White label version has no trap**, and the eight bootlegs in MAME
 built on it never had one. **The five built on trapped code all pass it**: each rewrote the WILLIAMS handwriting table
@@ -251,12 +252,16 @@ fresh settings, a genuine Stargate corrupts one byte at power-up (Interpretation
 bootleg is in MAME, so the demonstration is simulated. Beyond the source code itself, none of this was found in the
 sources checked.
 
-<img src="docs/img/stargate-rom-test.png" width="720" alt="Stargate power-up screens: genuine shows ALL SYSTEMS GO; with one byte changed, ROM ERROR 9 in red">
+| Run | `CHKS1` | Corrupting writes in play |
+|---|---|---|
+| genuine | `$37` | none |
+| `$8C40` changed (sampled) | **`$38`** | at `GEXBON` (`$9C52`) and `WORD$` (`$9CD2`) |
+| `$8C41` changed (not sampled) | `$37` (sums unchanged) | none |
 
-*Left: genuine `stargate`. Right: one sampled byte changed (`$8C40`, `00` to `01`, in a copy built from your own ROMs):
-its hidden sum becomes `$38` instead of `$37`. The random byte writes were not seen to change the picture, so this still
-shows what the edit visibly does: Williams' ordinary power-up ROM test, "ROM ERROR 9". Made with `williams/demo_stargate.sh`, which
-also logs the sums and every corrupting write (the wave end is a labelled poke).*
+*Simulated: one byte of a genuine set changed (`00` to `01`, in a copy built from your own ROMs); the wave end is a
+labelled poke (the enemy counters written 0 so the game's own wave-end code runs). Every run, genuine included, also
+has the one power-up write described above. From the doc's "In MAME" table; made with `williams/demo_stargate.sh`,
+which logs the sums and every corrupting write.*
 
 Full details: [docs/williams-stargate.md](docs/williams-stargate.md).
 
@@ -665,9 +670,10 @@ TCRF pages consulted earlier, before TCRF's policy on automated access was known
   the bomb that fires unless `WCURS` holds `$6245`, the value the genuine logo leaves there. None of them covers the
   bootlegs; the disassembly and the port were not read in full here.
 - **Williams v. Artic (3rd Cir. 1982)** ([text](https://www.digital-law-online.info/cases/215PQ405.htm)) found that the
-  Defense Command ROM was copied from Williams' code; summaries of it do not mention the trap. The Defender ROMs also
-  hold an unreferenced "COPYRIGHT 1980 - WILLIAMS ELECTRONICS" string, which `defcmnd` (Defense Command) keeps; whether
-  it played any part in the case is not known here.
+  Defense Command ROM was copied from Williams' code. The Defender ROMs also
+  hold an unreferenced "COPYRIGHT 1980 - WILLIAMS ELECTRONICS" string, which `defcmnd` (Defense Command) keeps. The
+  opinion records this stored, never-displayed notice as evidence of copying: Artic's printed-out ROMs "contained the
+  'buried' Williams copyright notice in code". It does not mention the logo trap.
 - **Mayday (Hoei, 1980)**: Sean Riddle's [New Williams Multigame](http://www.seanriddle.com/newmg.html) page says he had
   to patch Mayday's protection, "a couple of comparisons", for his multigame; MAME's driver hacks around the reads. What
   the check reads, where the two compares are and what a mismatch does were not found in the sources checked.
