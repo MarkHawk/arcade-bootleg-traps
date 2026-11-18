@@ -182,15 +182,15 @@ Full details, including the stop at 100,000 in natural play: [docs/atari-battlez
 
 ## Defender (Williams, 1980)
 
-Defender's logo trap is **already published**: Williams' source code is public
-([mwenge/defender](https://github.com/mwenge/defender)), and the trap was described from **Aaron Bottegal**'s
-disassembly in a [nesdev thread](https://forums.nesdev.org/viewtopic.php?f=23&t=19987) (2020), by
-**nowhereman999** ([Glen's Weblog](https://nowhereman999.wordpress.com/2021/08/25/back-to-defender-copy-protection-progress/), 2021)
-and in [tobybuk/DefenderPort](https://github.com/tobybuk/DefenderPort). At the first attract logo, the game stores the
+Defender's logo trap is **already published**. Williams' source code is public
+([mwenge/defender](https://github.com/mwenge/defender)), and the trap has been described three times: from **Aaron
+Bottegal**'s disassembly in a [nesdev thread](https://forums.nesdev.org/viewtopic.php?f=23&t=19987) (2020), by
+**nowhereman999** on [Glen's Weblog](https://nowhereman999.wordpress.com/2021/08/25/back-to-defender-copy-protection-progress/)
+(2021), and in [tobybuk/DefenderPort](https://github.com/tobybuk/DefenderPort). At the first attract logo, the game stores the
 screen address where the WILLIAMS handwriting ends (`$6245`), if the logo colour is right. In play it compares that
 value, and on a mismatch it now and then writes a random byte into its own variables. A bootleg that redraws the logo
-would therefore spoil its own game, unless the drawing still ended at `$6245`. With the logo colour changed (one ROM byte), the genuine game makes 13 such
-writes in about 80 s of play; unchanged, none.
+would therefore spoil its own game, unless the drawing still ended at `$6245`. With the logo colour changed (one ROM
+byte), the genuine game makes 13 such writes in about 80 s of play; unchanged, none.
 
 What this repo adds is the bootlegs' side. **The White label version has no trap**, and the eight bootlegs in MAME
 built on it never had one. **The five built on trapped code all pass it**: each rewrote the WILLIAMS handwriting table
@@ -248,13 +248,14 @@ shipped ROMs, at the source's addresses, and that edited copies fire it: three o
 byte. A copyright line, XOR-encoded in the ROM, is drawn **below the part of the screen MAME shows**. And Williams'
 own code trips one site on a genuine board: it compares a sum before the first game has computed it, so in MAME, with
 fresh settings, a genuine Stargate corrupts one byte at power-up (Interpretation: probably harmless). No Stargate
-bootleg is in MAME, so the demonstration is simulated. Not found in the sources checked.
+bootleg is in MAME, so the demonstration is simulated. Beyond the source code itself, none of this was found in the
+sources checked.
 
 <img src="docs/img/stargate-rom-test.png" width="720" alt="Stargate power-up screens: genuine shows ALL SYSTEMS GO; with one byte changed, ROM ERROR 9 in red">
 
 *Left: genuine `stargate`. Right: one sampled byte changed (`$8C40`, `00` to `01`, in a copy built from your own ROMs):
-its hidden sum becomes `$38` instead of `$37`. The random byte writes have no visible effect, so this still shows what
-the edit does show: Williams' ordinary power-up ROM test, "ROM ERROR 9". Made with `williams/demo_stargate.sh`, which
+its hidden sum becomes `$38` instead of `$37`. The random byte writes were not seen to change the picture, so this still
+shows what the edit visibly does: Williams' ordinary power-up ROM test, "ROM ERROR 9". Made with `williams/demo_stargate.sh`, which
 also logs the sums and every corrupting write (the wave end is a labelled poke).*
 
 Full details: [docs/williams-stargate.md](docs/williams-stargate.md).
