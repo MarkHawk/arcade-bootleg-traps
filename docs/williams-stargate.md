@@ -24,8 +24,8 @@ this was found in the sources checked.
 
 *What an edit shows on screen. Left: genuine `stargate`, frame 600: "ALL SYSTEMS GO". Right: the same set with one
 sampled byte changed (`$8C40`, `00` to `01`, in ROM 9), frame 1,400 (its power-up tests take longer): "ROM ERROR 9".
-This is Williams' ordinary power-up ROM test, not the hidden sums. The hidden sums have no visible effect: the corrupted
-bytes were not seen to change the play. The game runs after the error. Made with `williams/demo_stargate.sh`.*
+This is Williams' ordinary power-up ROM test, not the hidden sums: the bytes they corrupt were not seen to change the
+picture or the play. The game runs after the error. Made with `williams/demo_stargate.sh`.*
 
 ## The sums and the four sites
 
