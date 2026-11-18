@@ -410,10 +410,17 @@ The other makers' bootlegs, each run in MAME 0.285:
 | `popeyebl`, `popeyeb2` | Popeye (Japan) | device imitated by a 32-byte PROM; the power-on and high-score ROM sums switched off; `popeyeb2` also stops drawing the copyright | **dodged** in play; the service-mode ROM test now fails |
 | `popeyeb3` | Popeye | `popeyeu`'s device-free code (pre-decoded level data), sum table recalculated | nothing tripped |
 | **Desert Wars** (`dsrtwars`, Andra) | Battlezone | kept "ATARI 1980" and both checks | **unaffected** |
+| `defenseb`, `defenderom` | Defender (T.T Defender's code) | kept the logo trap; redrew the WILLIAMS handwriting at its exact length, keeping its last 10 bytes | **dodged**: the drawing still ends at `$6245`; no bomb writes |
+| `attackf` | Defender (Blue label) | the same; its handwriting is blanked except the last segment | **dodged** |
+| `defence`, `galwars2` | Defender (their own build of the code) | the same | **dodged** |
+| `defcmnd`, `startrkd`, `tornado1`, `tornado2`, `zero`, `zero2`, `defndjeu`, `nextcent` | Defender (White label) | copied code that has no trap | unaffected: nothing to trip |
+| `mayday`, `maydaya`, `maydayb` (Hoei) | Defender (White label) | no Williams trap in the code it started from; added its own read-back protection | unaffected by Williams' trap; without an answer to its own check, `maydaya` freezes |
+| `batlzone` (Video Game) | Hoei's Mayday | kept the read-back protection unchanged | nothing tripped; the board needed the answer, from a chip or a copy |
 | **Atlant Olimpic** (`atlantol`, Italy, 1996) | Konami's Hyper Olympic | moved the copyright line off screen | **tripped: Track & Field's check 6 fails and the board freezes** ([details](docs/konami-track-and-field.md#atlant-olimpic-a-real-bootlegs-roms-trip-check-6)) |
 
 So two bootlegs outside Taito's family tripped a check in MAME: Mr. Du!, which pays out, and Atlant Olimpic, which freezes. The
-rest dodged the checks, removed them, or never touched what they guard. Interpretation: whether the dodging was
+rest dodged the checks, removed them, or never touched what they guard. None of Defender's thirteen bootlegs in MAME
+trips its trap: five dodged it, and eight never had it. Interpretation: whether the dodging was
 deliberate can't be told from the bytes; blanking a graphics ROM, or skipping a draw call, was also simply the easiest
 way to remove a copyright line.
 
@@ -443,6 +450,12 @@ checksum, and whether anyone meant it as a payout can't be told (see Universal b
   cripple later rounds and Millipede's run arbitrary code until it is unplayable (see [Prior art](#prior-art)).
   Battlezone (1980) does both: its copyright sum is the price of a game, so a changed copyright gives credits away, and
   a second check stops the game for good at the second bonus tank (both published by McFadden).
+- **Williams:** sabotage rather than payouts. Defender (1980) has its published logo trap in the Red, Blue, Green and
+  T.T sets but not in the White label. Interpretation: if the White label is the earlier code, the trap was added after
+  it; the sources checked do not date the White label, so the other reading, that a later release dropped it, cannot
+  be excluded. Stargate (1981) goes further, with two disguised ROM sums over the program and four sites that corrupt a
+  random byte when they fail. Interpretation: that looks like a move from one check on the logo to broader hidden
+  checks on the whole program; whether it was a deliberate policy cannot be told from two games.
 - **Universal:** Mr. Do! (1982) relies on a protection chip, and sums the code that reads the chip. Interpretation: the
   sums make patching that code change the game quietly (scene counters, the diamond's free credit) instead of failing
   visibly. On Universal's code the diamond sum passes and on Taito's its branch was removed; only Mr. Du!'s edit makes
