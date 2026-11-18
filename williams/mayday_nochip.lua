@@ -7,8 +7,9 @@
 -- MAYDAY_NOCHIP=1: from frame 3000, a Lua read tap on $A190-$A191 returns the plain RAM byte instead of MAME's answer:
 -- "no chip". It is switched on at frame 3000, after the attract-mode check at $C750 (reached in attract with these inputs) has
 -- passed with MAME's answer, so that the check shown is the one at $EEC0. With the tap on from power-up, the $C750
--- check fails first and the board restarts (seen, not examined further). No ROM is changed. Logs the loaded bytes at both compare sites, every compare (A as read against the constant, the first 5),
--- and "SNAP nnnn seq fF" every 5 frames from 4900 to 5400.
+-- check fails first and the board restarts (seen, not examined further). No ROM is changed.
+-- Logs the loaded bytes at both compare sites, every compare up to the first mismatch (A as read against the
+-- constant), a count of breakpoint hits after it, and "SNAP nnnn seq fF" every 5 frames from 4900 to 5400.
 -- Inputs: Auto Up off and no Advance (Mayday boots straight to attract); from frame 4200, coin every 900 frames,
 -- 1 Player Start 60 frames later, Fire pulsed, Up and Down in turn. The same inputs on both sides.
 local m = manager.machine
@@ -25,16 +26,19 @@ log(NOCHIP and "no chip from frame 3000: reads of $A190/$A191 will return plain 
   or "with chip: MAME's protection_r answers $A190/$A191 throughout")
 local sites = { [0xEEC0] = { "A193", 0xA193 }, [0xC750] = { "A194", 0xA194 } }
 local n = { [0xEEC0] = 0, [0xC750] = 0 }
+local failed, after = false, 0
 for a in pairs(sites) do cpu.debug:bpset(a, "", "") end
 local function service()
   if dbg.execution_state ~= "stop" then return end
   local pc = cpu.state["PC"].value
-  if sites[pc] then
+  if sites[pc] and failed then
+    after = after + 1
+  elseif sites[pc] then
     n[pc] = n[pc] + 1
-    if n[pc] <= 5 then
-      log(string.format("compare at $%04X: read %02X, wants %02X ($%s)", pc, cpu.state["D"].value >> 8,
-        mem:read_u8(sites[pc][2]), sites[pc][1]))
-    end
+    local a, want = cpu.state["D"].value >> 8, mem:read_u8(sites[pc][2])
+    log(string.format("compare at $%04X: read %02X, wants %02X ($%s)%s", pc, a, want, sites[pc][1],
+      a ~= want and ": MISMATCH" or ""))
+    failed = a ~= want
   end
   dbg.execution_state = "run"
 end
@@ -66,5 +70,6 @@ keep_f = emu.add_machine_frame_notifier(function()
   end
 end)
 keep_s = emu.add_machine_stop_notifier(function()
-  log(string.format("compares reached: $EEC0 %d, $C750 %d", n[0xEEC0], n[0xC750]))
+  log(string.format("compares reached: $EEC0 %d, $C750 %d; breakpoint hits after the first mismatch: %d (not real" ..
+    " compares: the program no longer runs normally; not examined)", n[0xEEC0], n[0xC750], after))
 end)
