@@ -168,6 +168,46 @@ from RAM. Made with `atari/demo_bzone.sh credits`.*
 
 Full details, including the stop at 100,000 in natural play: [docs/atari-battlezone.md](docs/atari-battlezone.md).
 
+## Defender (Williams, 1980)
+
+Defender's logo trap is **already published**: Williams' source code is public
+([mwenge/defender](https://github.com/mwenge/defender)), and the trap was described from **Aaron Bottegal**'s
+disassembly in a [nesdev thread](https://forums.nesdev.org/viewtopic.php?f=23&t=19987) (2020), by
+**nowhereman999** ([Glen's Weblog](https://nowhereman999.wordpress.com/2021/08/25/back-to-defender-copy-protection-progress/), 2021)
+and in [tobybuk/DefenderPort](https://github.com/tobybuk/DefenderPort). At the first attract logo, the game stores the
+screen address where the WILLIAMS handwriting ends (`$6245`), if the logo colour is right. In play it compares that
+value, and on a mismatch it now and then writes a random byte into its own variables. A bootleg that redraws the logo
+should therefore spoil its own game. With the logo colour changed (one ROM byte), the genuine game makes 13 such
+writes in about 80 s of play; unchanged, none.
+
+What this repo adds is the bootlegs' side. **The White label version has no trap**, and the eight bootlegs in MAME
+built on it never had one. **The five built on trapped code all pass it**: each rewrote the WILLIAMS handwriting table
+at exactly the genuine length (351 bytes) and kept its last 10 bytes, so the drawing still ends at `$6245`. The table
+draws a ship, "OPERAMATIC", "DEFENCE COMMAND" or nothing, and then the small "R" of Williams' registered mark.
+Interpretation: that fits a bootlegger who knew the end point mattered, and equally one who overwrote the table from
+the start and never reached its last segment; the bytes cannot tell these apart.
+
+<img src="docs/img/defender-logo-tables.png" width="560" alt="The WILLIAMS handwriting table drawn for genuine Defender and five bootlegs: Williams, a ship, OPERAMATIC, nothing, DEFENCE COMMAND and GALAXY WARS II; every one ends at CUREND $6245, the small R of the registered mark">
+
+*The WILLIAMS handwriting table of genuine `defender` and the five bootlegs that carry the trap, decoded from the
+loaded ROMs and drawn the way the logo routine draws it; the blue box is the end point. Not a screenshot. Every table is
+351 bytes and ends at `$6245`. Nothing is edited. Made with `williams/demo_logotab.sh`; the control (13 bomb writes
+against none) with `williams/demo_defender.sh`.*
+
+**Mayday** (Hoei, 1980) is a modified White-label Defender, so it has no Williams trap either. Hoei added its own
+protection: the game reads back two bytes (`$A190`/`$A191`) that something on the board must answer with `$62` and
+`$E2`. MAME answers them with a hack. Without that answer, `maydaya` freezes at the first object destroyed (shown on
+`maydaya` only). The bootleg `batlzone` kept the protection unchanged.
+
+<img src="docs/img/maydaya-nochip-pair.gif" width="720" alt="Mayday set 2, MAME's protection answer on the left and no chip on the right: identical until an object is destroyed at frame 5950, then the right-hand picture freezes while the left plays on">
+
+*Left: `maydaya` with MAME's answer to the protection reads. Right: no chip (a Lua read tap returns plain RAM; no ROM
+is changed). The same scripted game; at frame 5950 the first object destroyed reads `$00` against `$62`, and the right
+side freezes. Nothing is poked. `williams/demo_mayday.sh` makes an equivalent pair, with the tap switched on at frame
+3000 (see the doc).*
+
+Full details, including every bootleg and the Mayday sets: [docs/williams-defender.md](docs/williams-defender.md).
+
 ## Space Dungeon (Taito America, 1981)
 
 Space Dungeon's ROM holds the message "STOLEN FROM THE GOOD BUDDY'S AT TAITO BY AN UNAUTHORIZED DO BADDER". It is
@@ -185,6 +225,27 @@ bootleg of the game is known in MAME.
 on the thief is drawn as a cut-down shape. No message appears. Made with `taito/demo_sdungeon.sh`.*
 
 Full details: [docs/taito-space-dungeon.md](docs/taito-space-dungeon.md).
+
+## Stargate (Williams, 1981)
+
+Stargate hides two ROM sums inside routines that look like something else, and **four sites**
+compare them with constants. On a mismatch, and a random roll, each corrupts **one random byte** of the game's own
+variables. This is all in Williams' published source code
+([historicalsource/stargate](https://github.com/historicalsource/stargate)); what this repo adds is that it is in the
+shipped ROMs, at the source's addresses, and that edited copies fire it: three of the four sites were seen to corrupt a
+byte. A copyright line, XOR-encoded in the ROM, is drawn **below the part of the screen MAME shows**. And Williams'
+own code trips one site on a genuine board: it compares a sum before the first game has computed it, so in MAME, with
+fresh settings, a genuine Stargate corrupts one byte at power-up (Interpretation: probably harmless). No Stargate
+bootleg is in MAME, so the demonstration is simulated. Not found in the sources checked.
+
+<img src="docs/img/stargate-rom-test.png" width="720" alt="Stargate power-up screens: genuine shows ALL SYSTEMS GO; with one byte changed, ROM ERROR 9 in red">
+
+*Left: genuine `stargate`. Right: one sampled byte changed (`$8C40`, `00` to `01`, in a copy built from your own ROMs):
+its hidden sum becomes `$38` instead of `$37`. The random byte writes have no visible effect, so this still shows what
+the edit does show: Williams' ordinary power-up ROM test, "ROM ERROR 9". Made with `williams/demo_stargate.sh`, which
+also logs the sums and every corrupting write (the wave end is a labelled poke).*
+
+Full details: [docs/williams-stargate.md](docs/williams-stargate.md).
 
 ## Mr. Do! (Universal, 1982)
 
