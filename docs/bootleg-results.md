@@ -109,18 +109,13 @@ a coin input on port 1 bit 7 and adds **3 or 6 credits per coin**, chosen by a D
 ($50A7; the same code appears again at $54A7). A pirate coinage change, not a trap. Not covered: Straight Flush (6800 CPU) and the Z80 games (no emulator, so no
 coin test – static combo search only).
 
-## So what was going on at the squash club?
+## Which copies pay out for the button trick
 
-The machine was an unmarked cocktail table: no maker's name, a very generic cabinet. Around the same time the club
-also had unmarked Asteroids and Space Firebird machines, two on site at once, which sounds like an operator buying
-copied boards.
-
-If the machine was a Lunar Rescue copy with the Taito name changed (*Destination Earth* or *Escape from
-Mars*, or the right version of *Moon Lander*, which was a UK bootleg), holding the combo during the attract demo
-gave free credits, exactly as described in [lunar-rescue.md](lunar-rescue.md). I can't know which board it was, but the memory fits the code, and
-those copies were real. A cocktail table makes no difference: the trap reads the player 1 controls whatever the
-cabinet type. (Atari's [Asteroids Deluxe trap](asteroids-deluxe.md) is in a different game from the club's Asteroids; nothing like it turned
-up in the original Asteroids.)
+The copies of Lunar Rescue with the Taito name changed (*Destination Earth*, *Escape from Mars*, and the right
+version of *Moon Lander*, which was a UK bootleg) pay out: holding the combo during the attract demo gives free
+credits, exactly as described in [lunar-rescue.md](lunar-rescue.md). A cocktail cabinet makes no difference: the
+trap reads the player 1 controls whatever the cabinet type. (Atari's [Asteroids Deluxe trap](asteroids-deluxe.md)
+belongs to Asteroids Deluxe only; nothing like it turned up in the original Asteroids.)
 
 ## Prior art and sources checked
 

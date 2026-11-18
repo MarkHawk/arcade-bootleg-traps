@@ -1,14 +1,8 @@
 # Bootleg boards that gave away free games: hidden anti-piracy traps in 1979–84 arcade code
 
-In the 1980s my friend Phil S was a member of Bexley Squash Club, and on Sunday afternoons we'd go there to play the arcade machines. On one of them, someone could get free games with a button trick. Forty-odd years later I went looking for it in the code.
+Some 1979–84 arcade games hid code that punished copied boards: free credits on Taito and Atari copies, locked or quietly spoiled games from Konami, Nintendo and Williams. This repo traces those checks in the original ROMs and runs them in MAME, against the real bootlegs that survive. The standout: in MAME, the ROMs of a real Mr. Do! bootleg give 41 credits for the diamond instead of 1.
 
-It's real, in the code. Two Taito games from 1979, **Lunar Rescue** and **Space Invaders Part II**, contain hidden
-routines that give free credits when you hold a secret button combination in [attract mode](#terms-used), and the
-routines are armed by checks that a copied board is likely to fail. This repo shows what thirteen arcade games from
-1979 to 1984 (plus Hoei's Mayday, a reworked Defender) do when their anti-copy checks fail, and what the bootlegs that
-exist did about them: free credits, a locked-up board, or a quietly spoiled game. Everything here comes from
-disassembly and emulation, not real hardware. The standout: in MAME, the ROMs of a real Mr. Do! bootleg give 41
-credits for the diamond instead of 1.
+It covers thirteen arcade games from 1979 to 1984 (plus Hoei's Mayday, a reworked Defender): what each does when its anti-copy checks fail, and what the bootlegs did about them. Everything here comes from disassembly and emulation, not real hardware.
 
 ## The short version
 
@@ -430,11 +424,8 @@ trips its trap: five dodged it, and eight never had it. Interpretation: whether 
 deliberate can't be told from the bytes; blanking a graphics ROM, or skipping a draw call, was also simply the easiest
 way to remove a copyright line.
 
-So what was going on at the squash club? The machine was an unmarked cocktail table: no maker's name, a very
-generic cabinet. If it was a Lunar Rescue copy with the Taito name changed (*Destination Earth* or *Escape from
-Mars*, or the right version of *Moon Lander*, which was a UK bootleg), holding the combo during the attract demo
-gave free credits. I can't know which board it was, but the memory fits the code, and those copies were real.
-The full version: [docs/bootleg-results.md](docs/bootleg-results.md#so-what-was-going-on-at-the-squash-club).
+This fits the old rumour of an arcade machine that gave free games for a button trick: the copies existed, and the trick worked on them.
+Which copies pay out: [docs/bootleg-results.md](docs/bootleg-results.md#which-copies-pay-out-for-the-button-trick).
 
 ## Was this policy?
 
