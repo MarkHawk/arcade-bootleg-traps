@@ -4,8 +4,8 @@ In the 1980s my friend Phil S was a member of Bexley Squash Club, and on Sunday 
 
 It's real, in the code. Two Taito games from 1979, **Lunar Rescue** and **Space Invaders Part II**, contain hidden
 routines that give free credits when you hold a secret button combination in [attract mode](#terms-used), and the
-routines are armed by checks that a copied board is likely to fail. This repo shows what each of eleven arcade games
-from 1979 to 1984 does when its anti-copy checks fail, and what the bootlegs that exist did about them: free credits, a
+routines are armed by checks that a copied board is likely to fail. This repo shows what each of thirteen arcade games
+from 1979 to 1984, and Hoei's Mayday, a reworked Defender, does when its anti-copy checks fail, and what the bootlegs that exist did about them: free credits, a
 locked-up board, or a quietly spoiled game. Everything here comes from disassembly and emulation, not real hardware. The standout: in MAME, the ROMs of a real
 Mr. Do! bootleg give 41 credits for the diamond instead of 1.
 
@@ -19,7 +19,9 @@ Mr. Do! bootleg give 41 credits for the diamond instead of 1.
 | [**Asteroids Deluxe**](docs/asteroids-deluxe.md), revisions 1 and 2 | Atari | 1980 | an altered copyright line gives 2 credits at about 1 game over in 3 (simulated here) | no dumped bootleg with its copyright changed is known (simulated here) | [still](#asteroids-deluxe-atari-1980) |
 | [**Centipede**](docs/centipede.md) | Atari | 1980 | no genuine [POKEY](#terms-used) sound chip: extra credits at every game start | six bootlegs without a POKEY: three removed or neutralised the check, three left it in | [still](#centipede-atari-1980) |
 | [**Battlezone**](docs/atari-battlezone.md) | Atari | 1980 | a sum over the drawn copyright is the price of a game; altered, each Start adds 26 credits, and the second bonus tank stops the game (checks published by McFadden) | Desert Wars kept the copyright: unaffected | [GIF](#battlezone-atari-1980) |
+| [**Defender**](docs/williams-defender.md), with Hoei's Mayday | Williams | 1980 | if the WILLIAMS logo ends somewhere else or changes colour, random bytes of the game's variables get overwritten in play (published); Mayday (Hoei): a read-back the board must answer | five bootlegs kept the logo's last 10 bytes and pass in MAME; the eight built on the White label never had the trap; without the answer, Mayday freezes in MAME | [still](#defender-williams-1980) |
 | [**Space Dungeon**](docs/taito-space-dungeon.md) | Taito America | 1981 | silent checksums over code, one delayed to the 64th event; enemies or the thief drawn wrongly; the "STOLEN" message is never shown | no bootleg known in MAME | [GIF](#space-dungeon-taito-america-1981) |
+| [**Stargate**](docs/williams-stargate.md) | Williams | 1981 | two disguised ROM sums; a failed one corrupts a random byte of the game's variables; a genuine board also trips one once at power-up, in MAME | no bootleg known in MAME (simulated here) | [still](#stargate-williams-1981) |
 | [**Donkey Kong Jr.**](docs/nintendo-donkey-kong-jr.md) | Nintendo | 1982 | a changed copyright tile breaks the vine table: Jr. can't hold a vine | all eight working bootlegs pass: five dodged it (letters blanked in the graphics [ROM](#terms-used), or the screen address moved); three left the copyright line alone | [GIF](#donkey-kong-jr-nintendo-1982) |
 | [**Popeye**](docs/nintendo-popeye.md) | Nintendo | 1982 | a device decodes the level data; three software sums on top (test mode, random lives, a lost credit) | two bootlegs imitated the device with a 32-byte PROM and switched off the power-on and high-score ROM sums | [GIF](#popeye-nintendo-1982) |
 | [**Track & Field**](docs/konami-track-and-field.md) | Konami | 1983 | an edited copyright line, the code that draws it or one data byte locks the board, some checks only after 50, 1,500 or 4,000 games | Atlant Olimpic (1996) trips check 6 in MAME and freezes at the attract demo | [GIF](#track--field-konami-1983) |
@@ -28,8 +30,8 @@ Mr. Do! bootleg give 41 credits for the diamond instead of 1.
 The Lunar Rescue, Part II, Asteroids Deluxe and Centipede listings in this repo are checked against the real ROMs by
 `scripts/verify.py` (Taito) and `atari/verify_atari.py` (Atari), and every free-credit trap is shown working in an
 emulator, with the genuine board alongside (Part II's with an input line forced high, Asteroids Deluxe's on a simulated
-bootleg). The five later games (Battlezone, Space Dungeon, Mr. Do!, Donkey Kong Jr. and Popeye) were checked in MAME
-0.285 with Lua scripts: any edited ROM is a copy built from your own set and alone on the ROM path,
+bootleg). The seven later games (Battlezone, Defender with Hoei's Mayday, Space Dungeon, Stargate, Mr. Do!, Donkey
+Kong Jr. and Popeye) were checked in MAME 0.285 with Lua scripts and MAME's debugger: any edited ROM is a copy built from your own set and alone on the ROM path,
 and every run logs the bytes MAME actually loaded.
 
 Which of these were published before, and which weren't found in the sources checked: see [Prior art](#prior-art). Limits: see [Caveats](#caveats).
@@ -47,6 +49,14 @@ its copyright line has been changed, and **Centipede** adds credits at every gam
 [POKEY](#terms-used) sound chip. In **Battlezone**, whose checks Andy McFadden had already published, a changed copyright
 makes every Start *add* 26 credits. Mostly, instead of locking up a copied board, these games make it lose money for
 whoever is operating it.
+
+**Williams (1980–81).** **Defender**'s published logo trap writes random bytes into the game's variables if the
+WILLIAMS logo is changed. None of its bootlegs in MAME trips it: the five that carry it kept the last 10 bytes of the
+handwriting, so it still ends where the check expects, and the eight built on the White label version copied code that
+never had it. **Stargate** (1981) hides two ROM sums whose failure corrupts a random byte; its own code also trips one
+once at power-up. Hoei's **Mayday** (1980), a reworked White-label Defender, has a protection read-back of its own;
+without an answer to it, the game freezes in MAME. Interpretation: Williams' traps spoil a copied game quietly rather
+than stopping it.
 
 **Taito America (1981).** The "STOLEN FROM ... TAITO" message in **Space Dungeon** is never shown: the real protection is
 silent code [checksums](#terms-used).
@@ -77,8 +87,10 @@ the check, it flips the screen and swaps the controls on alternate frames, takes
 - **PAL:** a small programmable logic chip; in Mr. Do! it answers four fixed codes, as a protection chip.
 - **POKEY:** Atari's sound chip, which also has a random-number register.
 - **Watchdog:** a timer that resets the board if the game stops reporting in.
-- **CPUs:** the **8080** (Taito and Midway Space Invaders hardware), the **6502** (Atari), the **6809** (Konami, and Taito
-  America's Space Dungeon) and the **Z80** (Mr. Do!, Donkey Kong Jr., Popeye).
+- **Label colours (Defender):** Williams' Defender ROM sets are named by the colour of their chip labels: Red, Blue,
+  Green and White. MAME has one set for each, plus "T.T Defender" (`defenderj`), 36 bytes from Red.
+- **CPUs:** the **8080** (Taito and Midway Space Invaders hardware), the **6502** (Atari), the **6809** (Konami, Williams'
+  Defender and Stargate, Hoei's Mayday, and Taito America's Space Dungeon) and the **Z80** (Mr. Do!, Donkey Kong Jr., Popeye).
 
 ---
 
@@ -177,7 +189,7 @@ disassembly in a [nesdev thread](https://forums.nesdev.org/viewtopic.php?f=23&t=
 and in [tobybuk/DefenderPort](https://github.com/tobybuk/DefenderPort). At the first attract logo, the game stores the
 screen address where the WILLIAMS handwriting ends (`$6245`), if the logo colour is right. In play it compares that
 value, and on a mismatch it now and then writes a random byte into its own variables. A bootleg that redraws the logo
-should therefore spoil its own game. With the logo colour changed (one ROM byte), the genuine game makes 13 such
+would therefore spoil its own game, unless the drawing still ended at `$6245`. With the logo colour changed (one ROM byte), the genuine game makes 13 such
 writes in about 80 s of play; unchanged, none.
 
 What this repo adds is the bootlegs' side. **The White label version has no trap**, and the eight bootlegs in MAME
