@@ -524,8 +524,9 @@ ROMs are not included: you need your own MAME sets.
   itself. For the MAME demos, `mame -verifyroms <set>` passing on your folder is the test. The sets each demo needs are
   listed in [docs/USAGE.md](docs/USAGE.md#the-november-2026-demos) and [docs/ROMLIST.md](docs/ROMLIST.md).
 
-**Versions used.** The Taito and earlier Atari results are from MAME 0.277 ROM sets. The Konami results and the five
-later games (Battlezone, Space Dungeon, Mr. Do!, Donkey Kong Jr. and Popeye) were run in MAME 0.285, with ROM sets from
+**Versions used.** The Taito and earlier Atari results are from MAME 0.277 ROM sets. The Konami results and the seven
+later games (Battlezone, Defender with Hoei's Mayday, Space Dungeon, Stargate, Mr. Do!, Donkey Kong Jr. and Popeye) were
+run in MAME 0.285, with ROM sets from
 0.277. Other versions are untested; ROM names and checksums change between MAME releases.
 
 **Taito** (pure Python 3: a disassembler, a signature scanner and an 8080 emulator of the Space Invaders board):
@@ -562,6 +563,16 @@ universal/demo_mrdu.sh ~/roms                # Mr. Do! against the bootleg Mr. D
 nintendo/demo_dkjr.sh ~/roms                 # Junior King climbs; genuine Donkey Kong Jr. with one checked tile changed falls
 nintendo/demo_popeye.sh ~/roms               # Popeye: 3 lives against 4 after the high-score sum fails
 taito/demo_sdungeon.sh ~/roms                # Space Dungeon: the delayed check fires on the 64th event
+```
+
+**Williams and Hoei** (MAME's Lua scripting and debugger; the Defender and Stargate edits are built from your own zip
+into a temporary folder; Mayday needs no edit, as the no-chip case is a Lua read tap):
+
+```bash
+williams/demo_defender.sh ~/roms             # Defender: logo colour changed: WCURS 6245 -> 0000, bomb writes 0 -> 13
+williams/demo_logotab.sh ~/roms              # the WILLIAMS handwriting of genuine and five bootlegs: all end at $6245
+williams/demo_stargate.sh ~/roms             # Stargate: one sampled byte changed: hidden sum 37 -> 38, random byte writes in play
+williams/demo_mayday.sh ~/roms               # Mayday (maydaya): no chip: freezes at the first object destroyed
 ```
 
 More commands (the genuine-board runs, the MAME debugger steps, the verify scripts, Centipede, the slam-switch scan,
@@ -605,14 +616,26 @@ How new games are added: [docs/STYLE.md](docs/STYLE.md).
 - Donkey Kong Jr.: scripted play reached screen 1 only; `dkingjrv` is not in the 0.277 sets.
 - Popeye: the high-score and copyright triggers were poked (the score; the copyright sum's sequence state), and the
   edit was made in MAME's decrypted copy of the program, because the ROM files are encrypted.
+- Defender: the control is a one-byte ROM edit (the logo colour); nothing is poked. One scripted player, about 80 s of
+  play per run; the check was sampled at the first attract logo, once per power-up. `nextcent` never left the audit
+  pages in MAME, so its result rests on its code; `tornado2` and `defndjeu` are marked preliminary in MAME. What the
+  corrupted variables do to the play was not examined.
+- Mayday: the no-chip failure was shown on `maydaya` only, with a Lua read tap, not a ROM edit; "with chip" means
+  MAME's hack. The repo's demo switches the tap on at frame 3000, after the attract-mode check has passed, because with
+  its inputs that check runs first; with the tap on from power-up, the board restarts there instead (seen while
+  porting the demo, not examined further).
+- Stargate: simulated (no bootleg in MAME); one byte of a genuine set changed, and the wave end is a labelled poke (the
+  enemy counters zeroed). One of the four sites (`SGTRAN`) was not seen to corrupt a byte (a 1-in-10 roll, two tries).
+  The power-up hit on a genuine board was seen only with a blank NVRAM. Whether the hidden copyright shows on a real
+  monitor was not tested.
 - TCRF: TCRF does not allow automated or AI access. Its Time Pilot, Track & Field, Tempest, Millipede and Space
-  Invaders pages were consulted before that was known; it was not checked for Time Pilot '84 or the five later games
-  (Battlezone, Space Dungeon, Mr. Do!, Donkey Kong Jr., Popeye), so "not found in the sources
+  Invaders pages were consulted before that was known; it was not checked for Time Pilot '84 or the seven later games
+  (Battlezone, Defender with Mayday, Space Dungeon, Stargate, Mr. Do!, Donkey Kong Jr., Popeye), so "not found in the sources
   checked" for those rests on other sources only. The Donkey Kong Jr. YouTube video is covered under [Prior art](#prior-art). TCRF links in these docs are not checked by the link checker, by request.
 - "Right" means bit 6 of input port 1, the standard Space Invaders wiring.
 - "Not found in the sources checked" means not found online, in Computer Archeology, 6502disassembly.com or the
-  arcade history databases, and, except for Time Pilot '84 and the five later games (see the TCRF
-  note above), in TCRF. For those five, each doc lists the sources it checked: MAME's driver sources and change
+  arcade history databases, and, except for Time Pilot '84 and the seven later games (see the TCRF
+  note above), in TCRF. For those seven, each doc lists the sources it checked: MAME's driver sources and change
   history, MAME Testers, Arcade Museum forum threads, jammarcade.net, Arcade History, Arcade Database and others. If you know otherwise, open an issue; I'd love to hear it.
 
 ## Prior art
@@ -630,6 +653,26 @@ TCRF pages consulted earlier, before TCRF's policy on automated access was known
   sum used when credits are deducted, and the check that stops the saucer sounds after 100,000 points and is never
   cleared. The measured effects above (each Start adds 26 credits; the game stops at the second bonus tank) and Desert
   Wars being unaffected are all this repo adds.
+- **Defender (Williams, 1980)**: the logo trap is in Williams' source code
+  ([mwenge/defender](https://github.com/mwenge/defender)). It was found from **Aaron Bottegal**'s disassembly
+  ([AaronBottegal/Defender-Source-Code](https://github.com/AaronBottegal/Defender-Source-Code)) and described in a
+  [nesdev thread](https://forums.nesdev.org/viewtopic.php?f=23&t=19987) (2020): a compare with `#$6245` tied to the
+  Williams title drawing, and a crash if the intro is replaced. **nowhereman999**
+  ([Glen's Weblog](https://nowhereman999.wordpress.com/2021/08/25/back-to-defender-copy-protection-progress/), 2021)
+  gives the check at `$E10E`, the random writes into the game's variables and a patch that removes it, crediting
+  Bottegal. [tobybuk/DefenderPort](https://github.com/tobybuk/DefenderPort), a JavaScript port of the source, describes
+  the bomb that fires unless `WCURS` holds `$6245`, the value the genuine logo leaves there. None of them covers the
+  bootlegs; the disassembly and the port were not read in full here.
+- **Williams v. Artic (3rd Cir. 1982)** ([text](https://www.digital-law-online.info/cases/215PQ405.htm)) found that the
+  Defense Command ROM was copied from Williams' code; summaries of it do not mention the trap. The Defender ROMs also
+  hold an unreferenced "COPYRIGHT 1980 - WILLIAMS ELECTRONICS" string, which `defcmnd` (Defense Command) keeps; whether
+  it played any part in the case is not known here.
+- **Mayday (Hoei, 1980)**: Sean Riddle's [New Williams Multigame](http://www.seanriddle.com/newmg.html) page says he had
+  to patch Mayday's protection, "a couple of comparisons", for his multigame; MAME's driver hacks around the reads. What
+  the check reads, where the two compares are and what a mismatch does were not found in the sources checked.
+- **Stargate (Williams, 1981)**: the hidden sums are in Williams' source code
+  ([historicalsource/stargate](https://github.com/historicalsource/stargate)); no description of them was found in the
+  sources checked.
 - **Donkey Kong (1981)** checks part of "NINTENDO" in its copyright line and freezes if it has been changed
   ([Super Mario Wiki](https://www.mariowiki.com/Donkey_Kong_(game)); furrykef's [dkdasm](https://github.com/furrykef/dkdasm)).
   Donkey Kong Jr.'s check above uses the same routine at the same addresses; for it, a piracy check is shown in a YouTube video ("Donkey Kong Jr. - Piracy Check") that links to TCRF; that description
@@ -676,7 +719,10 @@ Not found in the sources checked: that the Lunar Rescue, Part II and Asteroids D
 tied to a copy check, and that the Lunar Rescue one pays out on real bootlegs (Destination Earth, Escape from Mars, one
 version of Moon Lander). For the later games: Mr. Do!'s sums over its protection code and Mr. Du!'s 41 credits;
 Popeye's three ROM sums and what its bootlegs did about them; how Donkey Kong Jr.'s bootlegs dodged its check, and the
-E kit's broken copy of it; Space Dungeon's checksums. Already published: Donkey Kong's check (and see its entry above for Donkey Kong Jr.). On the Konami side, and not on TCRF's Time Pilot page: Track & Field's hidden games-started counters and
+E kit's broken copy of it; Space Dungeon's checksums; what Defender's bootlegs did about its logo trap (the five that
+kept the last ten bytes of the handwriting, the eight built on the White label, which has no trap); Mayday's read-back
+check and `batlzone` keeping it; Stargate's hidden sums running in the shipped ROMs, and its compare before the sum
+exists. Already published: Donkey Kong's check (and see its entry above for Donkey Kong Jr.). On the Konami side, and not on TCRF's Time Pilot page: Track & Field's hidden games-started counters and
 thresholds, its permanent arming in battery-backed RAM, a real bootleg (Atlant Olimpic) tripping it in MAME in scripted normal play,
 and Time Pilot '84's on-screen accusation. Wrecking the game on failure, as Time Pilot '84 does, was already in Atari's
 Tempest and Millipede; only the accusation and its particular effects (lives, screen flip, control swap) are Konami's.
@@ -694,12 +740,22 @@ Tempest and Millipede; only the accusation and its particular effects (lives, sc
   [`mrdo.cpp`](https://github.com/mamedev/mame/blob/mame0285/src/mame/universal/mrdo.cpp),
   [`dkong.cpp`](https://github.com/mamedev/mame/blob/mame0285/src/mame/nintendo/dkong.cpp),
   [`popeye.cpp`](https://github.com/mamedev/mame/blob/mame0285/src/mame/nintendo/popeye.cpp),
-  [`qix.cpp`](https://github.com/mamedev/mame/blob/mame0285/src/mame/taito/qix.cpp)), for memory maps, inputs,
+  [`qix.cpp`](https://github.com/mamedev/mame/blob/mame0285/src/mame/taito/qix.cpp),
+  [`williams.cpp`](https://github.com/mamedev/mame/blob/mame0285/src/mame/midway/williams.cpp),
+  [`williams_m.cpp`](https://github.com/mamedev/mame/blob/mame0285/src/mame/midway/williams_m.cpp)), for memory maps, inputs,
   POKEY behaviour and the protection hardware; MAME commit
   [16a0695af](https://github.com/mamedev/mame/commit/16a0695afe88108dc69edcde75f39aa2057d7de4), which swapped the names
   `popeyebl` and `popeyeb2` in 2018
 - [Andy McFadden: Battlezone, commented disassembly](https://6502disassembly.com/va-battlezone/), the source of both
   Battlezone checks
+- Williams' source code: [mwenge/defender](https://github.com/mwenge/defender) (Defender) and
+  [historicalsource/stargate](https://github.com/historicalsource/stargate) (Stargate)
+- Aaron Bottegal: [Defender-Source-Code](https://github.com/AaronBottegal/Defender-Source-Code) and the
+  [nesdev thread](https://forums.nesdev.org/viewtopic.php?f=23&t=19987); nowhereman999:
+  [Back to Defender: Copy Protection & Progress](https://nowhereman999.wordpress.com/2021/08/25/back-to-defender-copy-protection-progress/);
+  [tobybuk/DefenderPort](https://github.com/tobybuk/DefenderPort)
+- [Williams Electronics, Inc. v. Artic International, Inc. (3rd Cir. 1982)](https://www.digital-law-online.info/cases/215PQ405.htm)
+- [Sean Riddle: New Williams Multigame](http://www.seanriddle.com/newmg.html), on Mayday's protection
 - [furrykef/dkdasm](https://github.com/furrykef/dkdasm), the Donkey Kong disassembly whose check was the control for
   Donkey Kong Jr.
 - [MAME Testers 08201](https://mametesters.org/view.php?id=8201) and the Arcade Museum forum threads
