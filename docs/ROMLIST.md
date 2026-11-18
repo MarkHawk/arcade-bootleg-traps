@@ -201,7 +201,10 @@ Not on the 8080 board; each has its own doc and demo. MAME 0.285 with 0.277 sets
 | Game | Sets | Doc |
 |---|---|---|
 | Battlezone (Atari, 1980) | `bzone`, `bzonea`, `bzonec`; bootleg `dsrtwars` | [atari-battlezone.md](atari-battlezone.md) |
+| Defender (Williams, 1980) | `defender`, `defenderb`, `defenderg`, `defenderw`, `defenderj`; bootlegs ★ `defenseb`, ★ `defenderom`, ★ `attackf`, ★ `defence`, ★ `galwars2`, `defcmnd`, `startrkd`, `tornado1`, `tornado2`, `zero`, `zero2`, `defndjeu`, `nextcent` (the 0.277 `nextcent` lacks one PROM; it was run from a newer dump) | [williams-defender.md](williams-defender.md) |
+| Mayday (Hoei, 1980) | `mayday`, ★ `maydaya`, `maydayb`; bootleg `batlzone` (all in `mayday.zip`) | [williams-defender.md](williams-defender.md#mayday-hoei-1980) |
 | Space Dungeon (Taito America, 1981) | `sdungeon`, `sdungeona`; needs the device ROM `m68705p3` | [taito-space-dungeon.md](taito-space-dungeon.md) |
+| Stargate (Williams, 1981) | `stargate` (no clones or bootlegs in MAME 0.285) | [williams-stargate.md](williams-stargate.md) |
 | Mr. Do! (Universal, 1982) | `mrdo`, `mrdoy`, `mrdot`, `mrdofix`; bootlegs `mrdobl`, `mrdofabr`, ★ `mrdu`, `mrlo`; hack `yankeedo` | [universal-mr-do.md](universal-mr-do.md) |
 | Donkey Kong Jr. (Nintendo, 1982) | `dkongjr`, `dkongjrj`, `dkongjnrj`, `dkongjre`, `dkongjr2`; bootlegs `dkongjrpb`, `dkingjr`, `dkongjrb`, ★ `jrking`, `maguila`, `dkongjrm`, `dkongjrmc` (`dkingjrv` not in 0.277); control: `dkong` | [nintendo-donkey-kong-jr.md](nintendo-donkey-kong-jr.md) |
 | Popeye (Nintendo, 1982) | `popeye`, `popeyeu`, `popeyef`, `popeyej`, `popeyejo`; bootlegs ★ `popeyebl`, ★ `popeyeb2`, `popeyeb3`; kit `popeyehs` | [nintendo-popeye.md](nintendo-popeye.md) |

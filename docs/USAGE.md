@@ -88,8 +88,9 @@ built from your own `tp84.zip` by `konami/build_tp84.py`. `konami/gif_pair.py` (
 GIF. More on the Konami demos: [konami-track-and-field.md](konami-track-and-field.md#rerun),
 [konami-time-pilot-84.md](konami-time-pilot-84.md#rerun).
 
-**Battlezone, Space Dungeon, Mr. Do!, Donkey Kong Jr. and Popeye** (MAME's Lua scripting; each script runs both sides
-through `scripts/mame.sh`, prints the logs and writes a side-by-side GIF; see [below](#the-november-2026-demos)):
+**Battlezone, Defender, Mayday, Space Dungeon, Stargate, Mr. Do!, Donkey Kong Jr. and Popeye** (MAME's Lua scripting; each
+script runs both sides through `scripts/mame.sh`, prints the logs and writes a side-by-side GIF or still where there is
+one to show; see [below](#the-november-2026-demos)):
 
 ```bash
 atari/demo_bzone.sh credits ~/roms     # Battlezone: genuine 1 -> 0, "ATARO" 1 -> 27 -> 53 (about 20 s)
@@ -98,6 +99,10 @@ taito/demo_sdungeon.sh ~/roms          # Space Dungeon: counter poked to 63, the
 universal/demo_mrdu.sh ~/roms          # Mr. Do! against Mr. Du!: credits 00 -> 01 against 00 -> 41 at frame 7491 (about 30 s)
 nintendo/demo_dkjr.sh ~/roms           # jrking climbs, genuine with #37FC changed drops back, unedited genuine climbs (about 20 s)
 nintendo/demo_popeye.sh ~/roms         # Popeye: lives setting 3 against 4 after the high-score sum fails (about 1 min)
+williams/demo_defender.sh ~/roms       # Defender: logo colour changed: WCURS 6245 / 0000, bomb writes 0 / 13 (about 10 s)
+williams/demo_logotab.sh ~/roms        # the WILLIAMS handwriting of genuine and five bootlegs, all ending at $6245; draws them (about 10 s)
+williams/demo_stargate.sh ~/roms       # Stargate: $8C40 changed: CHKS1 37 / 38, random byte writes in play on the edited side; ROM-test still (about 15 s)
+williams/demo_mayday.sh ~/roms         # maydaya: MAME's protection answer against no chip from frame 3000: the no-chip side freezes (about 15 s)
 ```
 
 To search a whole collection, any manufacturer, for the Taito trap code and its arming checks: `sigsearch.py`
@@ -306,7 +311,9 @@ each ROM file.
 
 ## The November 2026 demos
 
-Five demos, one per game, each reproducing the GIF its section of the README leads with:
+Nine demos, one or two per game, each reproducing the effect its section of the README shows (Defender's logo-table
+still and Stargate's ROM-test still exactly; the Mayday GIF with different inputs, see
+[williams-defender.md](williams-defender.md#rerun)):
 
 | Script | Lua | Sets needed | Edited ROM |
 |---|---|---|---|
@@ -315,6 +322,10 @@ Five demos, one per game, each reproducing the GIF its section of the README lea
 | `universal/demo_mrdu.sh` | `universal/mrdu_diamond.lua` | `mrdo` (with `mrdu`) | none: Mr. Du! is a real dump |
 | `nintendo/demo_dkjr.sh` | `nintendo/dkjr_vine.lua` | `dkongjr` (with `jrking`) | `djr1-c_5b_f-2.5b` +`0x17FC` `C6` -> `C7` |
 | `nintendo/demo_popeye.sh` | `nintendo/popeye_lives.lua` | `popeye` | none on disk: one byte in MAME's decrypted copy, from Lua |
+| `williams/demo_defender.sh` | `williams/defender_bomb.lua` (uses MAME's debugger) | `defender` | `defend.9` +`0x6F8` `0F` -> `03` (the logo colour) |
+| `williams/demo_logotab.sh` | `williams/logotab.lua`; draws with `williams/logotab_png.py` | `defender` (with `defenseb`, `defenderom`, `attackf`, `defence`, `galwars2`) | none: read only |
+| `williams/demo_stargate.sh` | `williams/stargate_sums.lua` (uses MAME's debugger) | `stargate` | `stargate_rom_9-a_3002-9.a6` +`0xC40` `00` -> `01` |
+| `williams/demo_mayday.sh` | `williams/mayday_nochip.lua` (uses MAME's debugger) | `mayday` (with `maydaya`) | none: "no chip" is a Lua read tap |
 
 How they run:
 
@@ -327,7 +338,8 @@ How they run:
   is deleted when the demo ends; `tmp/` is not committed.
 - Why one folder: with the real ROM folder as a second path, MAME rejects the edited file on its checksum and silently
   loads the genuine one, so the run looks like "no effect". Every Lua script therefore also logs the bytes MAME loaded.
-- Logs, snapshots and the GIF go to `atari/out/`, `taito/out/`, `universal/out/` or `nintendo/out/` (not committed).
+- Logs, snapshots and the GIF go to `atari/out/`, `taito/out/`, `universal/out/`, `nintendo/out/` or `williams/out/`
+  (not committed).
   `scripts/gif_pair.py` (needs Pillow) makes the GIF; it is `konami/gif_pair.py` with a footer, a scale, a frame offset
   for events at different frames, and a `{c}` caption field for a value from the log.
 
@@ -359,6 +371,10 @@ taito/demo_sdungeon.sh     Space Dungeon demo; Lua: taito/sdungeon_delayed.lua
 universal/demo_mrdu.sh     Mr. Do! against Mr. Du!; Lua: universal/mrdu_diamond.lua
 nintendo/demo_dkjr.sh      Donkey Kong Jr. demo; Lua: nintendo/dkjr_vine.lua
 nintendo/demo_popeye.sh    Popeye demo; Lua: nintendo/popeye_lives.lua
+williams/demo_defender.sh  Defender logo-trap control; Lua: williams/defender_bomb.lua
+williams/demo_logotab.sh   Defender's WILLIAMS handwriting tables; Lua: williams/logotab.lua; drawing: williams/logotab_png.py
+williams/demo_stargate.sh  Stargate hidden sums and ROM-test still; Lua: williams/stargate_sums.lua
+williams/demo_mayday.sh    Mayday with and without the protection answer; Lua: williams/mayday_nochip.lua
 scripts/mame.sh            the MAME wrapper every MAME demo above uses (Konami's included)
 scripts/patchzip.py        an edited copy of one of your zips, in a one-folder rompath under tmp/
 scripts/gif_pair.py        side-by-side captioned GIF from two runs' snapshots
