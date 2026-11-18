@@ -447,6 +447,15 @@ checksum, and whether anyone meant it as a payout can't be told (see Universal b
   cripple later rounds and Millipede's run arbitrary code until it is unplayable (see [Prior art](#prior-art)).
   Battlezone (1980) does both: its copyright sum is the price of a game, so a changed copyright gives credits away, and
   a second check stops the game for good at the second bonus tank (both published by McFadden).
+  Gravitar and Black Widow (1982) were checked against Atari's original source code, matched to the MAME sets
+  (`gravitar`, `gravitar2`, `lunarbat`, `bwidow`) by the per-chip checksums on Atari's project sheets: neither has a
+  copy check, only the self-test's ROM, RAM and POKEY tests, and MAME has no bootleg of either. A pattern, not proof: among Atari's
+  1979–84 coin-ops in MAME, only 1979–80 games have bootlegs (Asteroids, Centipede, Missile Command, Battlezone),
+  protected or not. Popularity, hardware that was harder to copy (a colour vector monitor, two POKEYs), copiers
+  moving to other makers' games, and bootleg boards never dumped would explain that as well as protection would.
+  Interpretation: Black Widow's source defines the copyright message's address and length (`ZATLIS`, `ZATLIC`) but
+  never uses them, and the shipped build's link map doesn't list them; that could be a check that was never written
+  or was taken out, or something unrelated, such as a routine to copy the message.
 - **Williams:** sabotage rather than payouts. Defender (1980) has its published logo trap in the Red, Blue, Green and
   T.T sets but not in the White label. Interpretation: if the White label is the earlier code, the trap was added after
   it; the sources checked do not date the White label, so the other reading, that a later release dropped it, cannot
@@ -710,6 +719,12 @@ TCRF pages consulted earlier, before TCRF's policy on automated access was known
   [Arcade Database](https://adb.arcadeitalia.net/dettaglio_mame.php?game_name=sdungeon&lang=en) ("Developer messages are
   hidden in the ROM chip sd19"); [pronama.jp](https://pronama.jp/2024/05/31/space-dungeon/) (2024) says no command
   displays it. The code agrees: it is never shown (above).
+- **Gravitar and Black Widow (Atari, 1982)**: Atari's source code and project sheets are public
+  ([historicalsource/gravitar](https://github.com/historicalsource/gravitar),
+  [historicalsource/black-widow](https://github.com/historicalsource/black-widow), released in October 2021). The
+  web sources checked (Arcade Italia's database, the Arcade Museum, The Basement Arcade, the AtariAge thread on the
+  source release, 6502disassembly.com's list of source listings) say nothing about copy protection in either game or
+  about a bootleg of either. TCRF was not checked: TCRF does not allow automated or AI access.
 - General Computer's "kick me for a free game" story, told second-hand
   ([Ned Batchelder](https://nedbatchelder.com/blog/200404/arcade_copy_protection)); not found, see above.
 
@@ -724,6 +739,7 @@ exists. Already published: Donkey Kong's check (and see its entry above for Donk
 thresholds, its permanent arming in battery-backed RAM, a real bootleg (Atlant Olimpic) tripping it in MAME in scripted normal play,
 and Time Pilot '84's on-screen accusation. Wrecking the game on failure, as Time Pilot '84 does, was already in Atari's
 Tempest and Millipede; only the accusation and its particular effects (lives, screen flip, control swap) are Konami's.
+For Atari's Gravitar and Black Widow: that neither has a copy check, and Black Widow's unused `ZATLIS`/`ZATLIC`.
 
 ## References
 
@@ -748,6 +764,9 @@ Tempest and Millipede; only the accusation and its particular effects (lives, sc
   Battlezone checks
 - Williams' source code: [mwenge/defender](https://github.com/mwenge/defender) (Defender) and
   [historicalsource/stargate](https://github.com/historicalsource/stargate) (Stargate)
+- Atari's source code: [historicalsource/gravitar](https://github.com/historicalsource/gravitar) (Gravitar and the
+  Lunar Battle prototype) and [historicalsource/black-widow](https://github.com/historicalsource/black-widow) (Black
+  Widow), with the project sheets whose per-chip checksums tie them to the MAME sets
 - Aaron Bottegal: [Defender-Source-Code](https://github.com/AaronBottegal/Defender-Source-Code) and the
   [nesdev thread](https://forums.nesdev.org/viewtopic.php?f=23&t=19987); nowhereman999:
   [Back to Defender: Copy Protection & Progress](https://nowhereman999.wordpress.com/2021/08/25/back-to-defender-copy-protection-progress/);
