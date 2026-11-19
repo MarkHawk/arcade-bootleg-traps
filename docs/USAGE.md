@@ -78,15 +78,17 @@ konami/demo_atlantol.sh natural ~/roms       # no RAM writes: a 3-player game se
 python3 konami/build_tp84.py ~/roms          # two edited Time Pilot '84 sets, built from your own set into konami/roms/
 konami/demo_tp84.sh onebyte ~/roms           # "KONAMI" -> "KNNAMI": the power-on ROM test halts the board ("ROM2 BAD")
 konami/demo_tp84.sh sumkept ~/roms           # the edit with the ROM sums kept: lives lost, screen flips, controls swap, message printed
+konami/demo_gyruss.sh ~/roms                 # Gyruss: genuine against "KNNAMI" with the ROM sums kept: no coin, Start gives a game and 99 credits (about 20 s)
 ```
 
 Each run goes through `scripts/mame.sh`, starts from an empty NVRAM and writes its log to `konami/out/` (the
 exceptions, which reuse the NVRAM an earlier step saved, are step 2 of the `recovery` demo and runs 2 to 4 of
 `demo_repair.sh`). Every run has one folder on the ROM path: your own, or a one-folder copy made by
 `konami/build_roms.py`, `konami/build_tp84.py` or `scripts/patchzip.py`. The Atlant Olimpic demos need no edited ROMs; the Time Pilot '84 ones are
-built from your own `tp84.zip` by `konami/build_tp84.py`. `konami/gif_pair.py` (needs Pillow) makes the side-by-side
+built from your own `tp84.zip` by `konami/build_tp84.py`, and Gyruss's from your own `gyruss.zip` by `scripts/patchzip.py`
+(see [below](#the-november-2026-demos)). `konami/gif_pair.py` (needs Pillow) makes the side-by-side
 GIF. More on the Konami demos: [konami-track-and-field.md](konami-track-and-field.md#rerun),
-[konami-time-pilot-84.md](konami-time-pilot-84.md#rerun).
+[konami-time-pilot-84.md](konami-time-pilot-84.md#rerun), [konami-gyruss.md](konami-gyruss.md#rerun).
 
 **Battlezone, Defender, Mayday, Space Dungeon, Stargate, Mr. Do!, Donkey Kong Jr. and Popeye** (MAME's Lua scripting; each
 script runs both sides through `scripts/mame.sh`, prints the logs and writes a side-by-side GIF or still where there is
@@ -311,7 +313,7 @@ each ROM file.
 
 ## The November 2026 demos
 
-Nine demos, one or two per game, each reproducing the effect its section of the README shows (Defender's logo-table
+Ten demos, one or two per game, each reproducing the effect its section of the README shows (Defender's logo-table
 still and Stargate's ROM-test still exactly; the Mayday GIF with different inputs, see
 [williams-defender.md](williams-defender.md#rerun)):
 
@@ -326,6 +328,7 @@ still and Stargate's ROM-test still exactly; the Mayday GIF with different input
 | `williams/demo_logotab.sh` | `williams/logotab.lua`; draws with `williams/logotab_png.py` | `defender` (with `defenseb`, `defenderom`, `attackf`, `defence`, `galwars2`) | none: read only |
 | `williams/demo_stargate.sh` | `williams/stargate_sums.lua` (uses MAME's debugger) | `stargate` | `stargate_rom_9-a_3002-9.a6` +`0xC40` `00` -> `01` |
 | `williams/demo_mayday.sh` | `williams/mayday_nochip.lua` (uses MAME's debugger) | `mayday` (with `maydaya`) | none: "no chip" is a Lua read tap |
+| `konami/demo_gyruss.sh` | `konami/gyruss_free.lua` | `gyruss` | `gyrussk.2` +`0x17AE` `B1` -> `47` ("KONAMI" to "KNNAMI"), +`0x17BD` `6F` -> `99` and +`0x188A` `FF` -> `3F` (keep the ROM sums); the genuine side is an unchanged copy, loaded the same way |
 
 How they run:
 
@@ -338,8 +341,8 @@ How they run:
   is deleted when the demo ends; `tmp/` is not committed.
 - Why one folder: with the real ROM folder as a second path, MAME rejects the edited file on its checksum and silently
   loads the genuine one, so the run looks like "no effect". Every Lua script therefore also logs the bytes MAME loaded.
-- Logs, snapshots and the GIF go to `atari/out/`, `taito/out/`, `universal/out/`, `nintendo/out/` or `williams/out/`
-  (not committed).
+- Logs, snapshots and the GIF go to `atari/out/`, `taito/out/`, `universal/out/`, `nintendo/out/`, `williams/out/` or
+  `konami/out/` (Gyruss) (not committed).
   `scripts/gif_pair.py` (needs Pillow) makes the GIF; it is `konami/gif_pair.py` with a footer, a scale, a frame offset
   for events at different frames, and a `{c}` caption field for a value from the log.
 
@@ -375,6 +378,7 @@ williams/demo_defender.sh  Defender logo-trap control; Lua: williams/defender_bo
 williams/demo_logotab.sh   Defender's WILLIAMS handwriting tables; Lua: williams/logotab.lua; drawing: williams/logotab_png.py
 williams/demo_stargate.sh  Stargate hidden sums and ROM-test still; Lua: williams/stargate_sums.lua
 williams/demo_mayday.sh    Mayday with and without the protection answer; Lua: williams/mayday_nochip.lua
+konami/demo_gyruss.sh      Gyruss: genuine against KNNAMI with the ROM sums kept (free play); Lua: konami/gyruss_free.lua
 scripts/mame.sh            the MAME wrapper every MAME demo above uses (Konami's included)
 scripts/patchzip.py        an edited copy of one of your zips, in a one-folder rompath under tmp/
 scripts/gif_pair.py        side-by-side captioned GIF from two runs' snapshots

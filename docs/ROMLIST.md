@@ -207,6 +207,7 @@ Not on the 8080 board; each has its own doc and demo. MAME 0.285 with 0.277 sets
 | Stargate (Williams, 1981) | `stargate` (no clones or bootlegs in MAME 0.285) | [williams-stargate.md](williams-stargate.md) |
 | Mr. Do! (Universal, 1982) | `mrdo`, `mrdoy`, `mrdot`, `mrdofix`; bootlegs `mrdobl`, `mrdofabr`, ★ `mrdu`, `mrlo`; hack `yankeedo` | [universal-mr-do.md](universal-mr-do.md) |
 | Donkey Kong Jr. (Nintendo, 1982) | `dkongjr`, `dkongjrj`, `dkongjnrj`, `dkongjre`, `dkongjr2`; bootlegs `dkongjrpb`, `dkingjr`, `dkongjrb`, ★ `jrking`, `maguila`, `dkongjrm`, `dkongjrmc` (`dkingjrv` not in 0.277); control: `dkong` | [nintendo-donkey-kong-jr.md](nintendo-donkey-kong-jr.md) |
+| Gyruss (Konami, 1983) | ★ `gyruss` (the demo needs only this); `gyrussce` (Centuri); bootlegs `venus`, `gyrussb` (MAME: "bootleg?"); all in `gyruss.zip` in a merged set | [konami-gyruss.md](konami-gyruss.md) |
 | Popeye (Nintendo, 1982) | `popeye`, `popeyeu`, `popeyef`, `popeyej`, `popeyejo`; bootlegs ★ `popeyebl`, ★ `popeyeb2`, `popeyeb3`; kit `popeyehs` | [nintendo-popeye.md](nintendo-popeye.md) |
 
 ---
