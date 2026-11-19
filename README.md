@@ -2,7 +2,7 @@
 
 Some 1979–84 arcade games hid code that punished copied boards: free credits on Taito and Atari copies, locked or quietly spoiled games from Konami, Nintendo and Williams. This repo traces those checks in the original ROMs and runs them in MAME, against the real bootlegs that survive. The standout: in MAME, the ROMs of a real Mr. Do! bootleg give 41 credits for the diamond instead of 1.
 
-It covers thirteen arcade games from 1979 to 1984 (plus Hoei's Mayday, a reworked Defender): what each does when its anti-copy checks fail, and what the bootlegs did about them. Everything here comes from disassembly and emulation, not real hardware.
+It covers fourteen arcade games from 1979 to 1984 (plus Hoei's Mayday, a reworked Defender): what each does when its anti-copy checks fail, and what the bootlegs did about them. Everything here comes from disassembly and emulation, not real hardware.
 
 ## The short version
 
@@ -20,6 +20,7 @@ It covers thirteen arcade games from 1979 to 1984 (plus Hoei's Mayday, a reworke
 | [**Donkey Kong Jr.**](docs/nintendo-donkey-kong-jr.md) | Nintendo | 1982 | a changed copyright tile breaks the vine table: Jr. can't hold a vine | all eight working bootlegs pass: five dodged it (letters blanked in the graphics [ROM](#terms-used), or the screen address moved); three left the copyright line alone | [GIF](#donkey-kong-jr-nintendo-1982) |
 | [**Popeye**](docs/nintendo-popeye.md) | Nintendo | 1982 | a device decodes the level data; three software sums on top (test mode, random lives, a lost credit) | two bootlegs imitated the device with a 32-byte PROM and switched off the power-on and high-score ROM sums | [GIF](#popeye-nintendo-1982) |
 | [**Track & Field**](docs/konami-track-and-field.md) | Konami | 1983 | an edited copyright line, the code that draws it or one data byte locks the board, some checks only after 50, 1,500 or 4,000 games | Atlant Olimpic (1996) trips check 6 in MAME and freezes at the attract demo | [GIF](#track--field-konami-1983) |
+| [**Gyruss**](docs/konami-gyruss.md) | Konami | 1983 | 29 ROM sums and 5 read-backs of the drawn "© KONAMI" on the main Z80, running all the time; failure resets, hangs or derails the game; a copyright edit with the sums fixed gives free play (simulated here) | Venus removed or patched nearly every check: none acts in MAME, but its mid-distance kills are silent; gyrussb's balanced patch trips nothing | [GIF](#gyruss-konami-1983) |
 | [**Time Pilot '84**](docs/konami-time-pilot-84.md) | Konami | 1984 | an edited "© KONAMI" or stored message: the check that runs every frame flips the screen and swaps the controls on alternate frames, two other checks take all the lives, and the rare checks on the copyright print an accusation | no bootleg known (simulated here) | [GIF](#time-pilot-84-konami-1984) |
 
 The Lunar Rescue, Part II, Asteroids Deluxe and Centipede listings in this repo are checked against the real ROMs by
@@ -65,10 +66,14 @@ random roll for a diamond forced, **taking the diamond gives 41 credits instead 
 software sums to its protection device, one of which gives a random number of lives. No bootleg of either trips a check
 in normal play.
 
-**Konami (1983-84).** Konami, like Nintendo, pays nothing out. **Track & Field** locks up a board whose copyright line has
-been edited, and half of its checks wait for 50, 1,500 or 4,000 games first, long after the board has been sold. The ROMs
-of one real bootleg, **Atlant Olimpic** (1996), trip one of them in MAME. **Time Pilot '84** doesn't lock up: depending on
-the check, it flips the screen and swaps the controls on alternate frames, takes your lives, or prints an accusation.
+**Konami (1983-84).** Konami's checks catch edited boards, not straight copies. **Track & Field** locks up a board whose
+copyright line has been edited, and half of its checks wait for 50, 1,500 or 4,000 games first, long after the board has
+been sold. The ROMs of one real bootleg, **Atlant Olimpic** (1996), trip one of them in MAME. **Gyruss** sums its ROM in 29
+places and reads the drawn copyright back in 5, all the time; most failures reset or derail the game, but in MAME a
+copyright edit with the ROM sums fixed leaves the board on free play. Interpretation: whether that was meant as a payout
+can't be told. Its bootleg **Venus** removed nearly every check and lost one sound effect to a sound number hidden in the
+copyright year. **Time Pilot '84** doesn't lock up: depending on the check, it flips the screen and swaps the controls on
+alternate frames, takes your lives, or prints an accusation.
 
 ## Terms used
 
@@ -85,7 +90,8 @@ the check, it flips the screen and swaps the controls on alternate frames, takes
 - **Label colours (Defender):** Williams' Defender ROM sets are named by the colour of their chip labels: Red, Blue,
   Green and White. MAME has one set for each, plus "T.T Defender" (`defenderj`), 36 bytes from Red.
 - **CPUs:** the **8080** (Taito and Midway Space Invaders hardware), the **6502** (Atari), the **6809** (Konami, Williams'
-  Defender and Stargate, Hoei's Mayday, and Taito America's Space Dungeon) and the **Z80** (Mr. Do!, Donkey Kong Jr., Popeye).
+  Defender and Stargate, Hoei's Mayday, and Taito America's Space Dungeon) and the **Z80** (Mr. Do!, Donkey Kong Jr., Popeye, and Gyruss's main CPU; its sub CPU is Konami-1, a 6809 with
+  encrypted opcodes).
 
 ---
 
@@ -356,6 +362,38 @@ Genuine: attract mode carries on. "KNNAMI": the board resets about once a second
 Full details, including the recovery, the [watchdog](#terms-used) and the bootleggers' own board-lock checks:
 [docs/konami-track-and-field.md](docs/konami-track-and-field.md).
 
+## Gyruss (Konami, 1983)
+
+That Gyruss checks its ROM is **already published**: **cmonkey** wrote on the
+[Arcade Museum forum](https://forums.arcade-museum.com/threads/gyruss-line-across-the-screen-test-rom.339280/page-3) in
+2015 of "over 20 different places in the code where various areas and data ranges of rom are checked", with effects
+"from a reset to an unplayable game", NOPped in the bootleg Venus. What this repo adds is the list and what each check
+does. The main Z80 has **29 loops that sum or XOR a block of ROM** and **5 checks that read letters of "© KONAMI 1983"
+back from the screen**, and they run all the time: power-on, attract mode, coin, game start, every stage and wave, name
+entry. A failed check resets the board, hangs it, jumps into data, or sets a wrong game state; two of them take your
+coin and never start a game. The sub CPU has no check. And **a copyright edit with the ROM sums fixed gives free play**:
+"KONAMI" changed to "KNNAMI", with two balancing bytes, passes every ROM sum but fails a screen check in the first
+attract demo, and the board drops to "PUSH START" with 0 credits. Start with no coin then begins a game and sets the
+credits to 99. Interpretation: whether Konami meant that as a payout can't be told; 00 minus 1 giving 99 may simply be a
+side effect of reaching "push start" with no credits.
+
+No check acts on the bootlegs in MAME. **Venus** (`venus`) removed the branch after 20 of the ROM checks, replaced the
+sums that set game states with the constants genuine computes, and changed the screen checks to match its own "1983".
+It missed one thing: Konami takes the sound number of one explosion from the "9" of "1983", which Venus blanked, so
+**Venus's mid-distance kills are silent** (measured from the recorded waveforms and confirmed on screen; not listened
+to). `gyrussb` carries a 17-byte patch that makes the difficulty rise by 3 per stage instead of 1, balanced so the
+power-on ROM test still passes. Centuri's licensed set (`gyrussce`) put "LICENSED TO CENTURI" into a blank slot already
+in Konami's ROM; no check is involved. No high-score initials Easter egg was found, in the code or in MAME.
+
+<img src="docs/img/gyruss-knnami-credits-pair.gif" width="720" alt="Gyruss, genuine on the left and KONAMI edited to KNNAMI on the right, no coin on either side: the edited board drops from the attract demo to PUSH START BUTTON with CREDIT 00, then Start begins a game and the credits read 99; the genuine board stays in attract mode with CREDIT 00">
+
+*Left: genuine `gyruss`. Right: "KONAMI" edited to "KNNAMI", with two more bytes changed so the ROM sums stay right (a
+copy built from your own set). No coin on either side; 1P Start at frame 2000. At frame 788 the edited board's screen
+check fails and it drops to PUSH START BUTTON with CREDIT 00; Start then begins a game, and by frame 2040 the credits
+read 99. Genuine: attract mode, CREDIT 00, Start ignored. Nothing poked. Made with `konami/demo_gyruss.sh`.*
+
+Full details, including every check, Venus's missing sound and the other sets: [docs/konami-gyruss.md](docs/konami-gyruss.md).
+
 ## Time Pilot '84 (Konami, 1984)
 
 Time Pilot '84 checksums its copyright, "© KONAMI", and a stored message, "THIS IS AN ILLEGAL DUPLICATE OF KONAMI'S
@@ -417,10 +455,13 @@ The other makers' bootlegs, each run in MAME 0.285:
 | `mayday`, `maydaya`, `maydayb` (Hoei) | Defender (White label) | no Williams trap in the code it started from; added its own read-back protection | unaffected by Williams' trap; without an answer to its own check, `maydaya` freezes |
 | `batlzone` (Video Game) | Hoei's Mayday | kept the read-back protection unchanged | nothing tripped; the board needed the answer, from a chip or a copy |
 | **Atlant Olimpic** (`atlantol`, Italy, 1996) | Konami's Hyper Olympic | moved the copyright line off screen | **tripped: Track & Field's check 6 fails and the board freezes** ([details](docs/konami-track-and-field.md#atlant-olimpic-a-real-bootlegs-roms-trip-check-6)) |
+| Venus (`venus`) | Gyruss | removed the branch after 20 ROM checks, set the state checks to constants, matched the screen checks to its own "1983"; missed a sound number taken from the "9" of "1983" | protection removed: no check acts; mid-distance kills are silent ([details](docs/konami-gyruss.md#venus-every-check-handled-except-a-sound-number)) |
+| `gyrussb` (MAME: "bootleg?") | Gyruss | kept every check; a 17-byte patch, balanced so the ROM test passes, makes the difficulty rise by 3 per stage instead of 1 | nothing tripped |
 
 So two bootlegs outside Taito's family tripped a check in MAME: Mr. Du!, which pays out, and Atlant Olimpic, which freezes. The
 rest dodged the checks, removed them, or never touched what they guard. None of Defender's thirteen bootlegs in MAME
-trips its trap: five dodged it, and eight never had it. Interpretation: whether the dodging was
+trips its trap: five dodged it, and eight never had it. Neither Gyruss bootleg trips a check either: Venus removed them,
+and `gyrussb` balanced its patch (Centuri's licensed `gyrussce`, not a bootleg, trips nothing too). Interpretation: whether the dodging was
 deliberate can't be told from the bytes; blanking a graphics ROM, or skipping a draw call, was also simply the easiest
 way to remove a copyright line.
 
@@ -430,8 +471,9 @@ Which copies pay out: [docs/bootleg-results.md](docs/bootleg-results.md#which-co
 ## Was this policy?
 
 Interpretation: on the evidence so far, the deliberate free-credit traps were a tactic of 1979–80, when copied boards were everywhere.
-Later games punished edited boards quietly or stopped them; the one later payout found, Mr. Du!'s, comes from a failed
-checksum, and whether anyone meant it as a payout can't be told (see Universal below).
+Later games punished edited boards quietly or stopped them. The later payouts found come from failed checks, and
+whether anyone meant them as payouts can't be told: Mr. Du!'s, on a real bootleg (see Universal below), and Gyruss's
+free play, on an edited copy (see Konami below).
 
 - **Taito:** the original 1978 Space Invaders has no trap, only an easter egg. Both 1979 games put the trap in the
   **add-on ROM at `$4000`** and tie it to an anti-copy check. Through the 1980s Taito moved to **hardware
@@ -472,11 +514,16 @@ checksum, and whether anyone meant it as a payout can't be told (see Universal b
   device and adds three ROM sums: test mode at power-on, random lives after a high-score entry, and a lost credit.
   Interpretation: Donkey Kong Jr.'s routine looks like Donkey Kong's re-pointed at new bytes, and its E kit carries a
   copy that was re-pointed without its constant being updated.
-- **Konami:** copyright checks rather than payouts, from 1982 to 1984. The original Time Pilot (1982) already had a
+- **Konami:** copyright checks, mostly rather than payouts, from 1982 to 1984. The original Time Pilot (1982) already had a
   dense set of them, with event-triggered checks, many checksums and palette checks, failing by reset, hang or garbage
   graphics ([TCRF](https://tcrf.net/Time_Pilot_(Arcade))). In 1983 Track & Field locked up edited boards instead of paying out on copies, adding hidden
   games-started counters and arming kept for good in battery-backed RAM; one of its checks fails on the ROMs of a real
-  1996 bootleg (Atlant Olimpic), in MAME. In 1984 Time Pilot '84 failed by sabotage, as Atari's Tempest and Millipede already did, and added an on-screen
+  1996 bootleg (Atlant Olimpic), in MAME. Gyruss (1983) instead checks all the time: 29 ROM sums and 5 read-backs of
+  the drawn copyright, failing by reset, hang or a wrong game state, with some sums folded into the game's own state
+  numbers so that there is no branch to remove. A copyright edit with the ROM sums fixed gives free play in MAME.
+  Interpretation: whether Konami meant that as a payout can't be told; 00 minus 1 giving 99 credits may be a side
+  effect of reaching "push start" with no credits. If it was meant, it is the one Konami case found that pays out
+  rather than stops or spoils. In 1984 Time Pilot '84 failed by sabotage, as Atari's Tempest and Millipede already did, and added an on-screen
   accusation.
 
 ## How it was found
@@ -498,7 +545,7 @@ checksum, and whether anyone meant it as a payout can't be told (see Universal b
    bytes of every dumped Track & Field set then turned up Atlant Olimpic tripping check 6, and a scanner built on the
    Track & Field checks (not included here) found Time Pilot '84's. Both were run in MAME, Atlant Olimpic by a script
    that plays the game with no RAM pokes and Time Pilot '84 with edited copies of a genuine set.
-7. For the Z80 games (Mr. Do!, Donkey Kong Jr., Popeye): disassembled with MAME's `unidasm`, from the CPU images MAME
+7. For the Z80 games (Mr. Do!, Donkey Kong Jr., Popeye, and Gyruss's main CPU): disassembled with MAME's `unidasm`, from the CPU images MAME
    actually loads (Popeye's program ROMs are encrypted). Found the protection reads and every loop that sums memory,
    then confirmed each check in MAME with Lua read, write and execution taps, edited copies of a genuine set, and, for
    the protection hardware, Lua taps that change what the CPU reads without touching any ROM. Donkey Kong's published
@@ -557,6 +604,7 @@ konami/demo.sh 2 ~/roms                      # "KONAMI" -> "KNNAMI", counter at 
 konami/demo_atlantol.sh check6 ~/roms        # Atlant Olimpic against genuine Hyper Olympic, check 6 armed: genuine carries on, atlantol freezes
 python3 konami/build_tp84.py ~/roms          # two edited Time Pilot '84 sets, built from your own set into konami/roms/
 konami/demo_tp84.sh sumkept ~/roms           # genuine against the edit with the ROM sums kept: screen flips, controls swap, message printed
+konami/demo_gyruss.sh ~/roms                 # Gyruss: genuine against "KNNAMI" with the ROM sums kept: no coin, Start gives a game and 99 credits
 ```
 
 **Universal, Nintendo and Taito America** (MAME's Lua scripting; each script runs both sides, prints the logs and
@@ -610,6 +658,14 @@ How new games are added: [docs/STYLE.md](docs/STYLE.md).
   the ROM test's sum, because a one-byte edit is stopped by the ROM test first; it also uses a RAM poke to open the
   rare checks, and free play because a coin did not register in MAME. The comparison with the original Time Pilot is
   from TCRF's Time Pilot page, not from running that game.
+- Gyruss: MAME 0.285, no board tested. MAME ignores the watchdog (the `$C000` write is mapped to nothing), so a hang
+  stays a hang there; on a board the watchdog would presumably reset it. The free play is shown on an edited copy of a
+  genuine set (three bytes), with nothing poked; no set in MAME changes the copyright and keeps the sums. Most of
+  the per-check runs topped the lives byte `$9620` up by RAM poke so the game reached the stage checks (each poke
+  logged); the free-play demo and the bootleg runs poke nothing. C27 and C28 were not shown in MAME. Venus's missing
+  sound is measured from waveforms and one on-screen kill, not listened to. "Nothing else found" (no sub-CPU check, no
+  initials Easter egg, no further checks) is weaker than the positive findings: there is no published list of the
+  checks to test the method against.
 - Battlezone: the board with "ATARO" is a simulation (no bootleg in MAME changed the copyright). The credit count is
   read from RAM, because the game doesn't show it; the 100,000-point run poked the score to 99,000, and the kill after
   it was the game's own.
@@ -635,13 +691,13 @@ How new games are added: [docs/STYLE.md](docs/STYLE.md).
   The power-up hit on a genuine board was seen only with a blank NVRAM. Whether the hidden copyright shows on a real
   monitor was not tested.
 - TCRF: TCRF does not allow automated or AI access. Its Time Pilot, Track & Field, Tempest, Millipede and Space
-  Invaders pages were consulted before that was known; it was not checked for Time Pilot '84 or the seven later games
+  Invaders pages were consulted before that was known; it was not checked for Time Pilot '84, Gyruss or the seven later games
   (Battlezone, Defender with Mayday, Space Dungeon, Stargate, Mr. Do!, Donkey Kong Jr., Popeye), so "not found in the sources
   checked" for those rests on other sources only. The Donkey Kong Jr. YouTube video is covered under [Prior art](#prior-art). TCRF links in these docs are not checked by the link checker, by request.
 - "Right" means bit 6 of input port 1, the standard Space Invaders wiring.
 - "Not found in the sources checked" means not found online, in Computer Archeology, 6502disassembly.com or the
-  arcade history databases, and, except for Time Pilot '84 and the seven later games (see the TCRF
-  note above), in TCRF. For those seven, each doc lists the sources it checked: MAME's driver sources and change
+  arcade history databases, and, except for Time Pilot '84, Gyruss and the seven later games (see the TCRF
+  note above), in TCRF. For Gyruss and those seven, each doc lists the sources it checked: MAME's driver sources and change
   history, MAME Testers, Arcade Museum forum threads, jammarcade.net, Arcade History, Arcade Database and others. If you know otherwise, open an issue; I'd love to hear it.
 
 ## Prior art
@@ -693,6 +749,20 @@ TCRF pages consulted earlier, before TCRF's policy on automated access was known
   like Time Pilot's (below), but adds hidden games-started counters with thresholds, and arming that stays for good
   in battery-backed RAM. Its hidden "©KONAMI 1983" message was published by cmonkey on UKVAC in 2016; the counters, the permanent arming
   and a bootleg tripping one of its checks were not found in the sources checked.
+- **Gyruss (Konami, 1983)**: **cmonkey**, on the Arcade Museum forum in March 2015
+  (["Gyruss - Line across the screen + TEST ROM"](https://forums.arcade-museum.com/threads/gyruss-line-across-the-screen-test-rom.339280/page-3)),
+  published that the main Z80 checks ROM ranges in "over 20 different places in the code", with results "from a reset
+  to an unplayable game", and that the checks "have had the JR NZ,xxx NOPed in Venus"; no addresses were given in the
+  pages read. In the same thread cmonkey documented the sub CPU's diagnostics report: a 16-bit sum of its ROM, written to
+  shared RAM when the diagnostics ROM asks for it (a report, not a check). Shoestring's
+  [Gyruss test ROM](https://jammarcade.net/gyruss-test-rom/) checks the main ROMs' CRCs, Venus included. **mdeslaur**'s
+  [gyruss-konami1-bypass](https://github.com/mdeslaur/gyruss-konami1-bypass), from the forum thread
+  ["Bootleg Gyrus Konami-1 dumps needed"](https://forums.arcade-museum.com/threads/bootleg-gyrus-konami-1-dumps-needed.558971/)
+  (2025 to 2026), patches the sub-CPU ROM for a plain 6809 and keeps its sum so the test ROM still passes it. The UKVAC
+  threads ["Gyruss bootleg but it's not Venus"](https://www.ukvac.com/forum/threads/gyruss-bootleg-but-its-not-venus.10715/)
+  and ["The Konami-1 crypto engine on a Gyruss bootleg"](https://www.ukvac.com/forum/threads/the-konami-1-crypto-engine-on-a-gyruss-bootleg.25360/)
+  cover bootleg hardware and the encryption, not the checks. TCRF was not checked: TCRF does not allow automated or AI
+  access.
 - **Time Pilot (Konami, 1982)** already had a dense set of copyright checks. [TCRF](https://tcrf.net/Time_Pilot_(Arcade)) lists them: two copies of the
   copyright string drawn on alternate frames, plus two more in the sprite ROM; checksums of the copyright and of many
   code ranges across six phases (boot, crosshatch, title, demo and gameplay, special checks, high-score entry);
@@ -737,7 +807,10 @@ kept the last ten bytes of the handwriting, the eight built on the White label, 
 check and `batlzone` keeping it; Stargate's hidden sums running in the shipped ROMs, and its compare before the sum
 exists. Already published: Donkey Kong's check (and see its entry above for Donkey Kong Jr.). On the Konami side, and not on TCRF's Time Pilot page: Track & Field's hidden games-started counters and
 thresholds, its permanent arming in battery-backed RAM, a real bootleg (Atlant Olimpic) tripping it in MAME in scripted normal play,
-and Time Pilot '84's on-screen accusation. Wrecking the game on failure, as Time Pilot '84 does, was already in Atari's
+and Time Pilot '84's on-screen accusation. For Gyruss: the addresses, ranges and effects of the individual checks, the
+five read-backs of the drawn copyright, the sums used as game states, the coin-time checks, the free play from a
+sum-fixed copyright edit, the sound number in the copyright year and Venus's miss of it, Centuri's and `gyrussb`'s
+compensation bytes, and `gyrussb`'s faster difficulty climb. Wrecking the game on failure, as Time Pilot '84 does, was already in Atari's
 Tempest and Millipede; only the accusation and its particular effects (lives, screen flip, control swap) are Konami's.
 For Atari's Gravitar and Black Widow: that neither has a copy check, and Black Widow's unused `ZATLIS`/`ZATLIC`.
 
@@ -756,7 +829,8 @@ For Atari's Gravitar and Black Widow: that neither has a copy check, and Black W
   [`popeye.cpp`](https://github.com/mamedev/mame/blob/mame0285/src/mame/nintendo/popeye.cpp),
   [`qix.cpp`](https://github.com/mamedev/mame/blob/mame0285/src/mame/taito/qix.cpp),
   [`williams.cpp`](https://github.com/mamedev/mame/blob/mame0285/src/mame/midway/williams.cpp),
-  [`williams_m.cpp`](https://github.com/mamedev/mame/blob/mame0285/src/mame/midway/williams_m.cpp)), for memory maps, inputs,
+  [`williams_m.cpp`](https://github.com/mamedev/mame/blob/mame0285/src/mame/midway/williams_m.cpp),
+  [`gyruss.cpp`](https://github.com/mamedev/mame/blob/mame0285/src/mame/konami/gyruss.cpp)), for memory maps, inputs,
   POKEY behaviour and the protection hardware; MAME commit
   [16a0695af](https://github.com/mamedev/mame/commit/16a0695afe88108dc69edcde75f39aa2057d7de4), which swapped the names
   `popeyebl` and `popeyeb2` in 2018
@@ -782,6 +856,13 @@ For Atari's Gravitar and Black Widow: that neither has a copy check, and Black W
   [Not In Mame: Popeye pcb (bootleg) repair](https://notinmame.blogspot.com/2018/05/popeye-pcb-bootleg-repair.html)
 - [Arcade Database: Space Dungeon](https://adb.arcadeitalia.net/dettaglio_mame.php?game_name=sdungeon&lang=en) and
   [pronama.jp: Space Dungeon](https://pronama.jp/2024/05/31/space-dungeon/)
+- Gyruss: cmonkey and others, Arcade Museum forum,
+  ["Gyruss - Line across the screen + TEST ROM"](https://forums.arcade-museum.com/threads/gyruss-line-across-the-screen-test-rom.339280/page-3);
+  mdeslaur, ["Bootleg Gyrus Konami-1 dumps needed"](https://forums.arcade-museum.com/threads/bootleg-gyrus-konami-1-dumps-needed.558971/)
+  and [mdeslaur/gyruss-konami1-bypass](https://github.com/mdeslaur/gyruss-konami1-bypass);
+  [jammarcade.net: Gyruss test ROM](https://jammarcade.net/gyruss-test-rom/); UKVAC,
+  ["Gyruss bootleg but it's not Venus"](https://www.ukvac.com/forum/threads/gyruss-bootleg-but-its-not-venus.10715/) and
+  ["The Konami-1 crypto engine on a Gyruss bootleg"](https://www.ukvac.com/forum/threads/the-konami-1-crypto-engine-on-a-gyruss-bootleg.25360/)
 - [List of Taito games (Wikipedia)](https://en.wikipedia.org/wiki/List_of_Taito_games)
 - Taito's Space Invaders Part II schematics (CPU AA017757, ROM AA017756A, I/O and sound PV070010) and board photos,
   from robotron-2084.co.uk (Dave2084); thanks for making them available
