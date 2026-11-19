@@ -69,7 +69,7 @@ both high (both links missing: unconnected TTL inputs usually read high), the ga
 links were hidden or ordinary tracks is unknown – a question for owners of real boards.
 
 **Taito's schematic (PV070010 I/O board, "P.T-GAME P.C. BOARD", PVN00004; from
-[robotron-2084.co.uk](https://www.robotron-2084.co.uk/hardware/boardset/taito-space-invaders-part-ii-3-layer-board-stack)):** the CPU reads ports 0–2 through
+robotron-2084.co.uk):** the CPU reads ports 0–2 through
 four 74LS153s (positions 4, 5, 9, 10; selected by A8/A9). Port 0 is input C0 of each. Every unused C0 input has a
 1k pull-up to +5V; pin 10 (2C0) of **chip 4** and **chip 9** also has a ground symbol on the same node, so those two
 read low. That's port 0 bits 1 and 3 – the pair the trap checks. Chip 9's ground link also takes in pin 11 (2C1),
@@ -114,7 +114,7 @@ Part II hides the same idea more carefully than Lunar Rescue:
   high: the trap stays armed.
 
   Taito's own schematic of the I/O board (PV070010, "P.T-GAME P.C. BOARD", from
-  [robotron-2084.co.uk](https://www.robotron-2084.co.uk/hardware/boardset/taito-space-invaders-part-ii-3-layer-board-stack))
+  robotron-2084.co.uk)
   confirms it: every unused input of the four 74LS153 multiplexers that read the port has a 1k pull-up to +5V,
   except the two the code checks, which also have a **ground link on the same node**. So the check is looking for
   two specific ground links. A copier who missed both got a board that won't start; one who missed one, or wired
@@ -160,7 +160,7 @@ egg: it now spells "TAITO CORP", and its first step no longer needs Left and Rig
 
 This list was written after the fact, from the sources the README names (its Prior art and Caveats) and the ones this doc already cites. It is not a log of searches made at the time.
 
-Published, and not claimed here: the board check's reset half, in the [Arcade Museum forum thread](https://forums.arcade-museum.com/threads/taito-3-board-space-invaders-part-2-bad-shifter-causes-resets.504475/) (2022) and the [UKVAC thread](https://www.ukvac.com/forum/threads/taito-3-pcb-invaders-boardset-resetting.75648/); Taito's schematics via [robotron-2084.co.uk](https://www.robotron-2084.co.uk/hardware/boardset/taito-space-invaders-part-ii-3-layer-board-stack); and the notes in MAME's driver (tied low on the schematic).
+Published, and not claimed here: the board check's reset half, in the [Arcade Museum forum thread](https://forums.arcade-museum.com/threads/taito-3-board-space-invaders-part-2-bad-shifter-causes-resets.504475/) (2022) and the [UKVAC thread](https://www.ukvac.com/forum/threads/taito-3-pcb-invaders-boardset-resetting.75648/); Taito's schematics, from robotron-2084.co.uk (Dave2084); and the notes in MAME's driver (tied low on the schematic).
 
 Not found in the sources checked: the credit trap behind the same check, armed by exactly one line wrong (README, Prior art). Neither thread mentions it.
 

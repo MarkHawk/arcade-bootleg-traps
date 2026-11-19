@@ -783,8 +783,8 @@ For Atari's Gravitar and Black Widow: that neither has a copy check, and Black W
 - [Arcade Database: Space Dungeon](https://adb.arcadeitalia.net/dettaglio_mame.php?game_name=sdungeon&lang=en) and
   [pronama.jp: Space Dungeon](https://pronama.jp/2024/05/31/space-dungeon/)
 - [List of Taito games (Wikipedia)](https://en.wikipedia.org/wiki/List_of_Taito_games)
-- [robotron-2084.co.uk: Taito Space Invaders Part II 3-layer board stack](https://www.robotron-2084.co.uk/hardware/boardset/taito-space-invaders-part-ii-3-layer-board-stack), board photos and Taito's
-  schematics (CPU AA017757, ROM AA017756A, I/O and sound PV070010); thanks for making them available
+- Taito's Space Invaders Part II schematics (CPU AA017757, ROM AA017756A, I/O and sound PV070010) and board photos,
+  from robotron-2084.co.uk (Dave2084); thanks for making them available
 - Arcade Museum forum (HudsonArcade, Lurch666 and others) and UKVAC, for the repair-side knowledge of Part II's
   board check
 
