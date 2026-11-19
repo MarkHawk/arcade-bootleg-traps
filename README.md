@@ -558,7 +558,8 @@ free play, on an edited copy (see Konami below).
    checksum and silently loads the genuine one; that turned up in the Donkey Kong control runs.
 
 Two side trails: [the "kick me for a free game" story](docs/kick-me-hunt.md), looked for and not found (that search
-is what turned up Asteroids Deluxe and Centipede), and [the easter egg that travelled](docs/easter-egg-travelled.md),
+is what turned up Asteroids Deluxe and Centipede; General Computer's own games, Ms. Pac-Man to Quantum, were searched
+too, with the same result), and [the easter egg that travelled](docs/easter-egg-travelled.md),
 Space Invaders' "TAITO COP" in other companies' games.
 
 ## Try it yourself
@@ -796,7 +797,9 @@ TCRF pages consulted earlier, before TCRF's policy on automated access was known
   source release, 6502disassembly.com's list of source listings) say nothing about copy protection in either game or
   about a bootleg of either. TCRF was not checked: TCRF does not allow automated or AI access.
 - General Computer's "kick me for a free game" story, told second-hand
-  ([Ned Batchelder](https://nedbatchelder.com/blog/200404/arcade_copy_protection)); not found, see above.
+  ([Ned Batchelder](https://nedbatchelder.com/blog/200404/arcade_copy_protection)); not found in the Atari coin-routine
+  sets or in General Computer's own games (Ms. Pac-Man, Jr. Pac-Man, Food Fight, Quantum, Super Missile Attack), see
+  [the hunt](docs/kick-me-hunt.md).
 
 Not found in the sources checked: that the Lunar Rescue, Part II and Asteroids Deluxe traps actually run, that they're
 tied to a copy check, and that the Lunar Rescue one pays out on real bootlegs (Destination Earth, Escape from Mars, one
