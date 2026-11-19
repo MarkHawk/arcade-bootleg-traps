@@ -21,6 +21,7 @@ These matter more than anything else on this page.
 - **Label interpretation.** Anything about intent ("meant to", "designed to", "deliberate") starts with "Interpretation:" and, where there is a reasonable alternative, gives it.
 - **Say what was poked.** Every demo that writes to RAM or edits a ROM says exactly what, and what happened naturally: "score poked to 99,000; the kill that passed 100,000 was the game's own". Use the same wording in the caption, the doc and Caveats.
 - **Never fetch tcrf.net**, by any tool or script. Existing TCRF links stay as they are, unchecked. Don't cite a TCRF page that wasn't read; where a TCRF page is the only known source, say "TCRF was not checked: TCRF does not allow automated or AI access" and rest nothing on it.
+- **robotron-2084.co.uk:** Don't link to or fetch robotron-2084.co.uk (the owner's request, to save bandwidth); credit it as plain text. For example: "Taito's schematics and board photos, from robotron-2084.co.uk (Dave2084); thanks for making them available". `scripts/linkcheck.py` fails on any link or URL to it.
 - Figures in the README must match the doc. If they differ, the doc (built from the run logs) wins.
 
 ## README section
@@ -111,7 +112,7 @@ MAME sets `x`, `y`. One Z80. Addresses are CPU addresses in `x`. MAME 0.285, ROM
 - [ ] "Not found in the sources checked" and the source list are up to date, in the doc and in Prior art.
 - [ ] Everything poked or edited is stated in the caption, the doc and Caveats.
 - [ ] `scripts/linkcheck.py` passes; every README anchor matches a heading.
-- [ ] New external links checked once each (not tcrf.net).
+- [ ] New external links checked once each (not tcrf.net, not robotron-2084.co.uk).
 - [ ] `docs/USAGE.md` and `docs/ROMLIST.md` list the new demo, files and sets.
 - [ ] Gitleaks and Trivy clean; no ROM data tracked.
 - [ ] The demo runs from a clean checkout.

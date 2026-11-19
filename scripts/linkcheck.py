@@ -4,6 +4,8 @@ Run from the repo root: python3 scripts/linkcheck.py
 
 External links are never fetched. tcrf.net links are listed as "not checked,
 by request" (TCRF does not allow automated or AI access; see CLAUDE.md).
+Any link or URL to robotron-2084.co.uk is a failure: the owner asked not to be
+linked or fetched, to save bandwidth; it is credited as plain text (CLAUDE.md).
 """
 import re
 from pathlib import Path
@@ -25,6 +27,9 @@ def anchors(path):
     return out
 
 
+NO_LINK = re.compile(r'(?:https?://|www\.)(?:[\w-]+\.)*robotron-2084\.co\.uk', re.I)
+
+
 def is_tcrf(url):
     host = (urlparse(url).hostname or '').lower()
     return host == 'tcrf.net' or host.endswith('.tcrf.net')
@@ -35,6 +40,10 @@ bad = n = 0
 tcrf, other = set(), set()
 for f in files:
     t = f.read_text()
+    for i, line in enumerate(t.split('\n'), 1):
+        if NO_LINK.search(line):
+            print('LINK TO robotron-2084.co.uk (credit as plain text, see CLAUDE.md):', f'{f}:{i}')
+            bad += 1
     # Links inside code fences and inline code are examples, not links.
     t = re.sub(r'```.*?```', '', t, flags=re.S)
     t = re.sub(r'`[^`\n]*`', '', t)
@@ -55,7 +64,7 @@ for f in files:
             print('MISSING ANCHOR', f, '->', tg)
             bad += 1
 
-print(f'{n} link targets seen; {bad} relative-link problems')
+print(f'{n} link targets seen; {bad} link problems')
 print(f'{len(other)} other external links: not fetched (this tool only checks relative links)')
 print(f'{len(tcrf)} tcrf.net links: not checked, by request')
 for u in sorted(tcrf):
